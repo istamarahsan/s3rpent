@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbca12wf7c1gu"]
+
+[ext_resource type="Shape2D" uid="uid://dxwsaf7nnya6w" path="res://assets/SnakeSegmentCollisionShape.tres" id="1_48813"]
+
+[node name="SnakeSegmentHead" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = ExtResource("1_48813")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, -64, -64, 0, 0, 64, 64, 0)

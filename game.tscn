@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dagukuur1o8ks"]
+
+[ext_resource type="PackedScene" uid="uid://btb178fy61ojo" path="res://snake_segment_mid.tscn" id="1_idmpn"]
+[ext_resource type="Script" path="res://Game.gd" id="1_oj45b"]
+[ext_resource type="PackedScene" uid="uid://cbca12wf7c1gu" path="res://snake_segment_head.tscn" id="3_458ba"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_oj45b")
+
+[node name="SnakeSegment" parent="." instance=ExtResource("1_idmpn")]
+position = Vector2(-189, -177)
+
+[node name="SnakeSegmentHead" parent="." instance=ExtResource("3_458ba")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 4.0
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
