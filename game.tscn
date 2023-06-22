@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dagukuur1o8ks"]
+[gd_scene load_steps=8 format=3 uid="uid://dagukuur1o8ks"]
 
 [ext_resource type="Script" path="res://Game.gd" id="1_oj45b"]
 [ext_resource type="PackedScene" uid="uid://cbca12wf7c1gu" path="res://snake_segment_head.tscn" id="3_458ba"]
 [ext_resource type="Script" path="res://BoardCanvas.gd" id="3_gsmhv"]
 [ext_resource type="Script" path="res://FoodCounterLabel.gd" id="3_xkjer"]
+[ext_resource type="Script" path="res://FoodTracker.gd" id="5_qds6r"]
 
 [sub_resource type="Gradient" id="Gradient_u64pp"]
 colors = PackedColorArray(0, 0, 0, 1, 1, 0, 0, 1)
@@ -57,6 +58,20 @@ theme_override_font_sizes/font_size = 50
 vertical_alignment = 1
 script = ExtResource("3_xkjer")
 metadata/_edit_lock_ = true
+
+[node name="FoodTracker" type="Node2D" parent="Camera2D" node_paths=PackedStringArray("game", "camera")]
+script = ExtResource("5_qds6r")
+game = NodePath("../..")
+camera = NodePath("..")
+
+[node name="Line1" type="Line2D" parent="Camera2D/FoodTracker"]
+width = 3.0
+
+[node name="Line2" type="Line2D" parent="Camera2D/FoodTracker"]
+width = 3.0
+
+[node name="Line3" type="Line2D" parent="Camera2D/FoodTracker"]
+width = 3.0
 
 [connection signal="food_eaten_updated" from="." to="Camera2D/Panel/MarginContainer/Label" method="_on_game_food_eaten_updated"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
