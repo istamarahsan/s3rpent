@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://dagukuur1o8ks"]
+[gd_scene load_steps=9 format=3 uid="uid://dagukuur1o8ks"]
 
 [ext_resource type="Script" path="res://Game.gd" id="1_oj45b"]
+[ext_resource type="Script" path="res://cybersnake/cybersnake_game.gd" id="2_dnpft"]
 [ext_resource type="PackedScene" uid="uid://cbca12wf7c1gu" path="res://snake_segment_head.tscn" id="3_458ba"]
 [ext_resource type="Script" path="res://BoardCanvas.gd" id="3_gsmhv"]
 [ext_resource type="Script" path="res://FoodCounterLabel.gd" id="3_xkjer"]
@@ -14,9 +15,11 @@ gradient = SubResource("Gradient_u64pp")
 width = 3840
 height = 2160
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("board_canvas")]
+[node name="Game" type="Node2D"]
 script = ExtResource("1_oj45b")
-board_canvas = NodePath("BoardCanvas")
+
+[node name="Cybersnake" type="Node" parent="."]
+script = ExtResource("2_dnpft")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("GradientTexture2D_26eh2")
@@ -73,5 +76,5 @@ width = 3.0
 [node name="Line3" type="Line2D" parent="Camera2D/FoodTracker"]
 width = 3.0
 
-[connection signal="food_eaten_updated" from="." to="Camera2D/Panel/MarginContainer/Label" method="_on_game_food_eaten_updated"]
+[connection signal="state_update" from="Cybersnake" to="." method="_on_cybersnake_state_update"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

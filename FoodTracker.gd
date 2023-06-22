@@ -22,10 +22,11 @@ func _ready():
 		add_child(line)
 
 func _process(delta):
-	for food_id in range(game.food_positions.size()):
-		if game.is_food_eaten[food_id]:
-			lines[food_id].visible = false
-			continue
-		lines[food_id].visible = true
-		lines[food_id].set_point_position(1, ((game.food_positions[food_id] - game.snake_head_position).normalized().rotated(-camera.rotation)) * 128)
+	pass
+#	for food_id in range(game.food_positions.size()):
+#		if game.is_food_eaten[food_id]:
+#			lines[food_id].visible = false
+#			continue
+#		lines[food_id].visible = true
+#		lines[food_id].set_point_position(1, ((game.food_positions[food_id] - game.snake_head_position).normalized().rotated(-camera.rotation)) * 128)
 		
