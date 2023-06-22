@@ -4,7 +4,6 @@ on: push
 env:
   GODOT_VERSION: 4.0.3
   EXPORT_NAME: cybersnek
-  PROJECT_PATH: cybersnek
 
 jobs:
   export-linux:
@@ -23,7 +22,6 @@ jobs:
             mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
         - name: Linux Build
           run: |
-            cd $PROJECT_PATH
             godot -v --headless --export-release "Linux/X11" ../build/linux/$EXPORT_NAME.x86_64
         - name: Upload Artifact
           uses: actions/upload-artifact@v1
