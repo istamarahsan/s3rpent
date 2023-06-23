@@ -1,0 +1,47 @@
+[gd_scene load_steps=9 format=3 uid="uid://0i6pfyt0gmrw"]
+
+[ext_resource type="Script" path="res://presentation/presentation.gd" id="1_chn3l"]
+[ext_resource type="Script" path="res://presentation/components/board_canvas/board_canvas.gd" id="2_ckhpm"]
+[ext_resource type="Script" path="res://presentation/state_hook.gd" id="3_2sqof"]
+[ext_resource type="PackedScene" uid="uid://cbca12wf7c1gu" path="res://presentation/snake_segment_placeholder.tscn" id="4_q8qp5"]
+[ext_resource type="PackedScene" uid="uid://by2cf15mj381v" path="res://presentation/components/food_counter/food_counter.tscn" id="5_i8hqp"]
+[ext_resource type="PackedScene" uid="uid://cay6jqf4swn2d" path="res://presentation/components/food_tracker/food_tracker.tscn" id="6_85fu5"]
+
+[sub_resource type="Gradient" id="Gradient_u64pp"]
+colors = PackedColorArray(0, 0, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_q4wgk"]
+gradient = SubResource("Gradient_u64pp")
+width = 3840
+height = 2160
+
+[node name="Presentation" type="Node2D"]
+script = ExtResource("1_chn3l")
+tile_size = 128
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_q4wgk")
+
+[node name="BoardCanvas" type="Node2D" parent="."]
+script = ExtResource("2_ckhpm")
+
+[node name="StateHook" type="Node" parent="BoardCanvas"]
+script = ExtResource("3_2sqof")
+
+[node name="SnakeSegmentHead" parent="." instance=ExtResource("4_q8qp5")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+ignore_rotation = false
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
+
+[node name="Panel" parent="Camera2D" instance=ExtResource("5_i8hqp")]
+
+[node name="FoodTracker" parent="Camera2D" instance=ExtResource("6_85fu5")]
+tile_size = 128
+
+[node name="StateHook" type="Node" parent="."]
+script = ExtResource("3_2sqof")
+
+[connection signal="updated" from="BoardCanvas/StateHook" to="BoardCanvas" method="_on_state_hook_updated"]
+[connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]

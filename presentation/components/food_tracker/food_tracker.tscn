@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://cay6jqf4swn2d"]
+
+[ext_resource type="Script" path="res://presentation/components/food_tracker/food_tracker.gd" id="1_j314l"]
+[ext_resource type="Script" path="res://presentation/state_hook.gd" id="2_a2idi"]
+
+[node name="FoodTracker" type="Node2D"]
+script = ExtResource("1_j314l")
+
+[node name="Line1" type="Line2D" parent="."]
+width = 3.0
+
+[node name="Line2" type="Line2D" parent="."]
+width = 3.0
+
+[node name="Line3" type="Line2D" parent="."]
+width = 3.0
+
+[node name="StateHook" type="Node" parent="."]
+script = ExtResource("2_a2idi")
+
+[connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]

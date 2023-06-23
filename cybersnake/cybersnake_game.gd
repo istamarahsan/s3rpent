@@ -1,35 +1,21 @@
-extends Node
+extends GameStateHandle
 class_name CybersnakeGame
 
-signal state_update(gamestate, flags)
+signal state_updated(gamestate, flags)
 
 enum TurnDirection {
 	Left,
 	Right
 }
 
-@export var max_foods: int = 3
-@export var world_span: int = 5
-
-var snake_heading := Vector2i.RIGHT
-var is_act_cooldown: bool = false
-var food_eaten_so_far: int = 0
-var snake_state: SnakePositionState
-var food_states: Array[FoodState] = []
-
 func _ready():
-	snake_state = SnakePositionState.new()
-	snake_state.head = Vector2i.ZERO
+	_initialize()
 
 func action_turn(action: TurnDirection):
-	if is_act_cooldown:
-		return
-	is_act_cooldown = true
 	snake_heading = _parse_rotate(snake_heading, action)
-	state_update.emit(self, ["heading"])
+	state_updated.emit(self, ["heading"])
 
 func process_timestep():
-	is_act_cooldown = false
 	var state_flags: Dictionary = {}
 
 	var previous_segment_position: Vector2i = snake_state.head
@@ -60,16 +46,37 @@ func process_timestep():
 			continue
 		food_state.is_eaten = true
 		food_eaten_so_far += 1
+		
+		var next_segment_position: Vector2i = (snake_heading * -1).clamp(Vector2i.ONE * -1, Vector2i.ONE) + snake_state.head if snake_state.tail.size() <= 1 else (snake_state.tail[-1] - snake_state.tail[-2]).clamp(Vector2i.ONE * -1, Vector2i.ONE) + snake_state.tail[-1]
+		snake_state.tail.push_back(next_segment_position)
+		
 		state_flags["food_states"] = true
 		state_flags["food_eaten_so_far"] = true
+		state_flags["snake_state"] = true
 
-	state_update.emit(self, state_flags.keys())
+	state_updated.emit(self, state_flags)
+
+func _initialize():
+	max_foods = 3
+	world_span = 5
+	snake_state = SnakePositionState.new()
+	snake_state.head = Vector2i.ZERO
+	snake_heading = Vector2i.RIGHT
+	food_states = []
+	for i in range(max_foods):
+		var food_state = FoodState.new()
+		food_state.position = Vector2i.ZERO
+		food_state.is_eaten = false
+		food_states.push_back(food_state)
+	var food_positions = _random_food_positions(max_foods)
+	for i in range(food_positions.size()):
+		food_states[i].position = food_positions[i]
 
 func _parse_rotate(vector: Vector2i, rotate_direction: TurnDirection) -> Vector2i:
-	return Vector2i(vector.y, vector.x * -1) if rotate_direction == TurnDirection.Right else Vector2i(vector.y * -1, vector.x)
+	return Vector2i(vector.y, vector.x * -1) if rotate_direction == TurnDirection.Left else Vector2i(vector.y * -1, vector.x)
 
-func _random_food_positions(n: int) -> Array[Vector2]:
-	var result: Array[Vector2] = []
+func _random_food_positions(n: int) -> Array[Vector2i]:
+	var result: Array[Vector2i] = []
 	while result.size() < n:
 		var x: int = randi_range(-world_span, world_span)
 		var y: int = randi_range(-world_span, world_span)
