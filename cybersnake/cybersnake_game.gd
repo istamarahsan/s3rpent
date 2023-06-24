@@ -20,15 +20,14 @@ func process_timestep():
 
 	var previous_segment_position: Vector2i = snake_state.head
 	var new_head_position: Vector2i = snake_state.head + snake_heading
-	snake_state.head = new_head_position.clamp(
-		Vector2i.ONE * -world_span,
-		Vector2i.ONE * world_span
-	)
-	for i_segment in range(snake_state.tail.size()):
-		var segment_position = snake_state.tail[i_segment]
-		snake_state.tail[i_segment] = previous_segment_position
-		previous_segment_position = segment_position
-	state_flags["snake_state"] = true
+	var would_go_out_of_bounds: bool = new_head_position.abs().x > world_span or new_head_position.abs().y > world_span
+	if not would_go_out_of_bounds:
+		snake_state.head = new_head_position
+		for i_segment in range(snake_state.tail.size()):
+			var segment_position = snake_state.tail[i_segment]
+			snake_state.tail[i_segment] = previous_segment_position
+			previous_segment_position = segment_position
+		state_flags["snake_state"] = true
 
 	if food_states.all(func(_state): return _state.is_eaten):
 		for food_state in food_states:
@@ -47,7 +46,7 @@ func process_timestep():
 		food_state.is_eaten = true
 		food_eaten_so_far += 1
 		
-		var next_segment_position: Vector2i = (snake_heading * -1).clamp(Vector2i.ONE * -1, Vector2i.ONE) + snake_state.head if snake_state.tail.size() <= 1 else (snake_state.tail[-1] - snake_state.tail[-2]).clamp(Vector2i.ONE * -1, Vector2i.ONE) + snake_state.tail[-1]
+		var next_segment_position: Vector2i = (snake_heading * -1).clamp(Vector2i.ONE * -1, Vector2i.ONE) + snake_state.head if snake_state.tail.size() == 0 else (snake_state.tail[-1] - (snake_state.tail[-2] if snake_state.tail.size() > 1 else snake_state.head)).clamp(Vector2i.ONE * -1, Vector2i.ONE) + snake_state.tail[-1]
 		snake_state.tail.push_back(next_segment_position)
 		
 		state_flags["food_states"] = true

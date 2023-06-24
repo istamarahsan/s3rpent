@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dqgeam5fis708"]
+[gd_scene load_steps=5 format=3 uid="uid://dqgeam5fis708"]
 
 [ext_resource type="Script" path="res://root.gd" id="1_6g5tq"]
 [ext_resource type="Script" path="res://cybersnake/cybersnake_game.gd" id="2_gsxiq"]
 [ext_resource type="PackedScene" uid="uid://0i6pfyt0gmrw" path="res://presentation/presentation.tscn" id="3_gxw26"]
 [ext_resource type="Script" path="res://input/turn_input.gd" id="4_pbfq6"]
-[ext_resource type="PackedScene" uid="uid://cbca12wf7c1gu" path="res://presentation/snake_segment_placeholder.tscn" id="4_rqmu5"]
 
 [node name="Root" type="Node"]
 script = ExtResource("1_6g5tq")
@@ -13,7 +12,6 @@ script = ExtResource("1_6g5tq")
 script = ExtResource("2_gsxiq")
 
 [node name="Presentation" parent="." instance=ExtResource("3_gxw26")]
-snake_segment_scene = ExtResource("4_rqmu5")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5

@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3 uid="uid://uuayuxs0asq3"]
+
+[ext_resource type="Script" path="res://presentation/snake_segment.gd" id="1_aunco"]
+[ext_resource type="Texture2D" uid="uid://blvv8p648wm6g" path="res://assets/protosnake-head.png" id="1_ii4qp"]
+[ext_resource type="Texture2D" uid="uid://bj3xb63bwsk5b" path="res://assets/protosnake-mid.png" id="1_op0uj"]
+[ext_resource type="Texture2D" uid="uid://bmq6p41alkm2j" path="res://assets/protosnake-tail.png" id="2_fcbl8"]
+
+[node name="SnakeSegmentBasic" type="Node2D"]
+script = ExtResource("1_aunco")
+_tail_texture = ExtResource("2_fcbl8")
+_mid_texture = ExtResource("1_op0uj")
+_head_texture = ExtResource("1_ii4qp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = -1.5708
+scale = Vector2(0.065, 0.065)
+texture = ExtResource("1_ii4qp")
