@@ -25,6 +25,8 @@ func _process(delta):
 	for food_state in state_hook.handle.food_states:
 		if lines_left == 0:
 			break
+		if food_state.is_eaten:
+			continue
 		if food_state.polarity != state_hook.handle.snake_mode:
 			continue
 		lines[lines.size() - lines_left].visible  = true
