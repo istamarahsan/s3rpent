@@ -19,7 +19,6 @@ func _on_state_hook_updated():
 	snake_head.position = state_hook.handle.snake_state.head * tile_size
 	snake_head.rotation = _rotation_for_heading(state_hook.handle.snake_heading)
 	$Camera2D.position = snake_head.position
-	$Camera2D.rotation = snake_head.rotation
 	var num_missing_segments = max(0, state_hook.handle.snake_state.tail.size() - active_segments.size())
 	for missing_segment in range(num_missing_segments):
 		var new_segment = snake_segment_scene.instantiate() as SnakeSegment
