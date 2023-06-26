@@ -4,10 +4,11 @@
 [ext_resource type="Script" path="res://presentation/state_hook.gd" id="2_8wi3n"]
 
 [node name="Panel" type="Panel"]
-offset_left = 339.0
-offset_top = 313.0
-offset_right = 858.0
-offset_bottom = 445.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -24,6 +25,7 @@ theme_override_constants/margin_bottom = 10
 [node name="Label" type="Label" parent="MarginContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
+horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("1_d7tca")
 metadata/_edit_lock_ = true

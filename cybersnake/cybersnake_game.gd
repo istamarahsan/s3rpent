@@ -39,6 +39,7 @@ func process_timestep():
 		for food_state in food_states:
 			food_state.position = Vector2i.ZERO
 			food_state.is_eaten = false
+			food_state.polarity = _random_polarity()
 		var new_positions = _random_food_positions(food_states.size())
 		for i_food in range(new_positions.size()):
 			food_states[i_food].position = new_positions[i_food]
@@ -48,6 +49,8 @@ func process_timestep():
 		if food_state.is_eaten:
 			continue
 		if food_state.position != snake_state.head:
+			continue
+		if food_state.polarity != snake_mode:
 			continue
 		food_state.is_eaten = true
 		food_eaten_so_far += 1
@@ -77,6 +80,7 @@ func _initialize():
 		var food_state = FoodState.new()
 		food_state.position = Vector2i.ZERO
 		food_state.is_eaten = false
+		food_state.polarity = _random_polarity()
 		food_states.push_back(food_state)
 	var food_positions = _random_food_positions(max_foods)
 	for i in range(food_positions.size()):
@@ -96,6 +100,18 @@ func _random_food_positions(n: int) -> Array[Vector2i]:
 		else:
 			result.push_back(pos)
 	return result
+
+func _random_polarity() -> Polarity:
+	var random_int = randi_range(0, 2)
+	match random_int:
+		0:
+			return Polarity.Organic
+		1:
+			return Polarity.Paper
+		2:
+			return Polarity.Plastic
+		_:
+			return Polarity.Organic
 
 func _next_snake_mode(mode: Polarity) -> Polarity:
 	match mode:

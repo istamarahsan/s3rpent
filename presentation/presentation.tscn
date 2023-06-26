@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://0i6pfyt0gmrw"]
+[gd_scene load_steps=8 format=3 uid="uid://0i6pfyt0gmrw"]
 
 [ext_resource type="Script" path="res://presentation/presentation.gd" id="1_chn3l"]
 [ext_resource type="Script" path="res://presentation/components/board_canvas/board_canvas.gd" id="2_ckhpm"]
 [ext_resource type="PackedScene" uid="uid://uuayuxs0asq3" path="res://presentation/snake_segment_basic.tscn" id="2_h5g20"]
 [ext_resource type="Script" path="res://presentation/state_hook.gd" id="3_2sqof"]
-[ext_resource type="PackedScene" uid="uid://by2cf15mj381v" path="res://presentation/components/food_counter/food_counter.tscn" id="5_i8hqp"]
 [ext_resource type="PackedScene" uid="uid://cay6jqf4swn2d" path="res://presentation/components/food_tracker/food_tracker.tscn" id="6_85fu5"]
 
 [sub_resource type="Gradient" id="Gradient_u64pp"]
@@ -33,8 +32,6 @@ script = ExtResource("3_2sqof")
 ignore_rotation = false
 position_smoothing_enabled = true
 rotation_smoothing_enabled = true
-
-[node name="Panel" parent="Camera2D" instance=ExtResource("5_i8hqp")]
 
 [node name="FoodTracker" parent="Camera2D" instance=ExtResource("6_85fu5")]
 tile_size = 128

@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var state_hook: StateHook = $StateHook
 
-var food_positions: Dictionary = {}
+var food_states_cache_by_position: Dictionary = {}
 var tile_size: int = 0
 
 func configure(tile_size: int):
@@ -17,13 +17,21 @@ func _draw():
 			draw_circle(Vector2(position) * tile_size, 10, color)
 
 func _choose_color(position: Vector2i) -> Color:
-	if food_positions.has(position):
-		return "#32A433"
-	return "#FFFFFF"
+	var food_state = food_states_cache_by_position.get(position)
+	if food_state == null or food_state.is_eaten:
+		return "#FFFFFF"
+	match food_state.polarity:
+		CybersnakeGame.Polarity.Organic:
+			return "green"
+		CybersnakeGame.Polarity.Plastic:
+			return "black"
+		CybersnakeGame.Polarity.Plastic:
+			return "blue"
+		_:
+			return "red"
 
 func _on_state_hook_updated():
-	food_positions = {}
+	food_states_cache_by_position.clear()
 	for food_state in state_hook.handle.food_states:
-		if not food_state.is_eaten:
-			food_positions[food_state.position] = true
+		food_states_cache_by_position[food_state.position] = food_state
 	queue_redraw()

@@ -21,11 +21,15 @@ func _ready():
 func _process(delta):
 	for line in lines:
 		line.visible = false
-	for i in range(lines.size()):
-		if i >= food_positions.size():
+	var lines_left = lines.size()
+	for food_state in state_hook.handle.food_states:
+		if lines_left == 0:
+			break
+		if food_state.polarity != state_hook.handle.snake_mode:
 			continue
-		lines[i].visible = true
-		lines[i].set_point_position(1, (Vector2(food_positions[i]) - Vector2(state_hook.handle.snake_state.head)).normalized().rotated(-get_parent().rotation) * tile_size)
+		lines[lines.size() - lines_left].visible  = true
+		lines[lines.size() - lines_left].set_point_position(1, (Vector2(food_state.position) - Vector2(state_hook.handle.snake_state.head)).normalized().rotated(-get_parent().rotation) * tile_size)
+		lines_left -= 1
 
 func _on_state_hook_updated():
 	food_positions = []
