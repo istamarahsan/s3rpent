@@ -8,6 +8,12 @@ enum TurnDirection {
 	Right
 }
 
+enum SnakeMode {
+	Organic,
+	Paper,
+	Plastic
+}
+
 func _ready():
 	_initialize()
 
@@ -52,12 +58,17 @@ func process_timestep():
 		state_flags["food_states"] = true
 		state_flags["food_eaten_so_far"] = true
 		state_flags["snake_state"] = true
+	
+	ticks_to_snake_mode_transition -= 1
+	if ticks_to_snake_mode_transition == 0:
+		snake_mode = _next_snake_mode(snake_mode)
+		ticks_to_snake_mode_transition = snake_mode_interval
+		state_flags["snake_mode"] = true
 
 	state_updated.emit(self, state_flags)
 
 func _initialize():
-	max_foods = 3
-	world_span = 5
+	ticks_to_snake_mode_transition = snake_mode_interval
 	snake_state = SnakePositionState.new()
 	snake_state.head = Vector2i.ZERO
 	snake_heading = Vector2i.RIGHT
@@ -85,6 +96,17 @@ func _random_food_positions(n: int) -> Array[Vector2i]:
 		else:
 			result.push_back(pos)
 	return result
+
+func _next_snake_mode(mode: SnakeMode) -> SnakeMode:
+	match mode:
+		SnakeMode.Organic:
+			return SnakeMode.Paper
+		SnakeMode.Paper:
+			return SnakeMode.Plastic
+		SnakeMode.Plastic:
+			return SnakeMode.Organic
+		_:
+			return SnakeMode.Organic
 
 func _top_left() -> Vector2i:
 	return Vector2i(-world_span, -world_span)

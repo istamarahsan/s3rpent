@@ -10,6 +10,9 @@ script = ExtResource("1_6g5tq")
 
 [node name="CybersnakeGame" type="Node" parent="."]
 script = ExtResource("2_gsxiq")
+max_foods = 3
+world_span = 5
+snake_mode_interval = 30
 
 [node name="Presentation" parent="." instance=ExtResource("3_gxw26")]
 
