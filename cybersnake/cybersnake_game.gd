@@ -8,7 +8,7 @@ enum TurnDirection {
 	Right
 }
 
-enum SnakeMode {
+enum Polarity {
 	Organic,
 	Paper,
 	Plastic
@@ -97,16 +97,16 @@ func _random_food_positions(n: int) -> Array[Vector2i]:
 			result.push_back(pos)
 	return result
 
-func _next_snake_mode(mode: SnakeMode) -> SnakeMode:
+func _next_snake_mode(mode: Polarity) -> Polarity:
 	match mode:
-		SnakeMode.Organic:
-			return SnakeMode.Paper
-		SnakeMode.Paper:
-			return SnakeMode.Plastic
-		SnakeMode.Plastic:
-			return SnakeMode.Organic
+		Polarity.Organic:
+			return Polarity.Paper
+		Polarity.Paper:
+			return Polarity.Plastic
+		Polarity.Plastic:
+			return Polarity.Organic
 		_:
-			return SnakeMode.Organic
+			return Polarity.Organic
 
 func _top_left() -> Vector2i:
 	return Vector2i(-world_span, -world_span)

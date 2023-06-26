@@ -8,5 +8,5 @@ var snake_heading: Vector2i
 var food_eaten_so_far: int
 var snake_state: SnakePositionState
 var food_states: Array[FoodState]
-var snake_mode: CybersnakeGame.SnakeMode
+var snake_mode: CybersnakeGame.Polarity
 var ticks_to_snake_mode_transition: int
