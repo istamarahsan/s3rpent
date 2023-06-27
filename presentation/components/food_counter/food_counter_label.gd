@@ -8,7 +8,16 @@ func _ready():
 func _on_state_hook_updated():
 	match state_hook.handle.is_game_over:
 		false:
-			text = "Food Counter: " + str(state_hook.handle.food_eaten_so_far) + " | Mode: " + _polarity_to_str(state_hook.handle.snake_mode) + " | Switch In: " + str(state_hook.handle.ticks_to_snake_mode_transition)
+			text = "Food Counter: " + \
+			str(state_hook.handle.food_eaten_so_far) + \
+			" | Mode: " + \
+			_polarity_to_str(state_hook.handle.snake_mode) + \
+			" | Switch In: " + \
+			str(state_hook.handle.ticks_to_snake_mode_transition) + \
+			" | Lives: " + \
+			str(state_hook.handle.lives_left) + \
+			"/" + \
+			str(state_hook.handle.max_lives)
 		true:
 			text = "Game Over! High Score: " + str(state_hook.handle.food_eaten_so_far)
 			return
