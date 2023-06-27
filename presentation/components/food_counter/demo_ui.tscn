@@ -96,7 +96,7 @@ alignment = 1
 [node name="LineEdit" type="LineEdit" parent="LeaderboardThings/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-placeholder_text = "Your name..."
+placeholder_text = "your_name (lowercase letters, numbers, underscore)"
 
 [node name="MarginContainer" type="MarginContainer" parent="LeaderboardThings/VBoxContainer/HBoxContainer"]
 layout_mode = 2
