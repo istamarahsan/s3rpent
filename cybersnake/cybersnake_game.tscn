@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwvnvsf5nw2ko"]
+
+[ext_resource type="Script" path="res://cybersnake/cybersnake_game.gd" id="1_fk350"]
+
+[node name="CybersnakeGame" type="Node"]
+script = ExtResource("1_fk350")
+max_foods = 12
+world_span = 5
+snake_mode_interval = 15

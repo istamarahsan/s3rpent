@@ -18,22 +18,32 @@ func _ready():
 	_initialize()
 
 func action_turn(action: TurnDirection):
+	if is_game_over:
+		return
 	snake_heading = _parse_rotate(snake_heading, action)
 	state_updated.emit(self, ["heading"])
 
 func process_timestep():
+	if is_game_over:
+		return
+	
 	var state_flags: Dictionary = {}
-
+	
 	var previous_segment_position: Vector2i = snake_state.head
 	var new_head_position: Vector2i = snake_state.head + snake_heading
 	var would_go_out_of_bounds: bool = new_head_position.abs().x > world_span or new_head_position.abs().y > world_span
-	if not would_go_out_of_bounds:
-		snake_state.head = new_head_position
-		for i_segment in range(snake_state.tail.size()):
-			var segment_position = snake_state.tail[i_segment]
-			snake_state.tail[i_segment] = previous_segment_position
-			previous_segment_position = segment_position
-		state_flags["snake_state"] = true
+	var would_collide_with_self: bool = snake_state.tail.any(func(segment_position): return segment_position == new_head_position)
+	if would_go_out_of_bounds or would_collide_with_self:
+		is_game_over = true
+		state_flags["game_over"] = true
+		state_updated.emit(self, state_flags)
+		return
+	snake_state.head = new_head_position
+	for i_segment in range(snake_state.tail.size()):
+		var segment_position = snake_state.tail[i_segment]
+		snake_state.tail[i_segment] = previous_segment_position
+		previous_segment_position = segment_position
+	state_flags["snake_state"] = true
 
 	if food_states.all(func(_state): return _state.is_eaten):
 		for food_state in food_states:
@@ -71,6 +81,7 @@ func process_timestep():
 	state_updated.emit(self, state_flags)
 
 func _initialize():
+	is_game_over = false
 	ticks_to_snake_mode_transition = snake_mode_interval
 	snake_state = SnakePositionState.new()
 	snake_state.head = Vector2i.ZERO

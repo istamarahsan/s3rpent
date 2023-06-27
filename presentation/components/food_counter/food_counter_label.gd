@@ -6,7 +6,13 @@ func _ready():
 	text = "Food Counter: 0 | Mode: _"
 
 func _on_state_hook_updated():
-	text = "Food Counter: " + str(state_hook.handle.food_eaten_so_far) + " | Mode: " + _polarity_to_str(state_hook.handle.snake_mode) + " | Switch In: " + str(state_hook.handle.ticks_to_snake_mode_transition)
+	match state_hook.handle.is_game_over:
+		false:
+			text = "Food Counter: " + str(state_hook.handle.food_eaten_so_far) + " | Mode: " + _polarity_to_str(state_hook.handle.snake_mode) + " | Switch In: " + str(state_hook.handle.ticks_to_snake_mode_transition)
+		true:
+			text = "Game Over! High Score: " + str(state_hook.handle.food_eaten_so_far)
+			return
+	
 func _polarity_to_str(polarity: CybersnakeGame.Polarity) -> String:
 	match polarity:
 		CybersnakeGame.Polarity.Organic:

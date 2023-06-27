@@ -1,19 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://dqgeam5fis708"]
+[gd_scene load_steps=7 format=3 uid="uid://dqgeam5fis708"]
 
 [ext_resource type="Script" path="res://root.gd" id="1_6g5tq"]
-[ext_resource type="Script" path="res://cybersnake/cybersnake_game.gd" id="2_gsxiq"]
+[ext_resource type="PackedScene" uid="uid://bwvnvsf5nw2ko" path="res://cybersnake/cybersnake_game.tscn" id="2_4156j"]
 [ext_resource type="PackedScene" uid="uid://0i6pfyt0gmrw" path="res://presentation/presentation.tscn" id="3_gxw26"]
 [ext_resource type="Script" path="res://input/turn_input.gd" id="4_pbfq6"]
-[ext_resource type="PackedScene" uid="uid://by2cf15mj381v" path="res://presentation/components/food_counter/food_counter.tscn" id="5_bmmtc"]
+[ext_resource type="PackedScene" uid="uid://by2cf15mj381v" path="res://presentation/components/food_counter/demo_ui.tscn" id="5_1c7ff"]
+[ext_resource type="Script" path="res://leaderboard_fetch.gd" id="6_k8q0r"]
 
 [node name="Root" type="Node"]
 script = ExtResource("1_6g5tq")
-
-[node name="CybersnakeGame" type="Node" parent="."]
-script = ExtResource("2_gsxiq")
-max_foods = 12
-world_span = 5
-snake_mode_interval = 15
+game_scene = ExtResource("2_4156j")
 
 [node name="Presentation" parent="." instance=ExtResource("3_gxw26")]
 
@@ -26,26 +22,12 @@ script = ExtResource("4_pbfq6")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Control" type="Control" parent="CanvasLayer"]
-layout_mode = 3
-anchor_right = 1.0
-anchor_bottom = 0.812037
-grow_horizontal = 2
-grow_vertical = 2
-metadata/_edit_use_anchors_ = true
+[node name="DemoUi" parent="CanvasLayer" instance=ExtResource("5_1c7ff")]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-alignment = 2
-
-[node name="Panel" parent="CanvasLayer/Control/VBoxContainer" instance=ExtResource("5_bmmtc")]
-layout_mode = 2
+[node name="LeaderboardFetch" type="HTTPRequest" parent="."]
+script = ExtResource("6_k8q0r")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="left_pressed" from="TurnInput" to="." method="_on_turn_input_left_pressed"]
 [connection signal="right_pressed" from="TurnInput" to="." method="_on_turn_input_right_pressed"]
+[connection signal="request_replay" from="CanvasLayer/DemoUi" to="." method="_on_demo_ui_request_replay"]

@@ -6,6 +6,7 @@ class_name Presentation
 
 @onready var state_hook: StateHook = $StateHook as StateHook
 
+# this is an object pool, not a state cache
 var active_segments: Array[SnakeSegment] = []
 var snake_head: SnakeSegment
 
@@ -28,7 +29,10 @@ func _on_state_hook_updated():
 		if previous_segment != null:
 			previous_segment.setType(SnakeSegment.SegmentType.Mid)
 		active_segments.push_back(new_segment) 
+	for segment in active_segments:
+		segment.visible = false
 	for i in range(state_hook.handle.snake_state.tail.size()):
+		active_segments[i].visible = true
 		active_segments[i].position = state_hook.handle.snake_state.tail[i] * tile_size
 		if i == 0:
 			active_segments[i].rotation = _rotation_for_heading((active_segments[i].position - snake_head.position).sign())

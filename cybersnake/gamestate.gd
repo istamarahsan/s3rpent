@@ -10,3 +10,4 @@ var snake_state: SnakePositionState
 var food_states: Array[FoodState]
 var snake_mode: CybersnakeGame.Polarity
 var ticks_to_snake_mode_transition: int
+var is_game_over: bool
