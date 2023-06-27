@@ -18,7 +18,7 @@ func _ready():
 		line.add_point(Vector2.ZERO)
 		line.add_point(Vector2.ZERO)
 
-func _process(delta):
+func _process(_delta):
 	for line in lines:
 		line.visible = false
 	var lines_left = lines.size()

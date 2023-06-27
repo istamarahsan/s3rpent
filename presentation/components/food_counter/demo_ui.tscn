@@ -1,0 +1,137 @@
+[gd_scene load_steps=4 format=3 uid="uid://by2cf15mj381v"]
+
+[ext_resource type="Script" path="res://presentation/components/demo_ui.gd" id="1_1mc85"]
+[ext_resource type="Script" path="res://presentation/components/food_counter/food_counter_label.gd" id="2_f7wue"]
+[ext_resource type="Script" path="res://presentation/state_hook.gd" id="3_t4aby"]
+
+[node name="Panel" type="Control"]
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 0.812037
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1mc85")
+url = "https://cybersnakeapi.istamarsan.dev/"
+metadata/_edit_use_anchors_ = true
+
+[node name="Stats" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 2
+
+[node name="Panel" type="Panel" parent="Stats"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Stats/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Stats/Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Stats/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_f7wue")
+metadata/_edit_lock_ = true
+
+[node name="StateHook" type="Node" parent="Stats/Panel/MarginContainer/VBoxContainer/Label"]
+script = ExtResource("3_t4aby")
+
+[node name="GameOverButtons" type="HBoxContainer" parent="Stats/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="SaveScoreButton" type="Button" parent="Stats/Panel/MarginContainer/VBoxContainer/GameOverButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save Score"
+
+[node name="ReplayButton" type="Button" parent="Stats/Panel/MarginContainer/VBoxContainer/GameOverButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Replay"
+
+[node name="StateHook" type="Node" parent="."]
+script = ExtResource("3_t4aby")
+
+[node name="LeaderboardPost" type="HTTPRequest" parent="."]
+
+[node name="LeaderboardFetch" type="HTTPRequest" parent="."]
+
+[node name="LeaderboardThings" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 368.0
+offset_top = 168.0
+offset_right = -352.0
+offset_bottom = -130.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LeaderboardThings"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LeaderboardThings/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="LeaderboardThings/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "your_name (lowercase letters, numbers, underscore)"
+
+[node name="MarginContainer" type="MarginContainer" parent="LeaderboardThings/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="SubmitScore" type="Button" parent="LeaderboardThings/VBoxContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+text = " Upload my Score! "
+
+[node name="MarginContainer2" type="MarginContainer" parent="LeaderboardThings/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CancelSubmitScore" type="Button" parent="LeaderboardThings/VBoxContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+text = "Close"
+
+[node name="Panel" type="Panel" parent="LeaderboardThings/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LeaderboardContent" type="Label" parent="LeaderboardThings/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "loading..."
+
+[connection signal="updated" from="Stats/Panel/MarginContainer/VBoxContainer/Label/StateHook" to="Stats/Panel/MarginContainer/VBoxContainer/Label" method="_on_state_hook_updated"]
+[connection signal="button_up" from="Stats/Panel/MarginContainer/VBoxContainer/GameOverButtons/SaveScoreButton" to="." method="_on_save_score_button_button_up"]
+[connection signal="button_up" from="Stats/Panel/MarginContainer/VBoxContainer/GameOverButtons/ReplayButton" to="." method="_on_replay_button_button_up"]
+[connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]
+[connection signal="request_completed" from="LeaderboardPost" to="." method="_on_leaderboard_post_request_completed"]
+[connection signal="request_completed" from="LeaderboardFetch" to="." method="_on_leaderboard_fetch_request_completed"]
+[connection signal="button_up" from="LeaderboardThings/VBoxContainer/HBoxContainer/MarginContainer/SubmitScore" to="." method="_on_submit_score_button_up"]
+[connection signal="button_up" from="LeaderboardThings/VBoxContainer/HBoxContainer/MarginContainer2/CancelSubmitScore" to="." method="_on_cancel_submit_score_button_up"]
