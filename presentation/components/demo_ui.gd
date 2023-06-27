@@ -49,7 +49,7 @@ func _on_submit_score_button_up():
 	var input: String = player_alias_input.text
 	if input == "" or not input.is_valid_identifier():
 		return
-	_upload_score(state_hook.handle.food_eaten_so_far, input)
+	_upload_score(floor(state_hook.handle.points), input)
 	score_upload_form.visible = false
 
 func _on_cancel_submit_score_button_up():

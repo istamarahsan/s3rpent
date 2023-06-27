@@ -56,6 +56,7 @@ func process_timestep():
 		if food_eaten_so_far % 10 == 0:
 			active_point_multiplier += 0.1
 		points += 10 * active_point_multiplier
+		points = snappedf(points, 0.01)
 		var next_segment_position: Vector2i = (snake_heading * -1).clamp(Vector2i.ONE * -1, Vector2i.ONE) + snake_state.head if snake_state.tail.size() == 0 else (snake_state.tail[-1] - (snake_state.tail[-2] if snake_state.tail.size() > 1 else snake_state.head)).clamp(Vector2i.ONE * -1, Vector2i.ONE) + snake_state.tail[-1]
 		snake_state.tail.push_back(next_segment_position)
 	
@@ -66,9 +67,6 @@ func process_timestep():
 
 	if lives_left <= 0:
 		is_game_over = true
-
-	for food_state in food_states:
-		print(food_state.polarity)
 
 func _initialize():
 	is_game_over = false
