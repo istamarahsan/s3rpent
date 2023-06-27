@@ -8,8 +8,8 @@ func _ready():
 func _on_state_hook_updated():
 	match state_hook.handle.is_game_over:
 		false:
-			text = "Food Counter: " + \
-			str(state_hook.handle.food_eaten_so_far) + \
+			text = "Points: " + \
+			str(state_hook.handle.points) + \
 			" | Mode: " + \
 			_polarity_to_str(state_hook.handle.snake_mode) + \
 			" | Switch In: " + \
@@ -17,9 +17,12 @@ func _on_state_hook_updated():
 			" | Lives: " + \
 			str(state_hook.handle.lives_left) + \
 			"/" + \
-			str(state_hook.handle.max_lives)
+			str(state_hook.handle.max_lives) + \
+			" | Mult: " + \
+			str(state_hook.handle.active_point_multiplier) + \
+			 "x"
 		true:
-			text = "Game Over! High Score: " + str(state_hook.handle.food_eaten_so_far)
+			text = "Game Over! High Score: " + str(state_hook.handle.points)
 			return
 	
 func _polarity_to_str(polarity: CybersnakeGame.Polarity) -> String:

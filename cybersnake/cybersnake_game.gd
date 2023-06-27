@@ -30,11 +30,12 @@ func process_timestep():
 	var would_collide_with_self: bool = snake_state.tail.any(func(segment_position): return segment_position == new_head_position)
 	if would_go_out_of_bounds or would_collide_with_self:
 		lives_left -= 1
-	snake_state.head = new_head_position.clamp(_top_left(), _bottom_right())
-	for i_segment in range(snake_state.tail.size()):
-		var segment_position = snake_state.tail[i_segment]
-		snake_state.tail[i_segment] = previous_segment_position
-		previous_segment_position = segment_position
+	else:
+		snake_state.head = new_head_position
+		for i_segment in range(snake_state.tail.size()):
+			var segment_position = snake_state.tail[i_segment]
+			snake_state.tail[i_segment] = previous_segment_position
+			previous_segment_position = segment_position
 
 	for food_state in food_states:
 		if food_state.is_eaten:
@@ -42,15 +43,19 @@ func process_timestep():
 			food_state.is_eaten = false
 			food_state.polarity = _random_polarity()
 			continue
-
+		
 		if food_state.position != snake_state.head:
 			continue
-
+		
 		if food_state.polarity != snake_mode:
 			lives_left -= 1
 			continue
+		
 		food_state.is_eaten = true
 		food_eaten_so_far += 1
+		if food_eaten_so_far % 10 == 0:
+			active_point_multiplier += 0.1
+		points += 10 * active_point_multiplier
 		var next_segment_position: Vector2i = (snake_heading * -1).clamp(Vector2i.ONE * -1, Vector2i.ONE) + snake_state.head if snake_state.tail.size() == 0 else (snake_state.tail[-1] - (snake_state.tail[-2] if snake_state.tail.size() > 1 else snake_state.head)).clamp(Vector2i.ONE * -1, Vector2i.ONE) + snake_state.tail[-1]
 		snake_state.tail.push_back(next_segment_position)
 	
@@ -62,6 +67,9 @@ func process_timestep():
 	if lives_left <= 0:
 		is_game_over = true
 
+	for food_state in food_states:
+		print(food_state.polarity)
+
 func _initialize():
 	is_game_over = false
 	max_lives = 3
@@ -71,6 +79,8 @@ func _initialize():
 	snake_state.head = Vector2i.ZERO
 	snake_heading = Vector2i.RIGHT
 	food_states = []
+	points = 0
+	active_point_multiplier = 1
 	for i in range(max_foods):
 		var food_state = FoodState.new()
 		food_state.position = Vector2i.ZERO
