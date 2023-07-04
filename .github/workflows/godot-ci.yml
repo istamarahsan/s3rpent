@@ -1,7 +1,7 @@
 name: "godot-ci export"
 on: push
 
-permissions: read-all
+permissions: write-all
 
 jobs:
   export:
@@ -47,9 +47,9 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
-        permissions: write-all
         with:
           files: |
             build/LinuxX11.zip
             build/Windows Desktop.zip
           body: ${{ github.event.head_commit.message }}
+          token: ${{ secrets.WORKFLOW_TOKEN_FOR_RELEASE }}
