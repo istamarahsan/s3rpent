@@ -12,13 +12,15 @@ shader = ExtResource("1_6tv7j")
 shader_parameter/flash_color = Color(0, 1, 1, 1)
 shader_parameter/degree = 0.0
 
-[node name="SnakeSegmentBasic" type="Node2D"]
+[node name="SnakeSegmentBasic" type="Node2D" node_paths=PackedStringArray("_sprite", "_flash_timer")]
 script = ExtResource("1_aunco")
 _tail_texture = ExtResource("2_fcbl8")
 _mid_texture = ExtResource("1_op0uj")
 _head_texture = ExtResource("1_ii4qp")
+_sprite = NodePath("Sprite2D")
+_flash_timer = NodePath("FlashTimer")
 flash_times = 2
-flash_color = Color(1, 0.301961, 0.235294, 1)
+flash_color = Color(1, 0.73428, 0.690318, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_k0xhj")

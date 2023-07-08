@@ -21,6 +21,9 @@ func action_turn(action: TurnDirection):
 	snake_heading = _parse_rotate(snake_heading, action)
 
 func process_timestep():
+	
+	var flags = []
+	
 	if is_game_over:
 		return
 	
@@ -30,13 +33,14 @@ func process_timestep():
 	var would_collide_with_self: bool = snake_state.tail.any(func(segment_position): return segment_position == new_head_position)
 	if would_go_out_of_bounds or would_collide_with_self:
 		lives_left -= 1
+		flags.append("hit")
 	else:
 		snake_state.head = new_head_position
 		for i_segment in range(snake_state.tail.size()):
 			var segment_position = snake_state.tail[i_segment]
 			snake_state.tail[i_segment] = previous_segment_position
 			previous_segment_position = segment_position
-
+			
 	for food_state in food_states:
 		if food_state.is_eaten:
 			food_state.position = _random_food_position()
@@ -49,6 +53,7 @@ func process_timestep():
 		
 		if food_state.polarity != snake_mode:
 			lives_left -= 1
+			flags.append("hit")
 			continue
 		
 		food_state.is_eaten = true
