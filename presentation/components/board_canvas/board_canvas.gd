@@ -1,5 +1,13 @@
 extends Node2D
 
+@export_category("Colors")
+@export_color_no_alpha var default_color: Color = "white"
+@export_color_no_alpha var organic_color: Color = "green"
+@export_color_no_alpha var plastic_color: Color = "black"
+@export_color_no_alpha var paper_color: Color = "red"
+@export_color_no_alpha var extra_life_color: Color = "blue"
+@export_color_no_alpha var conversion_color: Color = "gold"
+
 @onready var state_hook: StateHook = $StateHook
 
 var food_states_cache_by_position: Dictionary = {}
@@ -18,17 +26,23 @@ func _draw():
 
 func _choose_color(position: Vector2i) -> Color:
 	var food_state = food_states_cache_by_position.get(position)
-	if food_state == null or food_state.is_eaten:
-		return "#FFFFFF"
+	if food_state != null and not food_state.is_eaten:
+		_choose_color_food(food_state)
+	return default_color
+
+func _choose_powerup_color() -> Color:
+	pass
+
+func _choose_color_food(food_state: FoodState) -> Color:
 	match food_state.polarity:
 		CybersnakeGame.Polarity.Organic:
-			return "green"
+			return paper_color
 		CybersnakeGame.Polarity.Plastic:
-			return "black"
-		CybersnakeGame.Polarity.Plastic:
-			return "blue"
+			return plastic_color
+		CybersnakeGame.Polarity.Paper:
+			return paper_color
 		_:
-			return "red"
+			return default_color
 
 func _on_state_hook_updated():
 	food_states_cache_by_position.clear()

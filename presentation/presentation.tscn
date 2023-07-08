@@ -24,6 +24,12 @@ texture = SubResource("GradientTexture2D_q4wgk")
 
 [node name="BoardCanvas" type="Node2D" parent="."]
 script = ExtResource("2_ckhpm")
+default_color = null
+organic_color = null
+plastic_color = null
+paper_color = null
+extra_life_color = null
+conversion_color = null
 
 [node name="StateHook" type="Node" parent="BoardCanvas"]
 script = ExtResource("3_2sqof")

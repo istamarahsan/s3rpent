@@ -58,7 +58,7 @@ func process_timestep():
 		
 		food_state.is_eaten = true
 		food_eaten_so_far += 1
-		flags = ["ate"]
+		flags.append("ate")
 		if food_eaten_so_far % 10 == 0:
 			active_point_multiplier += 0.1
 		points += 10 * active_point_multiplier
@@ -75,16 +75,17 @@ func process_timestep():
 		is_game_over = true
 
 func _initialize():
-	is_game_over = false
-	max_lives = 3
-	lives_left = max_lives
+	is_game_over                   = false
+	max_lives                      = 3
+	lives_left                     = max_lives
 	ticks_to_snake_mode_transition = snake_mode_interval
-	snake_state = SnakePositionState.new()
-	snake_state.head = Vector2i.ZERO
-	snake_heading = Vector2i.RIGHT
-	food_states = []
-	points = 0
-	active_point_multiplier = 1
+	snake_state                    = SnakePositionState.new()
+	snake_state.head               = Vector2i.ZERO
+	snake_heading                  = Vector2i.RIGHT
+	food_states                    = []
+	powerup_states                 = []
+	points                         = 0
+	active_point_multiplier        = 1
 	for i in range(max_foods):
 		var food_state = FoodState.new()
 		food_state.position = Vector2i.ZERO
