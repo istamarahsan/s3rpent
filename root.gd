@@ -49,7 +49,9 @@ func _connect_hooks(game: CybersnakeGame):
 		var hook = child as StateHook
 		hook.handle = game as GameStateHandle
 		state_hooks.push_back(hook)
-	_propagate_hook_signal()
+	for hook in state_hooks:
+		hook.initialized.emit()
+		hook.updated.emit()
 	
 func _get_tree_rec(root: Node) -> Array[Node]:
 	var nodes: Array[Node] = [root]
@@ -68,7 +70,7 @@ func _handle_direction_input(dir: InputDirection):
 
 func _propagate_hook_signal():
 	for hook in state_hooks:
-		hook.emit_signal("updated")
+		hook.updated.emit()
 
 func _on_turn_input_left_pressed():
 	_handle_direction_input(InputDirection.Left)
@@ -89,3 +91,4 @@ func _on_turn_input_up_pressed():
 
 func _on_turn_input_down_pressed():
 	_handle_direction_input(InputDirection.Down)
+

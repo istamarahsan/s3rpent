@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://dqgeam5fis708"]
 
 [ext_resource type="Script" path="res://root.gd" id="1_6g5tq"]
-[ext_resource type="PackedScene" path="res://cybersnake/cybersnake_game.tscn" id="2_4156j"]
+[ext_resource type="PackedScene" uid="uid://bwvnvsf5nw2ko" path="res://cybersnake/cybersnake_game.tscn" id="2_4156j"]
 [ext_resource type="PackedScene" uid="uid://0i6pfyt0gmrw" path="res://presentation/presentation.tscn" id="3_gxw26"]
 [ext_resource type="Script" path="res://input/turn_input.gd" id="4_pbfq6"]
-[ext_resource type="PackedScene" path="res://presentation/components/food_counter/demo_ui.tscn" id="5_1c7ff"]
+[ext_resource type="PackedScene" uid="uid://by2cf15mj381v" path="res://presentation/components/food_counter/demo_ui.tscn" id="5_1c7ff"]
 [ext_resource type="Script" path="res://leaderboard_fetch.gd" id="6_k8q0r"]
 
 [node name="Root" type="Node"]
