@@ -22,7 +22,7 @@ func action_turn(action: TurnDirection):
 
 func process_timestep():
 	
-	var flags = []
+	flags = []
 	
 	if is_game_over:
 		return
@@ -58,6 +58,7 @@ func process_timestep():
 		
 		food_state.is_eaten = true
 		food_eaten_so_far += 1
+		flags = ["ate"]
 		if food_eaten_so_far % 10 == 0:
 			active_point_multiplier += 0.1
 		points += 10 * active_point_multiplier

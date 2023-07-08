@@ -9,7 +9,6 @@ class_name Presentation
 # this is an object pool, not a state cache
 var active_segments: Array[SnakeSegment] = []
 var snake_head: SnakeSegment
-var _lives: int
 
 func _ready():
 	$BoardCanvas.configure(tile_size)
@@ -39,11 +38,10 @@ func _on_state_hook_updated():
 			active_segments[i].rotation = _rotation_for_heading((active_segments[i].position - snake_head.position).sign())
 		else:
 			active_segments[i].rotation = _rotation_for_heading((active_segments[i].position - active_segments[i-1].position).sign())
-	if state_hook.handle.lives_left < _lives:
+	if "hit" in state_hook.handle.flags:
 		snake_head.flash_hit()
 		for segment in active_segments:
 			segment.flash_hit()
-		_lives = state_hook.handle.lives_left
 
 func _rotation_for_heading(heading: Vector2i) -> float:
 	match heading:
@@ -55,6 +53,3 @@ func _rotation_for_heading(heading: Vector2i) -> float:
 			return deg_to_rad(-270)
 		_:
 			return 0
-
-func _on_state_hook_initialized():
-	_lives = state_hook.handle.lives_left
