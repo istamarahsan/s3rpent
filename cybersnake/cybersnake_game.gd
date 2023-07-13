@@ -12,6 +12,11 @@ enum Polarity {
 	Plastic
 }
 
+enum PowerupType {
+	ExtraLife,
+	Conversion
+}
+
 func _ready():
 	_initialize()
 
@@ -66,6 +71,27 @@ func process_timestep():
 		var next_segment_position: Vector2i = (snake_heading * -1).clamp(Vector2i.ONE * -1, Vector2i.ONE) + snake_state.head if snake_state.tail.size() == 0 else (snake_state.tail[-1] - (snake_state.tail[-2] if snake_state.tail.size() > 1 else snake_state.head)).clamp(Vector2i.ONE * -1, Vector2i.ONE) + snake_state.tail[-1]
 		snake_state.tail.push_back(next_segment_position)
 	
+	for powerup_state in powerup_states:
+		if snake_state.head == powerup_state.position:
+			powerup_state.is_eaten = true
+			match powerup_state.type:
+				PowerupType.ExtraLife:
+					pass
+				PowerupType.Conversion:
+					pass
+	
+	if powerup_states.all(func(state): return state.is_eaten):
+		var availables = _position_space().filter(
+			func(pos): 
+				return pos not in food_states.map(
+					func(state): state.position
+					) and pos != snake_state.head and pos not in snake_state.tail
+				)
+		for powerup_state in powerup_states:
+			powerup_state.position = availables.pop_at(randi_range(0, availables.size()-1))
+			powerup_state.type = _random_powerup()
+			powerup_state.is_eaten = false
+	
 	ticks_to_snake_mode_transition -= 1
 	if ticks_to_snake_mode_transition <= 0:
 		snake_mode = _next_snake_mode(snake_mode)
@@ -95,6 +121,19 @@ func _initialize():
 	var food_positions = _random_food_positions(max_foods)
 	for i in range(food_positions.size()):
 		food_states[i].position = food_positions[i]
+		
+	var availables = _position_space().filter(
+			func(pos): 
+				return pos not in food_states.map(
+					func(state): state.position
+					) and pos != snake_state.head and pos not in snake_state.tail
+				)
+	for i in range(max_powerups):
+		var powerup_state = PowerupState.new()
+		powerup_state.position = availables.pop_at(randi_range(0, availables.size()-1))
+		powerup_state.type = _random_powerup()
+		powerup_state.is_eaten = false
+		powerup_states.append(powerup_state)
 
 func _parse_rotate(vector: Vector2i, rotate_direction: TurnDirection) -> Vector2i:
 	return Vector2i(vector.y, vector.x * -1) if rotate_direction == TurnDirection.Left else Vector2i(vector.y * -1, vector.x)
@@ -133,6 +172,17 @@ func _random_polarity() -> Polarity:
 			return Polarity.Plastic
 		_:
 			return Polarity.Organic
+
+func _random_powerup() -> PowerupType:
+	var extra_life_weight: int = 1
+	var conversion_weight: int = 9
+	var total_weight: float = float(extra_life_weight + conversion_weight)
+	var result = randf()
+	if result < extra_life_weight / total_weight:
+		return PowerupType.ExtraLife
+	if result < (extra_life_weight + conversion_weight) / total_weight:
+		return PowerupType.Conversion
+	return PowerupType.ExtraLife
 
 func _next_snake_mode(mode: Polarity) -> Polarity:
 	match mode:

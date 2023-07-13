@@ -7,3 +7,4 @@ script = ExtResource("1_fk350")
 max_foods = 12
 world_span = 5
 snake_mode_interval = 15
+max_powerups = 1

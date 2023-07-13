@@ -27,16 +27,25 @@ func _draw():
 func _choose_color(position: Vector2i) -> Color:
 	var food_state = food_states_cache_by_position.get(position)
 	if food_state != null and not food_state.is_eaten:
-		_choose_color_food(food_state)
+		return _choose_color_food(food_state)
+	var powerup_state = state_hook.handle.powerup_states.filter(func(x): return x.position == position).pop_back()
+	if powerup_state != null and not powerup_state.is_eaten:
+		return _choose_powerup_color(powerup_state)
 	return default_color
 
-func _choose_powerup_color() -> Color:
-	pass
+func _choose_powerup_color(powerup_state: PowerupState) -> Color:
+	match powerup_state.type:
+		CybersnakeGame.PowerupType.ExtraLife:
+			return extra_life_color
+		CybersnakeGame.PowerupType.Conversion:
+			return conversion_color
+		_:
+			return default_color
 
 func _choose_color_food(food_state: FoodState) -> Color:
 	match food_state.polarity:
 		CybersnakeGame.Polarity.Organic:
-			return paper_color
+			return organic_color
 		CybersnakeGame.Polarity.Plastic:
 			return plastic_color
 		CybersnakeGame.Polarity.Paper:
