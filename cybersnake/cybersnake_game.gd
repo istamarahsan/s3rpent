@@ -9,7 +9,8 @@ enum TurnDirection {
 enum Polarity {
 	Organic,
 	Paper,
-	Plastic
+	Plastic,
+	Coin
 }
 
 enum PowerupType {
@@ -56,7 +57,7 @@ func process_timestep():
 		if food_state.position != snake_state.head:
 			continue
 		
-		if food_state.polarity != snake_mode:
+		if food_state.polarity != snake_mode and food_state.polarity != Polarity.Coin:
 			lives_left -= 1
 			flags.append("hit")
 			continue
@@ -76,9 +77,11 @@ func process_timestep():
 			powerup_state.is_eaten = true
 			match powerup_state.type:
 				PowerupType.ExtraLife:
-					pass
+					lives_left = mini(lives_left + 1, max_lives)
 				PowerupType.Conversion:
-					pass
+					conversion_time_remaining = conversion_duration
+					for food_state in food_states:
+						food_state.polarity = Polarity.Coin
 	
 	if powerup_states.all(func(state): return state.is_eaten):
 		var availables = _position_space().filter(
@@ -91,6 +94,11 @@ func process_timestep():
 			powerup_state.position = availables.pop_at(randi_range(0, availables.size()-1))
 			powerup_state.type = _random_powerup()
 			powerup_state.is_eaten = false
+	
+	conversion_time_remaining = max(0, conversion_time_remaining-1)
+	if conversion_time_remaining <= 0:
+		for food_state in food_states.filter(func(state): return state.polarity == Polarity.Coin):
+			food_state.polarity = _random_polarity()
 	
 	ticks_to_snake_mode_transition -= 1
 	if ticks_to_snake_mode_transition <= 0:

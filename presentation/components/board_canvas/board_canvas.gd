@@ -5,6 +5,7 @@ extends Node2D
 @export_color_no_alpha var organic_color: Color = "green"
 @export_color_no_alpha var plastic_color: Color = "black"
 @export_color_no_alpha var paper_color: Color = "red"
+@export_color_no_alpha var coin_color: Color = "gold"
 @export_color_no_alpha var extra_life_color: Color = "blue"
 @export_color_no_alpha var conversion_color: Color = "gold"
 
@@ -50,6 +51,8 @@ func _choose_color_food(food_state: FoodState) -> Color:
 			return plastic_color
 		CybersnakeGame.Polarity.Paper:
 			return paper_color
+		CybersnakeGame.Polarity.Coin:
+			return coin_color
 		_:
 			return default_color
 

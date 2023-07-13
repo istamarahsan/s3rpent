@@ -6,6 +6,7 @@ class_name GameStateHandle
 @export var snake_mode_interval: int
 @export var max_lives: int
 @export var max_powerups: int
+@export var conversion_duration: int
 var snake_heading: Vector2i
 var food_eaten_so_far: int
 var snake_state: SnakePositionState
@@ -18,3 +19,4 @@ var points: float
 var active_point_multiplier: float
 var flags: Array[String]
 var powerup_states: Array[PowerupState]
+var conversion_time_remaining: int
