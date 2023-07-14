@@ -110,6 +110,7 @@ func process_timestep():
 
 func _initialize():
 	is_game_over                   = false
+	max_lives                      = 3
 	lives_left                     = max_lives
 	ticks_to_snake_mode_transition = snake_mode_interval
 	snake_state                    = SnakePositionState.new()
