@@ -1,5 +1,7 @@
 extends Control
+
 signal request_replay
+signal quit_to_main_menu
 
 @export var url: String
 
@@ -73,3 +75,6 @@ func _on_leaderboard_fetch_request_completed(result, response_code, headers, bod
 		var entry = entries[i]
 		result_str += str(i+1) + ". " + str(entry["name"]) + " - " + str(entry["score"]) + "\n"
 	leaderboard_label.text = result_str
+
+func _on_quit_to_main_menu_button_button_up():
+	quit_to_main_menu.emit()
