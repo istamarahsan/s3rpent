@@ -27,6 +27,7 @@ signal quit_to_main_menu
 
 var inner_game: CybersnakeGame
 var state_hooks: Array[StateHook] = []
+var scheduler_hooks: Array[SchedulerHook] = []
 var is_action_cooldown: bool = false
 
 func _ready():
@@ -42,11 +43,15 @@ func _recreate_game():
 func _connect_hooks(game: CybersnakeGame):
 	state_hooks.clear()
 	for child in TreeExtensions.get_tree_rec(self):
-		if not child is StateHook:
-			continue
-		var hook = child as StateHook
-		hook.handle = game as GameStateHandle
-		state_hooks.push_back(hook)
+		if child is StateHook:
+			var hook = child as StateHook
+			hook.handle = game as GameStateHandle
+			state_hooks.push_back(hook)
+		if child is SchedulerHook:
+			var hook = child as SchedulerHook
+			hook._game_timer = $Timer
+			scheduler_hooks.push_back(hook)
+			
 	for hook in state_hooks:
 		hook.initialized.emit()
 		hook.updated.emit()

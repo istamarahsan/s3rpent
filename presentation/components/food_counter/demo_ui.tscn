@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://presentation/components/demo_ui.gd" id="1_1mc85"]
 [ext_resource type="Theme" uid="uid://cx305k0a8bhwg" path="res://themes/color-sagu-spy.tres" id="1_47th6"]
 [ext_resource type="Script" path="res://presentation/components/food_counter/food_counter_label.gd" id="2_f7wue"]
-[ext_resource type="Script" path="res://presentation/state_hook.gd" id="3_t4aby"]
+[ext_resource type="Script" path="res://hooks/state_hook.gd" id="3_t4aby"]
 
 [node name="Panel" type="Control"]
 layout_mode = 3
