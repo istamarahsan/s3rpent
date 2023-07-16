@@ -17,7 +17,7 @@ func _ready():
 	snake_head.setType(SnakeSegment.SegmentType.Head)
 	add_child(snake_head)
 
-func _process(delta):
+func _process(_delta):
 	$Camera2D.position = snake_head.position
 
 func _on_state_hook_updated():
@@ -29,7 +29,12 @@ func _on_state_hook_updated():
 		var previous_segment: SnakeSegment = active_segments.back()
 		if previous_segment != null:
 			previous_segment.setType(SnakeSegment.SegmentType.Mid)
-		new_segment.position = state_hook.handle.snake_state.tail[active_segments.size() + missing_segment] * tile_size
+		var tail_pos = active_segments.size() + missing_segment
+		new_segment.position = state_hook.handle.snake_state.tail[tail_pos] * tile_size
+		if tail_pos == 0:
+			new_segment.rotation = _rotation_for_heading((new_segment.position - snake_head.position).sign())
+		else:
+			new_segment.rotation = _rotation_for_heading((new_segment.position - active_segments[tail_pos-1].position).sign())
 		active_segments.push_back(new_segment) 
 	
 	var move_tween = create_tween().set_parallel()
@@ -42,8 +47,6 @@ func _on_state_hook_updated():
 			active_segments[i].rotation = _rotation_for_heading((active_segments[i].position - snake_head.position).sign())
 		else:
 			active_segments[i].rotation = _rotation_for_heading((active_segments[i].position - active_segments[i-1].position).sign())
-	
-	
 	
 	if "hit" in state_hook.handle.flags:
 		snake_head.flash_hit()

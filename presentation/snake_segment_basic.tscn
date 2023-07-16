@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://uuayuxs0asq3"]
+[gd_scene load_steps=8 format=3 uid="uid://uuayuxs0asq3"]
 
 [ext_resource type="Shader" path="res://presentation/snake_segment_basic.gdshader" id="1_6tv7j"]
 [ext_resource type="Script" path="res://presentation/snake_segment.gd" id="1_aunco"]
 [ext_resource type="Texture2D" uid="uid://blvv8p648wm6g" path="res://assets/protosnake-head.png" id="1_ii4qp"]
 [ext_resource type="Texture2D" uid="uid://bj3xb63bwsk5b" path="res://assets/protosnake-mid.png" id="1_op0uj"]
 [ext_resource type="Texture2D" uid="uid://bmq6p41alkm2j" path="res://assets/protosnake-tail.png" id="2_fcbl8"]
+[ext_resource type="Texture2D" uid="uid://cadeqd2s24qor" path="res://assets/head.png" id="4_ixxh3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k0xhj"]
 resource_local_to_scene = true
@@ -16,7 +17,7 @@ shader_parameter/degree = 0.0
 script = ExtResource("1_aunco")
 _tail_texture = ExtResource("2_fcbl8")
 _mid_texture = ExtResource("1_op0uj")
-_head_texture = ExtResource("1_ii4qp")
+_head_texture = ExtResource("4_ixxh3")
 _sprite = NodePath("Sprite2D")
 _flash_timer = NodePath("FlashTimer")
 flash_times = 2
