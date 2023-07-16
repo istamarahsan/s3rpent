@@ -11,6 +11,7 @@ var active_segments: Array[SnakeSegment] = []
 var snake_head: SnakeSegment
 
 func _ready():
+	$Bg.position = Vector2(tile_size/2, tile_size/2)
 	$BoardCanvas.configure(tile_size)
 	snake_head = snake_segment_scene.instantiate() as SnakeSegment
 	snake_head.setType(SnakeSegment.SegmentType.Head)
@@ -18,6 +19,9 @@ func _ready():
 
 func _process(_delta):
 	$Camera2D.position = snake_head.position
+
+func _on_state_hook_init():
+	$Bg.create(Vector2i(-state_hook.handle.world_span-1, -state_hook.handle.world_span-1), Vector2i(state_hook.handle.world_span-1, state_hook.handle.world_span-1))
 
 func _on_state_hook_updated():
 	if active_segments.size() < state_hook.handle.snake_state.tail.size():

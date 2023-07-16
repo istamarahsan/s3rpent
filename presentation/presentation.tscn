@@ -1,26 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://0i6pfyt0gmrw"]
+[gd_scene load_steps=7 format=3 uid="uid://0i6pfyt0gmrw"]
 
 [ext_resource type="Script" path="res://presentation/presentation.gd" id="1_chn3l"]
 [ext_resource type="Script" path="res://presentation/components/board_canvas/board_canvas.gd" id="2_ckhpm"]
 [ext_resource type="PackedScene" uid="uid://uuayuxs0asq3" path="res://presentation/snake_segment_basic.tscn" id="2_h5g20"]
+[ext_resource type="PackedScene" uid="uid://daic7uqk7s8hb" path="res://world/background_checkerboard.tscn" id="3_udkh1"]
 [ext_resource type="Script" path="res://hooks/state_hook.gd" id="4_xf8xl"]
 [ext_resource type="Script" path="res://hooks/scheduler_hook.gd" id="6_ehmij"]
-
-[sub_resource type="Gradient" id="Gradient_u64pp"]
-colors = PackedColorArray(0, 0, 0, 1, 1, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_q4wgk"]
-gradient = SubResource("Gradient_u64pp")
-width = 3840
-height = 2160
 
 [node name="Presentation" type="Node2D"]
 script = ExtResource("1_chn3l")
 tile_size = 128
 snake_segment_scene = ExtResource("2_h5g20")
 
-[node name="Background" type="Sprite2D" parent="."]
-texture = SubResource("GradientTexture2D_q4wgk")
+[node name="Bg" parent="." instance=ExtResource("3_udkh1")]
+position = Vector2(64, 64)
 
 [node name="BoardCanvas" type="Node2D" parent="."]
 script = ExtResource("2_ckhpm")
@@ -41,4 +34,5 @@ script = ExtResource("4_xf8xl")
 script = ExtResource("6_ehmij")
 
 [connection signal="updated" from="BoardCanvas/StateHook" to="BoardCanvas" method="_on_state_hook_updated"]
+[connection signal="initialized" from="StateHook" to="." method="_on_state_hook_init"]
 [connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]
