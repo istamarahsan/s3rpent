@@ -70,9 +70,9 @@ func _animate_movement():
 		active_segments[i].visible = true
 		move_tween.tween_property(active_segments[i], "position", Vector2(state_hook.handle.snake_state.tail[i] * tile_size), scheduler_hook.time_to_next_tick()/2.0)
 		if i == 0:
-			active_segments[i].rotation = _rotation_for_heading((active_segments[i].position - snake_head.position).sign())
+			active_segments[i].rotation = _rotation_for_heading((state_hook.handle.snake_state.tail[i] - state_hook.handle.snake_state.head).sign())
 		else:
-			active_segments[i].rotation = _rotation_for_heading((active_segments[i].position - active_segments[i-1].position).sign())
+			active_segments[i].rotation = _rotation_for_heading((state_hook.handle.snake_state.tail[i] - state_hook.handle.snake_state.tail[i-1]).sign())
 
 func _animate_hit():
 	snake_head.flash_hit()
