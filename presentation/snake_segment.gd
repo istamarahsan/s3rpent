@@ -3,12 +3,15 @@ class_name SnakeSegment
 
 enum SegmentType {
 	Tail,
-	Mid,
+	Body,
+	CornerRight,
+	CornerLeft,
 	Head
 }
 
 @export var _tail_texture: Texture2D
-@export var _mid_texture: Texture2D
+@export var _body_texture: Texture2D
+@export var _corner_texture: Texture2D
 @export var _head_texture: Texture2D
 @export var _sprite: Sprite2D
 @export var _flash_timer: Timer
@@ -19,12 +22,20 @@ enum SegmentType {
 @export_range(1, 10, 1) var flash_times: int = 3
 @export var flash_color: Color
 
+var _base_rotation: float = -deg_to_rad(90)
+
 func setType(type: SegmentType):
+	_sprite.flip_h = false
 	match type:
 		SegmentType.Tail: 
 			_sprite.texture = _tail_texture
-		SegmentType.Mid:
-			_sprite.texture = _mid_texture
+		SegmentType.Body:
+			_sprite.texture = _body_texture
+		SegmentType.CornerRight:
+			_sprite.flip_h = true
+			_sprite.texture = _corner_texture
+		SegmentType.CornerLeft:
+			_sprite.texture = _corner_texture
 		SegmentType.Head:
 			_sprite.texture = _head_texture
 

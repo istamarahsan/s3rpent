@@ -7,6 +7,7 @@ class_name GameStateHandle
 @export var max_lives: int
 @export var max_powerups: int
 @export var conversion_duration: int
+@export_range(1, 10, 1) var initial_length: int
 var snake_heading: Vector2i
 var food_eaten_so_far: int
 var snake_state: SnakePositionState

@@ -113,12 +113,14 @@ func _initialize():
 	lives_left                     = max_lives
 	ticks_to_snake_mode_transition = snake_mode_interval
 	snake_state                    = SnakePositionState.new()
-	snake_state.head               = Vector2i.ZERO
 	snake_heading                  = Vector2i.RIGHT
 	food_states                    = []
 	powerup_states                 = []
 	points                         = 0
 	active_point_multiplier        = 1
+	snake_state.head               = Vector2i.ZERO
+	for i in range(initial_length):
+		snake_state.tail.push_back((snake_state.head if i == 0 else snake_state.tail.back()) + Vector2i.LEFT)
 	for i in range(max_foods):
 		var food_state = FoodState.new()
 		food_state.position = Vector2i.ZERO

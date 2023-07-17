@@ -10,3 +10,4 @@ snake_mode_interval = 30
 max_lives = 3
 max_powerups = 1
 conversion_duration = 20
+initial_length = 4
