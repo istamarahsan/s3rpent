@@ -4,9 +4,9 @@
 
 [node name="CybersnakeGame" type="Node"]
 script = ExtResource("1_fk350")
-max_foods = 12
-world_span = 5
-snake_mode_interval = 15
+max_foods = 100
+world_span = 20
+snake_mode_interval = 30
 max_lives = 3
 max_powerups = 1
-conversion_duration = 10
+conversion_duration = 20
