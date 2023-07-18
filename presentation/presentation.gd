@@ -72,7 +72,7 @@ var move_tween: Tween
 
 func _animate_movement():
 	if is_instance_valid(move_tween) and move_tween.is_valid():
-		move_tween.stop()
+		move_tween.kill()
 	var time_to_next_tick: float = scheduler_hook.time_to_next_tick()
 	move_tween = create_tween().set_parallel().set_ease(Tween.EASE_IN_OUT)
 	move_tween.tween_property(snake_head, "position", Vector2(state_hook.handle.snake_state.head * tile_size), time_to_next_tick/1.5)
