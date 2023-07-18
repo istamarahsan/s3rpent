@@ -68,13 +68,18 @@ func _set_segment_types():
 			active_segments[i].setType(SnakeSegment.SegmentType.CornerRight)
 	active_segments.back().setType(SnakeSegment.SegmentType.Tail)
 
+var move_tween: Tween
+
 func _animate_movement():
-	var move_tween = create_tween().set_parallel()
-	move_tween.tween_property(snake_head, "position", Vector2(state_hook.handle.snake_state.head * tile_size), scheduler_hook.time_to_next_tick()/1.5)
+	if is_instance_valid(move_tween) and move_tween.is_valid():
+		move_tween.stop()
+	var time_to_next_tick: float = scheduler_hook.time_to_next_tick()
+	move_tween = create_tween().set_parallel().set_ease(Tween.EASE_IN_OUT)
+	move_tween.tween_property(snake_head, "position", Vector2(state_hook.handle.snake_state.head * tile_size), time_to_next_tick/1.5)
 	snake_head.rotation = _rotation_for_heading(state_hook.handle.snake_heading)
 	for i in range(state_hook.handle.snake_state.tail.size()):
 		active_segments[i].visible = true
-		move_tween.tween_property(active_segments[i], "position", Vector2(state_hook.handle.snake_state.tail[i] * tile_size), scheduler_hook.time_to_next_tick()/1.5)
+		move_tween.tween_property(active_segments[i], "position", Vector2(state_hook.handle.snake_state.tail[i] * tile_size), time_to_next_tick/1.5)
 		if i == 0:
 			active_segments[i].rotation = _rotation_for_heading((state_hook.handle.snake_state.head - state_hook.handle.snake_state.tail[i]).sign())
 		else:
