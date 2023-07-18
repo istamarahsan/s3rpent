@@ -3,17 +3,14 @@
 [ext_resource type="Script" path="res://presentation/presentation.gd" id="1_chn3l"]
 [ext_resource type="Script" path="res://presentation/components/board_canvas/board_canvas.gd" id="2_ckhpm"]
 [ext_resource type="PackedScene" uid="uid://uuayuxs0asq3" path="res://presentation/snake_segment_basic.tscn" id="2_h5g20"]
-[ext_resource type="PackedScene" uid="uid://daic7uqk7s8hb" path="res://world/background_checkerboard.tscn" id="3_udkh1"]
 [ext_resource type="Script" path="res://hooks/state_hook.gd" id="4_xf8xl"]
 [ext_resource type="Script" path="res://hooks/scheduler_hook.gd" id="6_ehmij"]
+[ext_resource type="PackedScene" uid="uid://irjrthrlapp7" path="res://world/world.tscn" id="7_sxa72"]
 
 [node name="Presentation" type="Node2D"]
 script = ExtResource("1_chn3l")
 tile_size = 128
 snake_segment_scene = ExtResource("2_h5g20")
-
-[node name="Bg" parent="." instance=ExtResource("3_udkh1")]
-position = Vector2(64, 64)
 
 [node name="BoardCanvas" type="Node2D" parent="."]
 script = ExtResource("2_ckhpm")
@@ -21,6 +18,9 @@ conversion_color = Color(0.427451, 0.352941, 0, 1)
 
 [node name="StateHook" type="Node" parent="BoardCanvas"]
 script = ExtResource("4_xf8xl")
+
+[node name="World" parent="." instance=ExtResource("7_sxa72")]
+position = Vector2(64, 64)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 ignore_rotation = false
