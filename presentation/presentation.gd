@@ -33,6 +33,7 @@ func _on_state_hook_updated():
 	
 	if "hit" in state_hook.handle.flags:
 		_animate_hit()
+		$Hit.play()
 
 func _add_missing_segments():
 	var num_missing_segments = max(0, state_hook.handle.snake_state.tail.size() - active_segments.size())
