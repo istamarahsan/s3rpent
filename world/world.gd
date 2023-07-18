@@ -34,4 +34,6 @@ func _set_cell_food(cell_position: Vector2i, polarity: CybersnakeGame.Polarity):
 			atlas_coordinate = Vector2i(0, 0)
 		CybersnakeGame.Polarity.Plastic:
 			atlas_coordinate = Vector2i(3, 0)
+		_:
+			return
 	tilemap.set_cell(1, cell_position, source_id, atlas_coordinate)
