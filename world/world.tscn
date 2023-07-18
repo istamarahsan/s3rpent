@@ -1,11 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://irjrthrlapp7"]
+[gd_scene load_steps=5 format=3 uid="uid://irjrthrlapp7"]
 
 [ext_resource type="Script" path="res://hooks/state_hook.gd" id="1_k50ys"]
 [ext_resource type="Script" path="res://world/world.gd" id="1_pvxfe"]
 [ext_resource type="TileSet" uid="uid://ch2emyu4h73qt" path="res://world/world_tileset.tres" id="3_anjuj"]
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_eapv2"]
+frequency = 0.5
+
 [node name="World" type="Node2D"]
 script = ExtResource("1_pvxfe")
+scatter_noise = SubResource("FastNoiseLite_eapv2")
+scatter_frequency = 0.35
 
 [node name="StateHook" type="Node" parent="."]
 script = ExtResource("1_k50ys")

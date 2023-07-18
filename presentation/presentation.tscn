@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://0i6pfyt0gmrw"]
+[gd_scene load_steps=10 format=3 uid="uid://0i6pfyt0gmrw"]
 
 [ext_resource type="Script" path="res://presentation/presentation.gd" id="1_chn3l"]
 [ext_resource type="Script" path="res://presentation/components/board_canvas/board_canvas.gd" id="2_ckhpm"]
@@ -9,6 +9,9 @@
 [ext_resource type="AudioStream" uid="uid://bfw5o0ty5oxyt" path="res://assets/sfx/Damaged.wav" id="7_e6k27"]
 [ext_resource type="PackedScene" uid="uid://irjrthrlapp7" path="res://world/world.tscn" id="7_sxa72"]
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_4dgey"]
+frequency = 0.5
+
 [node name="Presentation" type="Node2D"]
 script = ExtResource("1_chn3l")
 tile_size = 128
@@ -16,6 +19,8 @@ snake_segment_scene = ExtResource("2_h5g20")
 
 [node name="World" parent="." instance=ExtResource("7_sxa72")]
 position = Vector2(64, 64)
+scatter_noise = SubResource("FastNoiseLite_4dgey")
+scatter_frequency = 0.3
 
 [node name="DebugCanvas" type="Node2D" parent="."]
 visible = false
