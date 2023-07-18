@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://0i6pfyt0gmrw"]
+[gd_scene load_steps=9 format=3 uid="uid://0i6pfyt0gmrw"]
 
 [ext_resource type="Script" path="res://presentation/presentation.gd" id="1_chn3l"]
 [ext_resource type="Script" path="res://presentation/components/board_canvas/board_canvas.gd" id="2_ckhpm"]
 [ext_resource type="PackedScene" uid="uid://uuayuxs0asq3" path="res://presentation/snake_segment_basic.tscn" id="2_h5g20"]
+[ext_resource type="FontFile" uid="uid://bck4vn8cx20wc" path="res://assets/fonts/Sagu Exora.ttf" id="4_qfap0"]
 [ext_resource type="Script" path="res://hooks/state_hook.gd" id="4_xf8xl"]
 [ext_resource type="Script" path="res://hooks/scheduler_hook.gd" id="6_ehmij"]
 [ext_resource type="AudioStream" uid="uid://bfw5o0ty5oxyt" path="res://assets/sfx/Damaged.wav" id="7_e6k27"]
@@ -13,15 +14,17 @@ script = ExtResource("1_chn3l")
 tile_size = 128
 snake_segment_scene = ExtResource("2_h5g20")
 
-[node name="BoardCanvas" type="Node2D" parent="."]
-script = ExtResource("2_ckhpm")
-conversion_color = Color(0.427451, 0.352941, 0, 1)
-
-[node name="StateHook" type="Node" parent="BoardCanvas"]
-script = ExtResource("4_xf8xl")
-
 [node name="World" parent="." instance=ExtResource("7_sxa72")]
 position = Vector2(64, 64)
+
+[node name="DebugCanvas" type="Node2D" parent="."]
+visible = false
+script = ExtResource("2_ckhpm")
+conversion_color = Color(0.427451, 0.352941, 0, 1)
+font = ExtResource("4_qfap0")
+
+[node name="StateHook" type="Node" parent="DebugCanvas"]
+script = ExtResource("4_xf8xl")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 ignore_rotation = false
@@ -37,5 +40,5 @@ script = ExtResource("6_ehmij")
 [node name="Hit" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_e6k27")
 
-[connection signal="updated" from="BoardCanvas/StateHook" to="BoardCanvas" method="_on_state_hook_updated"]
+[connection signal="updated" from="DebugCanvas/StateHook" to="DebugCanvas" method="_on_state_hook_updated"]
 [connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]

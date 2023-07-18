@@ -11,8 +11,7 @@ var active_segments: Array[SnakeSegment] = []
 var snake_head: SnakeSegment
 
 func _ready():
-	$World.position = Vector2(tile_size/2, tile_size/2)
-	$BoardCanvas.configure(tile_size)
+	$DebugCanvas.configure(tile_size)
 	snake_head = snake_segment_scene.instantiate() as SnakeSegment
 	snake_head.setType(SnakeSegment.SegmentType.Head)
 	add_child(snake_head)

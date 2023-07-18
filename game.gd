@@ -33,6 +33,13 @@ var is_action_cooldown: bool = false
 func _ready():
 	_recreate_game()
 
+func _input(event):
+	if event.is_action_pressed("ui_accept"):
+		if $Timer.is_stopped():
+			$Timer.start()
+		else:
+			$Timer.stop() 
+
 func _recreate_game():
 	if inner_game != null:
 		inner_game.queue_free()

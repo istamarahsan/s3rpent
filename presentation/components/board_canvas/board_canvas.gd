@@ -8,6 +8,8 @@ extends Node2D
 @export_color_no_alpha var coin_color: Color = "gold"
 @export_color_no_alpha var extra_life_color: Color = "blue"
 @export_color_no_alpha var conversion_color: Color = "gold"
+@export_category("Font")
+@export var font: Font
 
 @onready var state_hook: StateHook = $StateHook
 
@@ -24,6 +26,7 @@ func _draw():
 			var position := Vector2i(x, y)
 			var color := _choose_color(position)
 			draw_circle(Vector2(position) * tile_size, 10, color)
+			draw_string(font, (Vector2(position) * tile_size) + Vector2.UP * 16, str(position))
 
 func _choose_color(position: Vector2i) -> Color:
 	var food_state = food_states_cache_by_position.get(position)

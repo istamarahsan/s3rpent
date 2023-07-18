@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://hooks/state_hook.gd" id="1_k50ys"]
 [ext_resource type="Script" path="res://world/world.gd" id="1_pvxfe"]
-[ext_resource type="TileSet" uid="uid://ch2emyu4h73qt" path="res://world/dual_tile.tres" id="3_ey07y"]
+[ext_resource type="TileSet" uid="uid://ch2emyu4h73qt" path="res://world/world_tileset.tres" id="3_anjuj"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_pvxfe")
@@ -11,7 +11,7 @@ script = ExtResource("1_pvxfe")
 script = ExtResource("1_k50ys")
 
 [node name="TileMap" type="TileMap" parent="."]
-tile_set = ExtResource("3_ey07y")
+tile_set = ExtResource("3_anjuj")
 format = 2
 layer_0/name = "ground"
 layer_1/name = "food"
