@@ -18,6 +18,8 @@ enum PowerupType {
 	Conversion
 }
 
+const FOOD_MIN_SPAWN_RANGE = sqrt(2.0)
+
 func _ready():
 	_initialize()
 
@@ -164,7 +166,7 @@ func _random_food_positions(n: int) -> Array[Vector2i]:
 		var x: int = randi_range(-world_span, world_span)
 		var y: int = randi_range(-world_span, world_span)
 		var pos = Vector2i(x, y)
-		if result.has(pos) or snake_state.head == pos or snake_state.tail.any(func(tail_pos): return tail_pos == pos):
+		if result.has(pos) or (snake_state.head - pos).length() <= FOOD_MIN_SPAWN_RANGE or snake_state.tail.any(func(tail_pos): return (tail_pos - pos).length() <= FOOD_MIN_SPAWN_RANGE):
 			continue
 		else:
 			result.push_back(pos)
