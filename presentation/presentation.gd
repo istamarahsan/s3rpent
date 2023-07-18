@@ -31,7 +31,7 @@ func _on_state_hook_updated():
 		_remove_extra_segments()
 		_set_segment_types()
 	
-	await _animate_movement()
+	_animate_movement()
 	_set_segment_types()
 	
 	if "hit" in state_hook.handle.flags:
@@ -59,9 +59,9 @@ func _remove_extra_segments():
 func _set_segment_types():
 	if active_segments.size() == 0:
 		return
-	for i in range(0, active_segments.size()-1):
-		var in_vec = (active_segments[i].position - snake_head.position).sign() if i == 0 else (active_segments[i].position - active_segments[i-1].position).sign()
-		var out_vec = (active_segments[i+1].position - active_segments[i].position).sign()
+	for i in range(0, state_hook.handle.snake_state.tail.size()-1):
+		var in_vec = Vector2((state_hook.handle.snake_state.tail[i] - state_hook.handle.snake_state.head).sign() if i == 0 else (state_hook.handle.snake_state.tail[i] - state_hook.handle.snake_state.tail[i-1]).sign())
+		var out_vec = Vector2((state_hook.handle.snake_state.tail[i+1] - state_hook.handle.snake_state.tail[i]).sign())
 		var cross = in_vec.cross(out_vec)
 		if cross == 0:
 			active_segments[i].setType(SnakeSegment.SegmentType.Body)
