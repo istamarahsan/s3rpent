@@ -24,6 +24,9 @@ func _ready():
 	_initialize()
 
 func action_turn(action: TurnDirection):
+	
+	flags = []
+	
 	if is_game_over:
 		return
 	snake_heading = _parse_rotate(snake_heading, action)
@@ -79,8 +82,10 @@ func process_timestep():
 			powerup_state.is_eaten = true
 			match powerup_state.type:
 				PowerupType.ExtraLife:
+					flags.append("powerup:extra_life")
 					lives_left = mini(lives_left + 1, max_lives)
 				PowerupType.Conversion:
+					flags.append("powerup:conversion")
 					conversion_time_remaining = conversion_duration
 					for food_state in food_states:
 						food_state.polarity = Polarity.Coin
