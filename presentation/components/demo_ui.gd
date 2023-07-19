@@ -17,6 +17,7 @@ signal quit_to_main_menu
 func _ready():
 	score_upload_form.visible = false
 	game_over_buttons.visible = false
+	AudioBus.scale_changed.connect(func(): $MuteButton.text = "Mute" if AudioBus.master_scale > 0.0 else "Unmute")
 
 func _upload_score(score: int, player_alias: String):
 	leaderboard_post.request(
@@ -78,3 +79,6 @@ func _on_leaderboard_fetch_request_completed(result, response_code, headers, bod
 
 func _on_quit_to_main_menu_button_button_up():
 	quit_to_main_menu.emit()
+
+func _on_mute_button_button_up():
+	AudioBus.master_scale = 0.0 if AudioBus.master_scale > 0.0 else 1.0

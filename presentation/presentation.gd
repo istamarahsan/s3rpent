@@ -26,6 +26,9 @@ func _on_state_hook_updated():
 	elif active_segments.size() > state_hook.handle.snake_state.tail.size():
 		_remove_extra_segments()
 		_set_segment_types()
+		
+	if "moved" in state_hook.handle.flags:
+		snake_head.rotation = _rotation_for_heading(state_hook.handle.snake_heading)
 	
 	_animate_movement()
 	_set_segment_types()
@@ -87,7 +90,6 @@ func _animate_movement():
 	var time_to_next_tick: float = scheduler_hook.time_to_next_tick()
 	move_tween = create_tween().set_parallel().set_ease(Tween.EASE_IN_OUT)
 	move_tween.tween_property(snake_head, "position", Vector2(state_hook.handle.snake_state.head * tile_size), time_to_next_tick/1.5)
-	snake_head.rotation = _rotation_for_heading(state_hook.handle.snake_heading)
 	for i in range(state_hook.handle.snake_state.tail.size()):
 		active_segments[i].visible = true
 		move_tween.tween_property(active_segments[i], "position", Vector2(state_hook.handle.snake_state.tail[i] * tile_size), time_to_next_tick/1.5)

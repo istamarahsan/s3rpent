@@ -51,6 +51,7 @@ func process_timestep():
 			var segment_position = snake_state.tail[i_segment]
 			snake_state.tail[i_segment] = previous_segment_position
 			previous_segment_position = segment_position
+		flags.append("moved")
 			
 	for food_state in food_states:
 		if food_state.is_eaten:

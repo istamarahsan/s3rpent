@@ -156,6 +156,14 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "loading..."
 
+[node name="MuteButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1649.0
+offset_top = 23.0
+offset_right = 1850.0
+offset_bottom = 86.0
+text = "Mute"
+
 [connection signal="updated" from="Stats/Panel/MarginContainer/VBoxContainer/Label/StateHook" to="Stats/Panel/MarginContainer/VBoxContainer/Label" method="_on_state_hook_updated"]
 [connection signal="button_up" from="Stats/Panel/MarginContainer/VBoxContainer/GameOverButtons/SaveScoreButton" to="." method="_on_save_score_button_button_up"]
 [connection signal="button_up" from="Stats/Panel/MarginContainer/VBoxContainer/GameOverButtons/ReplayButton" to="." method="_on_replay_button_button_up"]
@@ -165,3 +173,4 @@ text = "loading..."
 [connection signal="request_completed" from="LeaderboardFetch" to="." method="_on_leaderboard_fetch_request_completed"]
 [connection signal="button_up" from="LeaderboardThings/VBoxContainer/HBoxContainer/MarginContainer/SubmitScore" to="." method="_on_submit_score_button_up"]
 [connection signal="button_up" from="LeaderboardThings/VBoxContainer/HBoxContainer/MarginContainer2/CancelSubmitScore" to="." method="_on_cancel_submit_score_button_up"]
+[connection signal="button_up" from="MuteButton" to="." method="_on_mute_button_button_up"]

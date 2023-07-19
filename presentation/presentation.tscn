@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://0i6pfyt0gmrw"]
+[gd_scene load_steps=13 format=3 uid="uid://0i6pfyt0gmrw"]
 
 [ext_resource type="Script" path="res://presentation/presentation.gd" id="1_chn3l"]
 [ext_resource type="Script" path="res://presentation/components/board_canvas/board_canvas.gd" id="2_ckhpm"]
@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://bfw5o0ty5oxyt" path="res://assets/sfx/Damaged.wav" id="7_e6k27"]
 [ext_resource type="PackedScene" uid="uid://irjrthrlapp7" path="res://world/world.tscn" id="7_sxa72"]
 [ext_resource type="AudioStream" uid="uid://ddy7w4j7prxyp" path="res://assets/sfx/Eat_Trash.wav" id="9_0c5bm"]
+[ext_resource type="Script" path="res://audio/audio_hook.gd" id="9_get8u"]
 [ext_resource type="AudioStream" uid="uid://o7ife1rmeh2n" path="res://assets/sfx/Power_Up.wav" id="10_hy3no"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_4dgey"]
@@ -46,12 +47,15 @@ script = ExtResource("6_ehmij")
 
 [node name="Hit" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_e6k27")
+script = ExtResource("9_get8u")
 
 [node name="Eat" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("9_0c5bm")
+script = ExtResource("9_get8u")
 
 [node name="PowerUp" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_hy3no")
+script = ExtResource("9_get8u")
 
 [connection signal="updated" from="DebugCanvas/StateHook" to="DebugCanvas" method="_on_state_hook_updated"]
 [connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]
