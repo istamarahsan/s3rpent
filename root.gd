@@ -9,10 +9,13 @@ enum UpperState {
 @export var main_menu_scene: PackedScene
 
 @onready var fullscreen_ui_root: Control = $FullscreenUiRoot
+@onready var splash_screen: SplashScreen = $FullscreenUiRoot/SplashScreen
 
 var state: UpperState = UpperState.MainMenu
 
 func _ready():
+	await splash_screen.do_splash()
+	splash_screen.queue_free()
 	_create_main_menu()
 
 func _create_main_menu():
