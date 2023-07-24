@@ -21,6 +21,7 @@ func _on_state_hook_updated():
 			" | Mult: " + \
 			str(state_hook.handle.active_point_multiplier) + \
 			 "x"
+			add_theme_color_override("font_outline_color", _polarity_to_color(state_hook.handle.snake_mode))
 		true:
 			text = "Game Over! High Score: " + str(state_hook.handle.points)
 			return
@@ -35,3 +36,14 @@ func _polarity_to_str(polarity: CybersnakeGame.Polarity) -> String:
 			return "Paper"
 		_:
 			return "_"
+
+func _polarity_to_color(polarity: CybersnakeGame.Polarity) -> Color:
+	match polarity:
+		CybersnakeGame.Polarity.Organic:
+			return "green"
+		CybersnakeGame.Polarity.Plastic:
+			return "black"
+		CybersnakeGame.Polarity.Paper:
+			return "red"
+		_:
+			return "white"

@@ -1,17 +1,33 @@
-[gd_scene load_steps=5 format=3 uid="uid://uuayuxs0asq3"]
+[gd_scene load_steps=8 format=3 uid="uid://uuayuxs0asq3"]
 
+[ext_resource type="Shader" path="res://presentation/snake_segment_basic.gdshader" id="1_6tv7j"]
 [ext_resource type="Script" path="res://presentation/snake_segment.gd" id="1_aunco"]
-[ext_resource type="Texture2D" uid="uid://blvv8p648wm6g" path="res://assets/protosnake-head.png" id="1_ii4qp"]
-[ext_resource type="Texture2D" uid="uid://bj3xb63bwsk5b" path="res://assets/protosnake-mid.png" id="1_op0uj"]
-[ext_resource type="Texture2D" uid="uid://bmq6p41alkm2j" path="res://assets/protosnake-tail.png" id="2_fcbl8"]
+[ext_resource type="Texture2D" uid="uid://dpkasus0sjyxf" path="res://assets/snake/plasticsnektail.png" id="2_ana77"]
+[ext_resource type="Texture2D" uid="uid://cfgl1jmohpry0" path="res://assets/snake/plasticsnekbody.png" id="3_ehy8b"]
+[ext_resource type="Texture2D" uid="uid://bkjahp3gdoigt" path="res://assets/snake/plasticsnekcorner.png" id="4_4oj0q"]
+[ext_resource type="Texture2D" uid="uid://cffwde8w2wusg" path="res://assets/snake/plasticsnekhead.png" id="5_savps"]
 
-[node name="SnakeSegmentBasic" type="Node2D"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k0xhj"]
+resource_local_to_scene = true
+shader = ExtResource("1_6tv7j")
+shader_parameter/flash_color = Color(0, 1, 1, 1)
+shader_parameter/degree = 0.0
+
+[node name="SnakeSegmentBasic" type="Node2D" node_paths=PackedStringArray("_sprite", "_flash_timer")]
 script = ExtResource("1_aunco")
-_tail_texture = ExtResource("2_fcbl8")
-_mid_texture = ExtResource("1_op0uj")
-_head_texture = ExtResource("1_ii4qp")
+_tail_texture = ExtResource("2_ana77")
+_body_texture = ExtResource("3_ehy8b")
+_corner_texture = ExtResource("4_4oj0q")
+_head_texture = ExtResource("5_savps")
+_sprite = NodePath("Sprite2D")
+_flash_timer = NodePath("FlashTimer")
+flash_times = 2
+flash_color = Color(1, 0.73428, 0.690318, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_k0xhj")
 rotation = -1.5708
 scale = Vector2(0.065, 0.065)
-texture = ExtResource("1_ii4qp")
+texture = ExtResource("4_4oj0q")
+
+[node name="FlashTimer" type="Timer" parent="."]

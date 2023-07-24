@@ -1,5 +1,7 @@
 extends Control
+
 signal request_replay
+signal quit_to_main_menu
 
 @export var url: String
 
@@ -10,10 +12,12 @@ signal request_replay
 @onready var player_alias_input: LineEdit = $LeaderboardThings/VBoxContainer/HBoxContainer/LineEdit as LineEdit
 @onready var leaderboard_post: HTTPRequest = $LeaderboardPost as HTTPRequest
 @onready var leaderboard_fetch: HTTPRequest = $LeaderboardFetch as HTTPRequest
+@onready var conversion_timer_label: Label = $ConversionTimeRemaining
 
 func _ready():
 	score_upload_form.visible = false
 	game_over_buttons.visible = false
+	AudioBus.scale_changed.connect(func(): $MuteButton.text = "Mute" if AudioBus.master_scale > 0.0 else "Unmute")
 
 func _upload_score(score: int, player_alias: String):
 	leaderboard_post.request(
@@ -57,6 +61,7 @@ func _on_cancel_submit_score_button_up():
 
 func _on_state_hook_updated():
 	game_over_buttons.visible = state_hook.handle.is_game_over
+	conversion_timer_label.text = "" if state_hook.handle.conversion_time_remaining == 0 else "CONVERSION: " + str(state_hook.handle.conversion_time_remaining)
 
 func _on_leaderboard_post_request_completed(result, response_code, headers, body):
 	pass
@@ -71,3 +76,9 @@ func _on_leaderboard_fetch_request_completed(result, response_code, headers, bod
 		var entry = entries[i]
 		result_str += str(i+1) + ". " + str(entry["name"]) + " - " + str(entry["score"]) + "\n"
 	leaderboard_label.text = result_str
+
+func _on_quit_to_main_menu_button_button_up():
+	quit_to_main_menu.emit()
+
+func _on_mute_button_button_up():
+	AudioBus.master_scale = 0.0 if AudioBus.master_scale > 0.0 else 1.0

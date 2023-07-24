@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cay6jqf4swn2d"]
 
 [ext_resource type="Script" path="res://presentation/components/food_tracker/food_tracker.gd" id="1_j314l"]
-[ext_resource type="Script" path="res://presentation/state_hook.gd" id="2_a2idi"]
+[ext_resource type="Script" path="res://hooks/state_hook.gd" id="2_a2idi"]
 
 [node name="FoodTracker" type="Node2D"]
 script = ExtResource("1_j314l")

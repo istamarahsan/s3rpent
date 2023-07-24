@@ -9,18 +9,32 @@ enum TurnDirection {
 enum Polarity {
 	Organic,
 	Paper,
-	Plastic
+	Plastic,
+	Coin
 }
+
+enum PowerupType {
+	ExtraLife,
+	Conversion
+}
+
+const FOOD_MIN_SPAWN_RANGE = sqrt(2.0)
 
 func _ready():
 	_initialize()
 
 func action_turn(action: TurnDirection):
+	
+	flags = []
+	
 	if is_game_over:
 		return
 	snake_heading = _parse_rotate(snake_heading, action)
 
 func process_timestep():
+	
+	flags = []
+	
 	if is_game_over:
 		return
 	
@@ -30,13 +44,15 @@ func process_timestep():
 	var would_collide_with_self: bool = snake_state.tail.any(func(segment_position): return segment_position == new_head_position)
 	if would_go_out_of_bounds or would_collide_with_self:
 		lives_left -= 1
+		flags.append("hit")
 	else:
 		snake_state.head = new_head_position
 		for i_segment in range(snake_state.tail.size()):
 			var segment_position = snake_state.tail[i_segment]
 			snake_state.tail[i_segment] = previous_segment_position
 			previous_segment_position = segment_position
-
+		flags.append("moved")
+			
 	for food_state in food_states:
 		if food_state.is_eaten:
 			food_state.position = _random_food_position()
@@ -47,18 +63,50 @@ func process_timestep():
 		if food_state.position != snake_state.head:
 			continue
 		
-		if food_state.polarity != snake_mode:
+		if food_state.polarity != snake_mode and food_state.polarity != Polarity.Coin:
 			lives_left -= 1
+			flags.append("hit")
 			continue
 		
 		food_state.is_eaten = true
 		food_eaten_so_far += 1
+		flags.append("ate")
 		if food_eaten_so_far % 10 == 0:
 			active_point_multiplier += 0.1
 		points += 10 * active_point_multiplier
 		points = snappedf(points, 0.01)
 		var next_segment_position: Vector2i = (snake_heading * -1).clamp(Vector2i.ONE * -1, Vector2i.ONE) + snake_state.head if snake_state.tail.size() == 0 else (snake_state.tail[-1] - (snake_state.tail[-2] if snake_state.tail.size() > 1 else snake_state.head)).clamp(Vector2i.ONE * -1, Vector2i.ONE) + snake_state.tail[-1]
 		snake_state.tail.push_back(next_segment_position)
+	
+	for powerup_state in powerup_states:
+		if snake_state.head == powerup_state.position:
+			powerup_state.is_eaten = true
+			match powerup_state.type:
+				PowerupType.ExtraLife:
+					flags.append("powerup:extra_life")
+					lives_left = mini(lives_left + 1, max_lives)
+				PowerupType.Conversion:
+					flags.append("powerup:conversion")
+					conversion_time_remaining = conversion_duration
+					for food_state in food_states:
+						food_state.polarity = Polarity.Coin
+	
+	if powerup_states.all(func(state): return state.is_eaten):
+		var availables = _position_space().filter(
+			func(pos): 
+				return pos not in food_states.map(
+					func(state): state.position
+					) and pos != snake_state.head and pos not in snake_state.tail
+				)
+		for powerup_state in powerup_states:
+			powerup_state.position = availables.pop_at(randi_range(0, availables.size()-1))
+			powerup_state.type = _random_powerup()
+			powerup_state.is_eaten = false
+	
+	conversion_time_remaining = max(0, conversion_time_remaining-1)
+	if conversion_time_remaining <= 0:
+		for food_state in food_states.filter(func(state): return state.polarity == Polarity.Coin):
+			food_state.polarity = _random_polarity()
 	
 	ticks_to_snake_mode_transition -= 1
 	if ticks_to_snake_mode_transition <= 0:
@@ -69,16 +117,18 @@ func process_timestep():
 		is_game_over = true
 
 func _initialize():
-	is_game_over = false
-	max_lives = 3
-	lives_left = max_lives
+	is_game_over                   = false
+	lives_left                     = max_lives
 	ticks_to_snake_mode_transition = snake_mode_interval
-	snake_state = SnakePositionState.new()
-	snake_state.head = Vector2i.ZERO
-	snake_heading = Vector2i.RIGHT
-	food_states = []
-	points = 0
-	active_point_multiplier = 1
+	snake_state                    = SnakePositionState.new()
+	snake_heading                  = Vector2i.RIGHT
+	food_states                    = []
+	powerup_states                 = []
+	points                         = 0
+	active_point_multiplier        = 1
+	snake_state.head               = Vector2i.ZERO
+	for i in range(initial_length):
+		snake_state.tail.push_back((snake_state.head if i == 0 else snake_state.tail.back()) + Vector2i.LEFT)
 	for i in range(max_foods):
 		var food_state = FoodState.new()
 		food_state.position = Vector2i.ZERO
@@ -88,6 +138,19 @@ func _initialize():
 	var food_positions = _random_food_positions(max_foods)
 	for i in range(food_positions.size()):
 		food_states[i].position = food_positions[i]
+		
+	var availables = _position_space().filter(
+			func(pos): 
+				return pos not in food_states.map(
+					func(state): state.position
+					) and pos != snake_state.head and pos not in snake_state.tail
+				)
+	for i in range(max_powerups):
+		var powerup_state = PowerupState.new()
+		powerup_state.position = availables.pop_at(randi_range(0, availables.size()-1))
+		powerup_state.type = _random_powerup()
+		powerup_state.is_eaten = false
+		powerup_states.append(powerup_state)
 
 func _parse_rotate(vector: Vector2i, rotate_direction: TurnDirection) -> Vector2i:
 	return Vector2i(vector.y, vector.x * -1) if rotate_direction == TurnDirection.Left else Vector2i(vector.y * -1, vector.x)
@@ -109,7 +172,7 @@ func _random_food_positions(n: int) -> Array[Vector2i]:
 		var x: int = randi_range(-world_span, world_span)
 		var y: int = randi_range(-world_span, world_span)
 		var pos = Vector2i(x, y)
-		if result.has(pos) or snake_state.head == pos or snake_state.tail.any(func(tail_pos): return tail_pos == pos):
+		if result.has(pos) or (snake_state.head - pos).length() <= FOOD_MIN_SPAWN_RANGE or snake_state.tail.any(func(tail_pos): return (tail_pos - pos).length() <= FOOD_MIN_SPAWN_RANGE):
 			continue
 		else:
 			result.push_back(pos)
@@ -126,6 +189,17 @@ func _random_polarity() -> Polarity:
 			return Polarity.Plastic
 		_:
 			return Polarity.Organic
+
+func _random_powerup() -> PowerupType:
+	var extra_life_weight: int = 1
+	var conversion_weight: int = 9
+	var total_weight: float = float(extra_life_weight + conversion_weight)
+	var result = randf()
+	if result < extra_life_weight / total_weight:
+		return PowerupType.ExtraLife
+	if result < (extra_life_weight + conversion_weight) / total_weight:
+		return PowerupType.Conversion
+	return PowerupType.ExtraLife
 
 func _next_snake_mode(mode: Polarity) -> Polarity:
 	match mode:

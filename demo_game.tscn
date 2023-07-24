@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://bsyvvvj3wncfy"]
+
+[ext_resource type="PackedScene" uid="uid://bwvnvsf5nw2ko" path="res://cybersnake/cybersnake_game.tscn" id="1_fgob2"]
+[ext_resource type="Script" path="res://game.gd" id="1_iwef1"]
+[ext_resource type="PackedScene" uid="uid://0i6pfyt0gmrw" path="res://presentation/presentation.tscn" id="2_morom"]
+[ext_resource type="Script" path="res://input/turn_input.gd" id="4_td4am"]
+[ext_resource type="PackedScene" uid="uid://by2cf15mj381v" path="res://presentation/components/food_counter/demo_ui.tscn" id="5_20qxd"]
+
+[node name="DemoGame" type="Node2D"]
+script = ExtResource("1_iwef1")
+inner_game_scene = ExtResource("1_fgob2")
+
+[node name="Presentation" parent="." instance=ExtResource("2_morom")]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="TurnInput" type="Node" parent="."]
+script = ExtResource("4_td4am")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DemoUi" parent="CanvasLayer" instance=ExtResource("5_20qxd")]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="down_pressed" from="TurnInput" to="." method="_on_turn_input_down_pressed"]
+[connection signal="left_pressed" from="TurnInput" to="." method="_on_turn_input_left_pressed"]
+[connection signal="right_pressed" from="TurnInput" to="." method="_on_turn_input_right_pressed"]
+[connection signal="up_pressed" from="TurnInput" to="." method="_on_turn_input_up_pressed"]
+[connection signal="quit_to_main_menu" from="CanvasLayer/DemoUi" to="." method="_on_demo_ui_quit_to_main_menu"]
+[connection signal="request_replay" from="CanvasLayer/DemoUi" to="." method="_on_demo_ui_request_replay"]

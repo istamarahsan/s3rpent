@@ -1,43 +1,61 @@
-[gd_scene load_steps=8 format=3 uid="uid://0i6pfyt0gmrw"]
+[gd_scene load_steps=13 format=3 uid="uid://0i6pfyt0gmrw"]
 
 [ext_resource type="Script" path="res://presentation/presentation.gd" id="1_chn3l"]
 [ext_resource type="Script" path="res://presentation/components/board_canvas/board_canvas.gd" id="2_ckhpm"]
 [ext_resource type="PackedScene" uid="uid://uuayuxs0asq3" path="res://presentation/snake_segment_basic.tscn" id="2_h5g20"]
-[ext_resource type="Script" path="res://presentation/state_hook.gd" id="3_2sqof"]
-[ext_resource type="PackedScene" uid="uid://cay6jqf4swn2d" path="res://presentation/components/food_tracker/food_tracker.tscn" id="6_85fu5"]
+[ext_resource type="FontFile" uid="uid://bck4vn8cx20wc" path="res://assets/fonts/Sagu Exora.ttf" id="4_qfap0"]
+[ext_resource type="Script" path="res://hooks/state_hook.gd" id="4_xf8xl"]
+[ext_resource type="Script" path="res://hooks/scheduler_hook.gd" id="6_ehmij"]
+[ext_resource type="AudioStream" uid="uid://bfw5o0ty5oxyt" path="res://assets/sfx/Damaged.wav" id="7_e6k27"]
+[ext_resource type="PackedScene" uid="uid://irjrthrlapp7" path="res://world/world.tscn" id="7_sxa72"]
+[ext_resource type="AudioStream" uid="uid://ddy7w4j7prxyp" path="res://assets/sfx/Eat_Trash.wav" id="9_0c5bm"]
+[ext_resource type="Script" path="res://audio/audio_hook.gd" id="9_get8u"]
+[ext_resource type="AudioStream" uid="uid://o7ife1rmeh2n" path="res://assets/sfx/Power_Up.wav" id="10_hy3no"]
 
-[sub_resource type="Gradient" id="Gradient_u64pp"]
-colors = PackedColorArray(0, 0, 0, 1, 1, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_q4wgk"]
-gradient = SubResource("Gradient_u64pp")
-width = 3840
-height = 2160
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_4dgey"]
+frequency = 0.5
 
 [node name="Presentation" type="Node2D"]
 script = ExtResource("1_chn3l")
 tile_size = 128
 snake_segment_scene = ExtResource("2_h5g20")
 
-[node name="Background" type="Sprite2D" parent="."]
-texture = SubResource("GradientTexture2D_q4wgk")
+[node name="World" parent="." instance=ExtResource("7_sxa72")]
+position = Vector2(64, 64)
+scatter_noise = SubResource("FastNoiseLite_4dgey")
+scatter_frequency = 0.3
 
-[node name="BoardCanvas" type="Node2D" parent="."]
+[node name="DebugCanvas" type="Node2D" parent="."]
+visible = false
 script = ExtResource("2_ckhpm")
+conversion_color = Color(0.427451, 0.352941, 0, 1)
+font = ExtResource("4_qfap0")
 
-[node name="StateHook" type="Node" parent="BoardCanvas"]
-script = ExtResource("3_2sqof")
+[node name="StateHook" type="Node" parent="DebugCanvas"]
+script = ExtResource("4_xf8xl")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 ignore_rotation = false
 position_smoothing_enabled = true
 rotation_smoothing_enabled = true
 
-[node name="FoodTracker" parent="Camera2D" instance=ExtResource("6_85fu5")]
-tile_size = 128
-
 [node name="StateHook" type="Node" parent="."]
-script = ExtResource("3_2sqof")
+script = ExtResource("4_xf8xl")
 
-[connection signal="updated" from="BoardCanvas/StateHook" to="BoardCanvas" method="_on_state_hook_updated"]
+[node name="SchedulerHook" type="Node" parent="."]
+script = ExtResource("6_ehmij")
+
+[node name="Hit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_e6k27")
+script = ExtResource("9_get8u")
+
+[node name="Eat" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_0c5bm")
+script = ExtResource("9_get8u")
+
+[node name="PowerUp" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_hy3no")
+script = ExtResource("9_get8u")
+
+[connection signal="updated" from="DebugCanvas/StateHook" to="DebugCanvas" method="_on_state_hook_updated"]
 [connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]

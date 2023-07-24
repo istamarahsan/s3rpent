@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://daic7uqk7s8hb"]
+
+[ext_resource type="TileSet" uid="uid://ch2emyu4h73qt" path="res://world/world_tileset.tres" id="1_20yie"]
+[ext_resource type="Script" path="res://world/background_checkerboard.gd" id="1_uep2h"]
+
+[node name="Bg" type="Node2D"]
+script = ExtResource("1_uep2h")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("1_20yie")
+format = 2
