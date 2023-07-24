@@ -1,0 +1,102 @@
+[gd_scene load_steps=4 format=3 uid="uid://bm5mstefu26au"]
+
+[ext_resource type="Script" path="res://options.gd" id="1_k4wnr"]
+[ext_resource type="FontFile" uid="uid://bp8je8liwpxim" path="res://energear-font/Energear-RqvV.ttf" id="1_vook6"]
+[ext_resource type="FontFile" uid="uid://dcrt5pq527yy2" path="res://drexs-font/Drexs-51Pp8.otf" id="2_jtlqh"]
+
+[node name="options" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_k4wnr")
+
+[node name="BackgroundColor" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.141176, 0, 0.345098, 1)
+
+[node name="Container" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -252.0
+offset_right = 252.0
+offset_bottom = 104.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Container"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("1_vook6")
+theme_override_font_sizes/font_size = 100
+text = "Options"
+
+[node name="Container2" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.259
+anchor_right = 0.5
+anchor_bottom = 0.259
+offset_left = -676.5
+offset_top = -0.220001
+offset_right = 676.5
+offset_bottom = 520.78
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="ResSize" type="VBoxContainer" parent="Container2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Container2/ResSize"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("2_jtlqh")
+theme_override_font_sizes/font_size = 80
+text = "Resolution"
+
+[node name="OptionButton" type="OptionButton" parent="Container2/ResSize"]
+layout_mode = 2
+
+[node name="BGAvol" type="VBoxContainer" parent="Container2"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Container2/BGAvol"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("2_jtlqh")
+theme_override_font_sizes/font_size = 80
+text = "BGA Volume"
+
+[node name="HSlider" type="HSlider" parent="Container2/BGAvol"]
+layout_mode = 2
+value = 100.0
+
+[node name="SFXvol" type="VBoxContainer" parent="Container2"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="Container2/SFXvol"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("2_jtlqh")
+theme_override_font_sizes/font_size = 80
+text = "SFX Volume"
+
+[node name="HSlider" type="HSlider" parent="Container2/SFXvol"]
+layout_mode = 2
+value = 100.0
+
+[connection signal="item_selected" from="Container2/ResSize/OptionButton" to="." method="_on_option_button_item_selected"]
