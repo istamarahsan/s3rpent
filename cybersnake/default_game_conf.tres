@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="GameConfig" load_steps=2 format=3 uid="uid://ghli43cetrrd"]
+
+[ext_resource type="Script" path="res://cybersnake/game_config.gd" id="1_syv3p"]
+
+[resource]
+script = ExtResource("1_syv3p")
+initial_world_span = 20
+food_rarity = 0.3
+powerups_rarity = 0.0
+powerups_cap = 3
+food_cap = 100
+snake_mode_interval = 20
+max_lives = 3
+conversion_duration = 20
+initial_length = 4

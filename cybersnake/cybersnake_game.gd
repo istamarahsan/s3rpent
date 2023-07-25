@@ -21,7 +21,46 @@ enum PowerupType {
 const FOOD_MIN_SPAWN_RANGE = sqrt(2.0)
 
 func _ready():
-	_initialize()
+	reset()
+
+func reset():
+	is_game_over                   = false
+	lives_left                     = config.max_lives
+	ticks_to_snake_mode_transition = config.snake_mode_interval
+	snake_state                    = SnakePositionState.new()
+	snake_heading                  = Vector2i.RIGHT
+	food_states                    = []
+	powerup_states                 = []
+	points                         = 0
+	active_point_multiplier        = 1
+	conversion_time_remaining      = 0
+	max_lives                      = config.max_lives
+	world_span                     = config.initial_world_span
+	snake_state.head               = Vector2i.ZERO
+	for i in range(config.initial_length):
+		snake_state.tail.push_back((snake_state.head if i == 0 else snake_state.tail.back()) + Vector2i.LEFT)
+	for i in range(config.food_cap):
+		var food_state = FoodState.new()
+		food_state.position = Vector2i.ZERO
+		food_state.is_eaten = false
+		food_state.polarity = _random_polarity()
+		food_states.push_back(food_state)
+	var food_positions = _random_food_positions(config.food_cap)
+	for i in range(food_positions.size()):
+		food_states[i].position = food_positions[i]
+		
+	var availables = _position_space().filter(
+			func(pos): 
+				return pos not in food_states.map(
+					func(state): state.position
+					) and pos != snake_state.head and pos not in snake_state.tail
+				)
+	for i in range(config.powerups_cap):
+		var powerup_state = PowerupState.new()
+		powerup_state.position = availables.pop_at(randi_range(0, availables.size()-1))
+		powerup_state.type = _random_powerup()
+		powerup_state.is_eaten = false
+		powerup_states.append(powerup_state)
 
 func action_turn(action: TurnDirection):
 	
@@ -52,7 +91,6 @@ func process_timestep():
 			snake_state.tail[i_segment] = previous_segment_position
 			previous_segment_position = segment_position
 		flags.append("moved")
-			
 	for food_state in food_states:
 		if food_state.is_eaten:
 			food_state.position = _random_food_position()
@@ -84,10 +122,10 @@ func process_timestep():
 			match powerup_state.type:
 				PowerupType.ExtraLife:
 					flags.append("powerup:extra_life")
-					lives_left = mini(lives_left + 1, max_lives)
+					lives_left = mini(lives_left + 1, config.max_lives)
 				PowerupType.Conversion:
 					flags.append("powerup:conversion")
-					conversion_time_remaining = conversion_duration
+					conversion_time_remaining = config.conversion_duration
 					for food_state in food_states:
 						food_state.polarity = Polarity.Coin
 	
@@ -111,46 +149,10 @@ func process_timestep():
 	ticks_to_snake_mode_transition -= 1
 	if ticks_to_snake_mode_transition <= 0:
 		snake_mode = _next_snake_mode(snake_mode)
-		ticks_to_snake_mode_transition = snake_mode_interval
+		ticks_to_snake_mode_transition = config.snake_mode_interval
 
 	if lives_left <= 0:
 		is_game_over = true
-
-func _initialize():
-	is_game_over                   = false
-	lives_left                     = max_lives
-	ticks_to_snake_mode_transition = snake_mode_interval
-	snake_state                    = SnakePositionState.new()
-	snake_heading                  = Vector2i.RIGHT
-	food_states                    = []
-	powerup_states                 = []
-	points                         = 0
-	active_point_multiplier        = 1
-	snake_state.head               = Vector2i.ZERO
-	for i in range(initial_length):
-		snake_state.tail.push_back((snake_state.head if i == 0 else snake_state.tail.back()) + Vector2i.LEFT)
-	for i in range(max_foods):
-		var food_state = FoodState.new()
-		food_state.position = Vector2i.ZERO
-		food_state.is_eaten = false
-		food_state.polarity = _random_polarity()
-		food_states.push_back(food_state)
-	var food_positions = _random_food_positions(max_foods)
-	for i in range(food_positions.size()):
-		food_states[i].position = food_positions[i]
-		
-	var availables = _position_space().filter(
-			func(pos): 
-				return pos not in food_states.map(
-					func(state): state.position
-					) and pos != snake_state.head and pos not in snake_state.tail
-				)
-	for i in range(max_powerups):
-		var powerup_state = PowerupState.new()
-		powerup_state.position = availables.pop_at(randi_range(0, availables.size()-1))
-		powerup_state.type = _random_powerup()
-		powerup_state.is_eaten = false
-		powerup_states.append(powerup_state)
 
 func _parse_rotate(vector: Vector2i, rotate_direction: TurnDirection) -> Vector2i:
 	return Vector2i(vector.y, vector.x * -1) if rotate_direction == TurnDirection.Left else Vector2i(vector.y * -1, vector.x)

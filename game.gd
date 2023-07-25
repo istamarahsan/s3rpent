@@ -21,17 +21,15 @@ var input_lookup = {
 
 signal quit_to_main_menu
 
-@export var inner_game_scene: PackedScene
-
 @onready var presentation: Presentation = $Presentation as Presentation
+@onready var inner_game: CybersnakeGame = $CybersnakeGame as CybersnakeGame
 
-var inner_game: CybersnakeGame
 var state_hooks: Array[StateHook] = []
 var scheduler_hooks: Array[SchedulerHook] = []
 var is_action_cooldown: bool = false
 
 func _ready():
-	_recreate_game()
+	_connect_hooks(inner_game)
 
 func _input(event):
 	if event.is_action_pressed("ui_accept"):
@@ -41,11 +39,7 @@ func _input(event):
 			$Timer.stop() 
 
 func _recreate_game():
-	if inner_game != null:
-		inner_game.queue_free()
-	inner_game = inner_game_scene.instantiate() as CybersnakeGame
-	add_child(inner_game)
-	_connect_hooks(inner_game)
+	inner_game.reset()
 
 func _connect_hooks(game: CybersnakeGame):
 	state_hooks.clear()
