@@ -33,9 +33,12 @@ func _on_state_hook_updated():
 	_animate_movement()
 	_set_segment_types()
 	
-	if "hit" in state_hook.handle.flags:
+	if state_hook.handle.flags.any(func(flag): return flag.begins_with("hit")):
 		_animate_hit()
-		$Hit.play()
+		if "hit:wall" in state_hook.handle.flags:
+			$WallHit.play()
+		else:
+			$Hit.play()
 		
 	if "ate" in state_hook.handle.flags:
 		$Eat.play()
@@ -47,6 +50,12 @@ func _on_state_hook_updated():
 		$DebugCanvas.visible = true
 	else:
 		$DebugCanvas.visible = false
+	
+	if "transition" in state_hook.handle.flags:
+		$Transition.play()
+		
+	if "moved" in state_hook.handle.flags and state_hook.handle.ticks_to_snake_mode_transition < 5:
+		$Countdown.play()
 
 func _add_missing_segments():
 	var num_missing_segments = max(0, state_hook.handle.snake_state.tail.size() - active_segments.size())

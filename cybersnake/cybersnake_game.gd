@@ -83,7 +83,7 @@ func process_timestep():
 	var would_collide_with_self: bool = snake_state.tail.any(func(segment_position): return segment_position == new_head_position)
 	if would_go_out_of_bounds or would_collide_with_self:
 		lives_left -= 1
-		flags.append("hit")
+		flags.append("hit:wall")
 	else:
 		snake_state.head = new_head_position
 		for i_segment in range(snake_state.tail.size()):
@@ -150,6 +150,7 @@ func process_timestep():
 	if ticks_to_snake_mode_transition <= 0:
 		snake_mode = _next_snake_mode(snake_mode)
 		ticks_to_snake_mode_transition = config.snake_mode_interval
+		flags.append("transition")
 
 	if lives_left <= 0:
 		is_game_over = true
