@@ -14,8 +14,8 @@ enum UpperState {
 var state: UpperState = UpperState.MainMenu
 
 func _ready():
-	await splash_screen.do_splash()
-	splash_screen.queue_free()
+#	await splash_screen.do_splash()
+#	splash_screen.queue_free()
 	_create_main_menu()
 
 func _create_main_menu():
