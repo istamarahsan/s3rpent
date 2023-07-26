@@ -23,9 +23,11 @@ func _on_state_hook_updated():
 	if active_segments.size() < state_hook.handle.snake_state.tail.size():
 		_add_missing_segments()
 		_set_segment_types()
+		_set_segment_polarities()
 	elif active_segments.size() > state_hook.handle.snake_state.tail.size():
 		_remove_extra_segments()
 		_set_segment_types()
+		_set_segment_polarities()
 		
 	if "moved" in state_hook.handle.flags:
 		snake_head.rotation = _rotation_for_heading(state_hook.handle.snake_heading)
@@ -53,6 +55,7 @@ func _on_state_hook_updated():
 	
 	if "transition" in state_hook.handle.flags:
 		$Transition.play()
+		_set_segment_polarities()
 		
 	if "moved" in state_hook.handle.flags and state_hook.handle.ticks_to_snake_mode_transition < 5:
 		$Countdown.play()
@@ -76,6 +79,11 @@ func _remove_extra_segments():
 		var segment: SnakeSegment = active_segments.pop_back()
 		segment.queue_free()
 
+func _set_segment_polarities():
+	snake_head.set_polarity(state_hook.handle.snake_mode)
+	for segment in active_segments:
+		segment.set_polarity(state_hook.handle.snake_mode)
+
 func _set_segment_types():
 	if active_segments.size() == 0:
 		return
@@ -98,10 +106,10 @@ func _animate_movement():
 		move_tween.kill()
 	var time_to_next_tick: float = scheduler_hook.time_to_next_tick()
 	move_tween = create_tween().set_parallel().set_ease(Tween.EASE_IN_OUT)
-	move_tween.tween_property(snake_head, "position", Vector2(state_hook.handle.snake_state.head * tile_size), time_to_next_tick/1.5)
+	move_tween.tween_property(snake_head, "position", Vector2(state_hook.handle.snake_state.head * tile_size), 0)
 	for i in range(state_hook.handle.snake_state.tail.size()):
 		active_segments[i].visible = true
-		move_tween.tween_property(active_segments[i], "position", Vector2(state_hook.handle.snake_state.tail[i] * tile_size), time_to_next_tick/1.5)
+		move_tween.tween_property(active_segments[i], "position", Vector2(state_hook.handle.snake_state.tail[i] * tile_size), 0)
 		if i == 0:
 			active_segments[i].rotation = _rotation_for_heading((state_hook.handle.snake_state.head - state_hook.handle.snake_state.tail[i]).sign())
 		else:
@@ -112,6 +120,9 @@ func _animate_hit():
 	snake_head.flash_hit()
 	for segment in active_segments:
 		segment.flash_hit()
+
+func _animate_transition():
+	pass
 
 func _rotation_for_heading(heading: Vector2i) -> float:
 	match heading:

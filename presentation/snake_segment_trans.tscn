@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://lbn1i850k345"]
+
+[ext_resource type="Script" path="res://presentation/snake_segment_trans.gd" id="1_6fdbu"]
+[ext_resource type="Resource" uid="uid://dxgiplhlryaqw" path="res://presentation/snake/plastic.tres" id="2_0s8o6"]
+[ext_resource type="Resource" uid="uid://bdnjgq7c4o4yb" path="res://presentation/snake/glass.tres" id="3_ckgfs"]
+[ext_resource type="Shader" path="res://presentation/snake_segment_basic.gdshader" id="4_ft7i2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8nypo"]
+shader = ExtResource("4_ft7i2")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/degree = null
+
+[node name="SnakeSegment" type="Node2D"]
+script = ExtResource("1_6fdbu")
+plastic_set = ExtResource("2_0s8o6")
+glass_set = ExtResource("3_ckgfs")
+organic_set = ExtResource("2_0s8o6")
+flash_times = 2
+flash_color = Color(0.941176, 0, 0, 0.270588)
+
+[node name="Sprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_8nypo")
+rotation = -1.5708
+
+[node name="FlashTimer" type="Timer" parent="."]

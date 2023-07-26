@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://presentation/presentation.gd" id="1_chn3l"]
 [ext_resource type="Script" path="res://presentation/components/board_canvas/board_canvas.gd" id="2_ckhpm"]
-[ext_resource type="PackedScene" uid="uid://uuayuxs0asq3" path="res://presentation/snake_segment_basic.tscn" id="2_h5g20"]
+[ext_resource type="PackedScene" uid="uid://lbn1i850k345" path="res://presentation/snake_segment_trans.tscn" id="2_oq5iq"]
 [ext_resource type="FontFile" uid="uid://bck4vn8cx20wc" path="res://assets/fonts/Sagu Exora.ttf" id="4_qfap0"]
 [ext_resource type="Script" path="res://hooks/state_hook.gd" id="4_xf8xl"]
 [ext_resource type="Script" path="res://hooks/scheduler_hook.gd" id="6_ehmij"]
@@ -21,7 +21,7 @@ frequency = 0.5
 [node name="Presentation" type="Node2D"]
 script = ExtResource("1_chn3l")
 tile_size = 128
-snake_segment_scene = ExtResource("2_h5g20")
+snake_segment_scene = ExtResource("2_oq5iq")
 
 [node name="World" parent="." instance=ExtResource("7_sxa72")]
 position = Vector2(-64, -64)

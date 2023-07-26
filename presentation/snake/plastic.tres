@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="SnakeTheme" load_steps=7 format=3 uid="uid://dxgiplhlryaqw"]
+
+[ext_resource type="Script" path="res://presentation/snake/snake_theme.gd" id="1_56bsr"]
+[ext_resource type="Texture2D" uid="uid://c2l4ahne7htob" path="res://assets/snake/plastic snake tileset.png" id="1_qq4jo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ienb7"]
+atlas = ExtResource("1_qq4jo")
+region = Rect2(0, 1, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrmwm"]
+atlas = ExtResource("1_qq4jo")
+region = Rect2(128, 1, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oe7ab"]
+atlas = ExtResource("1_qq4jo")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tc10p"]
+atlas = ExtResource("1_qq4jo")
+region = Rect2(128, 129, 128, 128)
+
+[resource]
+script = ExtResource("1_56bsr")
+head = SubResource("AtlasTexture_oe7ab")
+corner_left = SubResource("AtlasTexture_mrmwm")
+body = SubResource("AtlasTexture_ienb7")
+tail = SubResource("AtlasTexture_tc10p")
