@@ -26,16 +26,33 @@ func _on_state_hook_updated():
 			continue
 		_set_cell_food(food.position, food.polarity)
 
+func _match_polarity_terrain(polarity: CybersnakeGame.Polarity) -> int:
+	match polarity:
+		CybersnakeGame.Polarity.Organic:
+			return 0
+		CybersnakeGame.Polarity.Paper:
+			return 1
+		CybersnakeGame.Polarity.Plastic:
+			return 2
+		_:
+			return 0
+
+var alt_memo: Dictionary = {}
+
 func _set_cell_food(cell_position: Vector2i, polarity: CybersnakeGame.Polarity):
-	var source_id: int = 1
+	if cell_position not in alt_memo:
+		alt_memo[cell_position] = randi() % 2 == 0
+	
+	var alt: bool = alt_memo[cell_position]
+	var source_id: int = 4
 	var atlas_coordinate: Vector2i
 	match polarity:
 		CybersnakeGame.Polarity.Organic:
-			atlas_coordinate = Vector2i(2, 0)
+			atlas_coordinate = Vector2i(2, 0) if alt else Vector2i(0, 1)
 		CybersnakeGame.Polarity.Paper:
-			atlas_coordinate = Vector2i(0, 0)
+			atlas_coordinate = Vector2i(1, 0) if alt else Vector2i(0, 0)
 		CybersnakeGame.Polarity.Plastic:
-			atlas_coordinate = Vector2i(3, 0)
+			atlas_coordinate = Vector2i(1, 1)
 		_:
 			return
 	tilemap.set_cell(1, cell_position, source_id, atlas_coordinate)

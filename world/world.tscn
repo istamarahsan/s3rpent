@@ -27,7 +27,7 @@ layer_1/enabled = true
 layer_1/modulate = Color(1, 1, 1, 1)
 layer_1/y_sort_enabled = false
 layer_1/y_sort_origin = 0
-layer_1/z_index = 0
+layer_1/z_index = 1
 layer_1/tile_data = PackedInt32Array()
 
 [connection signal="initialized" from="StateHook" to="." method="_on_state_hook_initialized"]
