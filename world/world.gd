@@ -25,6 +25,10 @@ func _on_state_hook_updated():
 		if food.is_eaten:
 			continue
 		_set_cell_food(food.position, food.polarity)
+	for powerup in state_hook.handle.powerup_states:
+		if powerup.is_eaten:
+			continue
+		_set_cell_powerup(powerup.position, powerup.type)
 
 var alt_memo: Dictionary = {}
 
@@ -45,3 +49,13 @@ func _set_cell_food(cell_position: Vector2i, polarity: CybersnakeGame.Polarity):
 		_:
 			return
 	tilemap.set_cell(1, cell_position, source_id, atlas_coordinate)
+
+func _set_cell_powerup(cell_position: Vector2i, type: CybersnakeGame.PowerupType):
+	match type:
+		CybersnakeGame.PowerupType.Conversion:
+			tilemap.set_cell(1, cell_position, 6, Vector2i.ZERO, 1)
+		CybersnakeGame.PowerupType.ExtraLife:
+			tilemap.set_cell(1, cell_position, 5, Vector2i(0, 0))
+		_:
+			return
+	

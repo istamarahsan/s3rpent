@@ -29,6 +29,13 @@ layer_1/y_sort_enabled = false
 layer_1/y_sort_origin = 0
 layer_1/z_index = 1
 layer_1/tile_data = PackedInt32Array()
+layer_2/name = "debug"
+layer_2/enabled = true
+layer_2/modulate = Color(1, 1, 1, 1)
+layer_2/y_sort_enabled = false
+layer_2/y_sort_origin = 0
+layer_2/z_index = 2
+layer_2/tile_data = PackedInt32Array()
 
 [connection signal="initialized" from="StateHook" to="." method="_on_state_hook_initialized"]
 [connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]

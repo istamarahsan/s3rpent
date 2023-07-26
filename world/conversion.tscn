@@ -1,0 +1,15 @@
+[gd_scene load_steps=5 format=3 uid="uid://hthl1tuq3la0"]
+
+[ext_resource type="Shader" path="res://world/conversion.gdshader" id="1_4nrt5"]
+[ext_resource type="Texture2D" uid="uid://dwwqv3nkr4hq1" path="res://assets/world/powerups-spritesheet.png" id="1_x21qp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r82ui"]
+shader = ExtResource("1_4nrt5")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0vm0"]
+atlas = ExtResource("1_x21qp")
+region = Rect2(128, 0, 128, 128)
+
+[node name="Conversion" type="Sprite2D"]
+material = SubResource("ShaderMaterial_r82ui")
+texture = SubResource("AtlasTexture_x0vm0")
