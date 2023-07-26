@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1cidvt2cnx1a"]
+
+[ext_resource type="Script" path="res://world/worldgen/worldgen.gd" id="1_6ernh"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ffoig"]
+noise_type = 0
+seed = 42
+frequency = 0.6
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_cqki1"]
+frequency = 0.5
+
+[node name="Worldgen" type="Node"]
+script = ExtResource("1_6ernh")
+noise_source = SubResource("FastNoiseLite_ffoig")
+dirty_noise_source = SubResource("FastNoiseLite_cqki1")
+ceramic_threshold = -0.6
+frequency = 0.6

@@ -7,38 +7,24 @@ extends Node2D
 @onready var state_hook: StateHook = $StateHook as StateHook
 
 func _on_state_hook_initialized():
-	_create_world(Vector2i(-state_hook.handle.world_span, -state_hook.handle.world_span), Vector2i(state_hook.handle.world_span, state_hook.handle.world_span))
+	$Worldgen.regenerate(state_hook.handle.world_span)
+	tilemap.set_cells_terrain_connect(0, VecExtensions.position_space(-Vector2i.ONE * state_hook.handle.world_span, Vector2i.ONE * state_hook.handle.world_span), 0, 0, false)
+	for ceramic_rect in $Worldgen.ceramic_rects():
+		var tiles = VecExtensions.position_space(ceramic_rect.position, ceramic_rect.end)
+		tilemap.set_cells_terrain_connect(0, tiles, 0, 1, false)
+	for dirty_spot in $Worldgen.dirty_spots():
+		tilemap.set_cells_terrain_connect(0, dirty_spot, 0, 2, false)
+	for ceramic_single in $Worldgen.ceramic_singles():
+		tilemap.set_cells_terrain_path(0, [ceramic_single], 0, 1, false)
+	var border_space: Array[Vector2i] = VecExtensions.perimeter(Vector2i.ONE * -state_hook.handle.world_span - Vector2i.ONE, Vector2i.ONE * state_hook.handle.world_span + Vector2i.ONE)
+	tilemap.set_cells_terrain_connect(0, border_space, 0, 3, false)
 
 func _on_state_hook_updated():
 	tilemap.clear_layer(1)
 	for food in state_hook.handle.food_states:
 		if food.is_eaten:
 			continue
-		_set_cell_food(food.position - Vector2i.ONE, food.polarity)
-
-func _create_world(from: Vector2i, to: Vector2i):
-	var space = VecExtensions.position_space(from-Vector2i.ONE, to-Vector2i.ONE)
-	tilemap.set_cells_terrain_connect(0, space, 0, 1, false)
-	
-	var taken_spots: Dictionary = {}
-	for pos in space:
-		if taken_spots.has(pos):
-			continue
-		var scatter_val = scatter_noise.get_noise_2dv(pos)
-		if scatter_val >= clampf(lerpf(-1, 1, scatter_frequency), -1, 1):
-			continue
-		var single = randi_range(0, 2) != 0
-		if single:
-			var takens = VecExtensions.position_space(pos - Vector2i.ONE, pos + Vector2i.ONE)
-			for taken in takens:
-				taken_spots[taken] = true
-			tilemap.set_cell(0, pos, 2, Vector2i(2, 0))
-		elif pos.x < to.x-1 and pos.y < to.y-1:
-			var takens = VecExtensions.position_space(pos - Vector2i.ONE, pos + Vector2i.ONE)
-			for taken in takens:
-				taken_spots[taken] = true
-			tilemap.set_pattern(0, pos, tilemap.tile_set.get_pattern(1))
-		
+		_set_cell_food(food.position, food.polarity)
 
 func _set_cell_food(cell_position: Vector2i, polarity: CybersnakeGame.Polarity):
 	var source_id: int = 1

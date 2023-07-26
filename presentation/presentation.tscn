@@ -24,7 +24,7 @@ tile_size = 128
 snake_segment_scene = ExtResource("2_h5g20")
 
 [node name="World" parent="." instance=ExtResource("7_sxa72")]
-position = Vector2(64, 64)
+position = Vector2(-64, -64)
 scatter_noise = SubResource("FastNoiseLite_4dgey")
 scatter_frequency = 0.3
 

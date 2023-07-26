@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://irjrthrlapp7"]
+[gd_scene load_steps=6 format=3 uid="uid://irjrthrlapp7"]
 
 [ext_resource type="Script" path="res://hooks/state_hook.gd" id="1_k50ys"]
 [ext_resource type="Script" path="res://world/world.gd" id="1_pvxfe"]
 [ext_resource type="TileSet" uid="uid://ch2emyu4h73qt" path="res://world/world_tileset.tres" id="3_anjuj"]
+[ext_resource type="PackedScene" uid="uid://c1cidvt2cnx1a" path="res://world/worldgen/worldgen.tscn" id="4_kb0g1"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_eapv2"]
 frequency = 0.5
@@ -14,6 +15,8 @@ scatter_frequency = 0.35
 
 [node name="StateHook" type="Node" parent="."]
 script = ExtResource("1_k50ys")
+
+[node name="Worldgen" parent="." instance=ExtResource("4_kb0g1")]
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("3_anjuj")
