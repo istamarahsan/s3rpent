@@ -26,17 +26,6 @@ func _on_state_hook_updated():
 			continue
 		_set_cell_food(food.position, food.polarity)
 
-func _match_polarity_terrain(polarity: CybersnakeGame.Polarity) -> int:
-	match polarity:
-		CybersnakeGame.Polarity.Organic:
-			return 0
-		CybersnakeGame.Polarity.Paper:
-			return 1
-		CybersnakeGame.Polarity.Plastic:
-			return 2
-		_:
-			return 0
-
 var alt_memo: Dictionary = {}
 
 func _set_cell_food(cell_position: Vector2i, polarity: CybersnakeGame.Polarity):
