@@ -9,14 +9,21 @@ enum InputDirection {
 }
 
 var input_lookup = {
-	[InputDirection.Left, Vector2i.UP] : CybersnakeGame.TurnDirection.Left,
-	[InputDirection.Right, Vector2i.UP] : CybersnakeGame.TurnDirection.Right,
-	[InputDirection.Left, Vector2i.DOWN] : CybersnakeGame.TurnDirection.Right,
-	[InputDirection.Right, Vector2i.DOWN] : CybersnakeGame.TurnDirection.Left,
-	[InputDirection.Up, Vector2i.RIGHT] : CybersnakeGame.TurnDirection.Left,
-	[InputDirection.Down, Vector2i.RIGHT] : CybersnakeGame.TurnDirection.Right,
-	[InputDirection.Up, Vector2i.LEFT] : CybersnakeGame.TurnDirection.Right,
-	[InputDirection.Down, Vector2i.LEFT] : CybersnakeGame.TurnDirection.Left
+	[InputDirection.Left , Vector2i.UP   ] : CybersnakeGame.TurnDirection.Left,
+	[InputDirection.Right, Vector2i.UP   ] : CybersnakeGame.TurnDirection.Right,
+	[InputDirection.Left , Vector2i.DOWN ] : CybersnakeGame.TurnDirection.Right,
+	[InputDirection.Right, Vector2i.DOWN ] : CybersnakeGame.TurnDirection.Left,
+	[InputDirection.Up   , Vector2i.RIGHT] : CybersnakeGame.TurnDirection.Left,
+	[InputDirection.Down , Vector2i.RIGHT] : CybersnakeGame.TurnDirection.Right,
+	[InputDirection.Up   , Vector2i.LEFT ] : CybersnakeGame.TurnDirection.Right,
+	[InputDirection.Down , Vector2i.LEFT ] : CybersnakeGame.TurnDirection.Left
+}
+
+var parallel_lookup = {
+	[InputDirection.Up ,  Vector2i.UP   ] : true,
+	[InputDirection.Down, Vector2i.DOWN] : true,
+	[InputDirection.Right, Vector2i.RIGHT] : true,
+	[InputDirection.Left, Vector2i.LEFT] : true
 }
 
 signal quit_to_main_menu
@@ -58,12 +65,13 @@ func _connect_hooks(game: CybersnakeGame):
 		hook.updated.emit()
 
 func _handle_direction_input(dir: InputDirection):
-	if is_action_cooldown:
-		return
 	var translated = input_lookup.get([dir, inner_game.snake_heading], null)
 	if translated != null and translated is CybersnakeGame.TurnDirection:
 		is_action_cooldown = true
 		inner_game.action_turn(translated)
+		_propagate_hook_signal()
+	elif [dir, inner_game.snake_heading] in parallel_lookup:
+		inner_game.process_timestep()
 		_propagate_hook_signal()
 
 func _propagate_hook_signal():
@@ -92,3 +100,7 @@ func _on_turn_input_down_pressed():
 
 func _on_demo_ui_quit_to_main_menu():
 	quit_to_main_menu.emit()
+
+func _on_state_hook_updated():
+	if "moved" in $StateHook.handle.flags:
+		$Timer.start()

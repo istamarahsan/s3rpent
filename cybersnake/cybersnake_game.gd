@@ -63,19 +63,27 @@ func reset():
 		powerup_states.append(powerup_state)
 
 func action_turn(action: TurnDirection):
-	
 	flags = []
 	
 	if is_game_over:
 		return
-	snake_heading = _parse_rotate(snake_heading, action)
+	
+	var new_heading = _parse_rotate(snake_heading, action)
+	var new_head_position: Vector2i = snake_state.head + new_heading
+	var would_go_out_of_bounds: bool = new_head_position.abs().x > world_span or new_head_position.abs().y > world_span
+	var would_collide_with_self: bool = snake_state.tail.any(func(segment_position): return segment_position == new_head_position)
+	if would_go_out_of_bounds or would_collide_with_self:
+		return
+	snake_heading = new_heading
+	process_timestep()
 
 func process_timestep():
-	
 	flags = []
 	
 	if is_game_over:
 		return
+		
+	flags.append("timestep")
 	
 	var previous_segment_position: Vector2i = snake_state.head
 	var new_head_position: Vector2i = snake_state.head + snake_heading
