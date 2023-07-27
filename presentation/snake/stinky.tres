@@ -1,6 +1,16 @@
-[gd_resource type="Resource" script_class="SnakeTheme" load_steps=2 format=3 uid="uid://b3kvx0hxjqior"]
+[gd_resource type="Resource" script_class="SnakeTheme" load_steps=7 format=3 uid="uid://b3kvx0hxjqior"]
 
 [ext_resource type="Script" path="res://presentation/snake/snake_theme.gd" id="1_6shqg"]
+[ext_resource type="Texture2D" uid="uid://d007h1a6wo21y" path="res://assets/snake/organic snake/body.png" id="1_igi41"]
+[ext_resource type="Texture2D" uid="uid://bh7nwwvr6go6x" path="res://assets/snake/organic snake/corner left.png" id="2_wwuvp"]
+[ext_resource type="Texture2D" uid="uid://bfao6bwbqvuw8" path="res://assets/snake/organic snake/corner right.png" id="3_c4tx4"]
+[ext_resource type="Texture2D" uid="uid://dwx5cnnq6hs68" path="res://assets/snake/organic snake/head.png" id="4_kfgb0"]
+[ext_resource type="Texture2D" uid="uid://jclla2oh7xu6" path="res://assets/snake/organic snake/tail.png" id="6_vw2tj"]
 
 [resource]
 script = ExtResource("1_6shqg")
+head = ExtResource("4_kfgb0")
+corner_left = ExtResource("2_wwuvp")
+corner_right = ExtResource("3_c4tx4")
+body = ExtResource("1_igi41")
+tail = ExtResource("6_vw2tj")

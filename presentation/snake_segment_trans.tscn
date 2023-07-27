@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://lbn1i850k345"]
+[gd_scene load_steps=7 format=3 uid="uid://lbn1i850k345"]
 
 [ext_resource type="Script" path="res://presentation/snake_segment_trans.gd" id="1_6fdbu"]
 [ext_resource type="Resource" uid="uid://dxgiplhlryaqw" path="res://presentation/snake/plastic.tres" id="2_0s8o6"]
 [ext_resource type="Resource" uid="uid://bdnjgq7c4o4yb" path="res://presentation/snake/glass.tres" id="3_ckgfs"]
+[ext_resource type="Resource" uid="uid://b3kvx0hxjqior" path="res://presentation/snake/stinky.tres" id="4_caytu"]
 [ext_resource type="Shader" path="res://presentation/snake_segment_basic.gdshader" id="4_ft7i2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8nypo"]
@@ -14,7 +15,7 @@ shader_parameter/degree = null
 script = ExtResource("1_6fdbu")
 plastic_set = ExtResource("2_0s8o6")
 glass_set = ExtResource("3_ckgfs")
-organic_set = ExtResource("2_0s8o6")
+organic_set = ExtResource("4_caytu")
 flash_times = 2
 flash_color = Color(0.941176, 0, 0, 0.270588)
 

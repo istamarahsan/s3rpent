@@ -36,15 +36,13 @@ func flash_hit():
 func _update_texture():
 	var theme = _match_polarity()
 	var texture: Texture2D
-	$Sprite.flip_h = false
 	match type:
 		SegmentType.Head:
 			texture = theme.head
 		SegmentType.Body:
 			texture = theme.body
 		SegmentType.CornerRight:
-			texture = theme.corner_left
-			$Sprite.flip_h = true
+			texture = theme.corner_right
 		SegmentType.CornerLeft:
 			texture = theme.corner_left
 		SegmentType.Tail:

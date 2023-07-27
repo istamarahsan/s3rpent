@@ -1,27 +1,32 @@
-[gd_resource type="Resource" script_class="SnakeTheme" load_steps=7 format=3 uid="uid://bdnjgq7c4o4yb"]
+[gd_resource type="Resource" script_class="SnakeTheme" load_steps=8 format=3 uid="uid://bdnjgq7c4o4yb"]
 
 [ext_resource type="Texture2D" uid="uid://cr1j43rpb7k0c" path="res://assets/snake/glass snake tileset.png" id="1_5kmuc"]
 [ext_resource type="Script" path="res://presentation/snake/snake_theme.gd" id="2_aapaq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i3qjc"]
 atlas = ExtResource("1_5kmuc")
-region = Rect2(128, 0, 128, 128)
+region = Rect2(256, 384, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3cbgk"]
 atlas = ExtResource("1_5kmuc")
-region = Rect2(0, 128, 128, 128)
+region = Rect2(128, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_imevh"]
+atlas = ExtResource("1_5kmuc")
+region = Rect2(256, 256, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5m6uo"]
 atlas = ExtResource("1_5kmuc")
-region = Rect2(128, 128, 128, 128)
+region = Rect2(384, 384, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pw8bc"]
 atlas = ExtResource("1_5kmuc")
-region = Rect2(0, 0, 128, 128)
+region = Rect2(128, 0, 128, 128)
 
 [resource]
 script = ExtResource("2_aapaq")
 head = SubResource("AtlasTexture_5m6uo")
 corner_left = SubResource("AtlasTexture_3cbgk")
+corner_right = SubResource("AtlasTexture_imevh")
 body = SubResource("AtlasTexture_i3qjc")
 tail = SubResource("AtlasTexture_pw8bc")
