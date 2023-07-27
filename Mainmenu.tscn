@@ -1,0 +1,70 @@
+[gd_scene load_steps=5 format=3 uid="uid://db8ldjtfob3w2"]
+
+[ext_resource type="FontFile" uid="uid://bp8je8liwpxim" path="res://energear-font/Energear-RqvV.ttf" id="1_mwnca"]
+[ext_resource type="Script" path="res://menuscript.gd" id="1_qsno5"]
+[ext_resource type="FontFile" uid="uid://cdb2t0umx5yck" path="res://drexs-font/Drexs-z8gB3.ttf" id="3_yxsl3"]
+[ext_resource type="FontFile" uid="uid://dcrt5pq527yy2" path="res://drexs-font/Drexs-51Pp8.otf" id="4_dqx88"]
+
+[node name="Mainmenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackgroundColor" type="ColorRect" parent="."]
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.141176, 0, 0.345098, 1)
+
+[node name="Title" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -211.5
+offset_top = -38.0
+offset_right = 211.5
+offset_bottom = 38.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 7
+
+[node name="Label" type="Label" parent="Title"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("1_mwnca")
+theme_override_font_sizes/font_size = 100
+text = "CyberSnake"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Title"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+script = ExtResource("1_qsno5")
+
+[node name="Start" type="Button" parent="Title/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_yxsl3")
+theme_override_font_sizes/font_size = 50
+text = "Start"
+
+[node name="Option" type="Button" parent="Title/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_dqx88")
+theme_override_font_sizes/font_size = 30
+text = "Option"
+
+[node name="Quit" type="Button" parent="Title/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_dqx88")
+theme_override_font_sizes/font_size = 30
+text = "Quit"
+
+[connection signal="pressed" from="Title/VBoxContainer/Start" to="Title/VBoxContainer" method="_on_start_pressed"]
+[connection signal="pressed" from="Title/VBoxContainer/Option" to="Title/VBoxContainer" method="_on_option_pressed"]
+[connection signal="pressed" from="Title/VBoxContainer/Quit" to="Title/VBoxContainer" method="_on_quit_pressed"]
