@@ -6,8 +6,11 @@ extends Node2D
 @onready var tilemap: TileMap = $TileMap as TileMap
 @onready var state_hook: StateHook = $StateHook as StateHook
 
+const outer_span: int = 20
+
 func _on_state_hook_initialized():
 	$Worldgen.regenerate(state_hook.handle.world_span)
+	tilemap.set_cells_terrain_connect(0, VecExtensions.position_space(-Vector2i.ONE * (state_hook.handle.world_span + outer_span), Vector2i.ONE * (state_hook.handle.world_span + outer_span)), 0, 3, false)
 	tilemap.set_cells_terrain_connect(0, VecExtensions.position_space(-Vector2i.ONE * state_hook.handle.world_span, Vector2i.ONE * state_hook.handle.world_span), 0, 0, false)
 	for ceramic_rect in $Worldgen.ceramic_rects():
 		var tiles = VecExtensions.position_space(ceramic_rect.position, ceramic_rect.end)
