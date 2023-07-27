@@ -125,7 +125,7 @@ func process_timestep():
 		snake_state.tail.push_back(next_segment_position)
 	
 	for powerup_state in powerup_states:
-		if snake_state.head == powerup_state.position:
+		if powerup_state.is_eaten == false and snake_state.head == powerup_state.position:
 			powerup_state.is_eaten = true
 			match powerup_state.type:
 				PowerupType.ExtraLife:
