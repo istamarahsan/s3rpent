@@ -148,6 +148,7 @@ func process_timestep():
 			powerup_state.position = availables.pop_at(randi_range(0, availables.size()-1))
 			powerup_state.type = _random_powerup()
 			powerup_state.is_eaten = false
+		flags.append("regenerate:powerup")
 	
 	conversion_time_remaining = max(0, conversion_time_remaining-1)
 	if conversion_time_remaining <= 0:

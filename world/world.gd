@@ -7,6 +7,9 @@ extends Node2D
 @onready var state_hook: StateHook = $StateHook as StateHook
 
 const outer_span: int = 20
+const conversion_scene: PackedScene = preload("res://world/conversion.tscn")
+
+var active_conversion_tiles: Array[Node2D] = []
 
 func _on_state_hook_initialized():
 	$Worldgen.regenerate(state_hook.handle.world_span)
@@ -21,6 +24,10 @@ func _on_state_hook_initialized():
 		tilemap.set_cells_terrain_path(0, [ceramic_single], 0, 1, false)
 	var border_space: Array[Vector2i] = VecExtensions.perimeter(Vector2i.ONE * -state_hook.handle.world_span - Vector2i.ONE, Vector2i.ONE * state_hook.handle.world_span + Vector2i.ONE)
 	tilemap.set_cells_terrain_connect(0, border_space, 0, 3, false)
+	for powerup in state_hook.handle.powerup_states:
+		if powerup.is_eaten:
+			continue
+		_set_cell_powerup(powerup.position, powerup.type)
 
 func _on_state_hook_updated():
 	tilemap.clear_layer(1)
@@ -29,15 +36,22 @@ func _on_state_hook_updated():
 			continue
 		_set_cell_food(food.position, food.polarity)
 	
-	if "powerup:conversion" in state_hook.handle.flags:
-		for child in tilemap.get_children():
-			child.queue_free()
-	tilemap.clear_layer(2)
-	
-	for powerup in state_hook.handle.powerup_states:
-		if powerup.is_eaten:
-			continue
-		_set_cell_powerup(powerup.position, powerup.type)
+	if state_hook.handle.flags.any(func(flag): return flag.begins_with("powerup")):
+		tilemap.clear_layer(2)
+		if "powerup:conversion" in state_hook.handle.flags:
+			for active_conversion_tile in active_conversion_tiles:
+				active_conversion_tile.queue_free()
+			active_conversion_tiles.clear()
+		for powerup in state_hook.handle.powerup_states:
+			if powerup.is_eaten:
+				continue
+			_set_cell_powerup(powerup.position, powerup.type)
+		
+	if "regenerate:powerup" in state_hook.handle.flags:
+		for powerup in state_hook.handle.powerup_states:
+			if powerup.is_eaten:
+				continue
+			_set_cell_powerup(powerup.position, powerup.type)
 
 var alt_memo: Dictionary = {}
 
@@ -62,8 +76,10 @@ func _set_cell_food(cell_position: Vector2i, polarity: CybersnakeGame.Polarity):
 func _set_cell_powerup(cell_position: Vector2i, type: CybersnakeGame.PowerupType):
 	match type:
 		CybersnakeGame.PowerupType.Conversion:
-			tilemap.set_cell(2, cell_position, 6, Vector2i.ZERO, 1)
-#			tilemap.set_cell(1, cell_position, 5, Vector2i(0, 0))
+			var tile = conversion_scene.instantiate() as Node2D
+			tilemap.add_child(tile)
+			tile.position = tilemap.map_to_local(cell_position)
+			active_conversion_tiles.push_back(tile)
 		CybersnakeGame.PowerupType.ExtraLife:
 			tilemap.set_cell(2, cell_position, 5, Vector2i(0, 0))
 		_:
