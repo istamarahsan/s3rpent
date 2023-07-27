@@ -29,7 +29,11 @@ func _on_state_hook_updated():
 			continue
 		_set_cell_food(food.position, food.polarity)
 	
+	if "powerup:conversion" in state_hook.handle.flags:
+		for child in tilemap.get_children():
+			child.queue_free()
 	tilemap.clear_layer(2)
+	
 	for powerup in state_hook.handle.powerup_states:
 		if powerup.is_eaten:
 			continue
@@ -58,7 +62,8 @@ func _set_cell_food(cell_position: Vector2i, polarity: CybersnakeGame.Polarity):
 func _set_cell_powerup(cell_position: Vector2i, type: CybersnakeGame.PowerupType):
 	match type:
 		CybersnakeGame.PowerupType.Conversion:
-			tilemap.set_cell(2, cell_position, 5, Vector2i(1, 0))
+			tilemap.set_cell(2, cell_position, 6, Vector2i.ZERO, 1)
+#			tilemap.set_cell(1, cell_position, 5, Vector2i(0, 0))
 		CybersnakeGame.PowerupType.ExtraLife:
 			tilemap.set_cell(2, cell_position, 5, Vector2i(0, 0))
 		_:
