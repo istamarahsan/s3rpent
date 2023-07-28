@@ -1,0 +1,13 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://cj754d21e4sd0"]
+
+[ext_resource type="FontFile" uid="uid://bck4vn8cx20wc" path="res://assets/fonts/Sagu Exora.ttf" id="1_2wygk"]
+[ext_resource type="FontFile" uid="uid://dpogoydi7t2cl" path="res://assets/fonts/spyagency3_2.ttf" id="1_h0ji3"]
+
+[resource]
+default_font = ExtResource("1_h0ji3")
+default_font_size = 16
+Label/colors/font_color = Color(0.85098, 0.0784314, 0.8, 1)
+Label/fonts/font = ExtResource("1_h0ji3")
+LabelHeader/base_type = &"Label"
+LabelHeader/font_sizes/font_size = 32
+LabelHeader/fonts/font = ExtResource("1_2wygk")

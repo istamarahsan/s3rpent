@@ -8,6 +8,12 @@ enum InputDirection {
 	Down
 }
 
+enum State {
+	Playing,
+	Paused,
+	Stopped
+}
+
 var input_lookup = {
 	[InputDirection.Left , Vector2i.UP   ] : CybersnakeGame.TurnDirection.Left,
 	[InputDirection.Right, Vector2i.UP   ] : CybersnakeGame.TurnDirection.Right,
@@ -34,9 +40,19 @@ signal quit_to_main_menu
 var state_hooks: Array[StateHook] = []
 var scheduler_hooks: Array[SchedulerHook] = []
 var is_action_cooldown: bool = false
+var game_time_elapsed: float = 0
+var state: State
 
 func _ready():
+	state = State.Playing
 	_connect_hooks(inner_game)
+
+func _process(delta):
+	match state:
+		State.Playing:
+			game_time_elapsed += delta
+			for hook in scheduler_hooks:
+				hook._time_elapsed = game_time_elapsed
 
 func _input(event):
 	if event.is_action_pressed("ui_accept"):
@@ -91,6 +107,7 @@ func _on_timer_timeout():
 
 func _on_demo_ui_request_replay():
 	_recreate_game()
+	state = State.Playing
 
 func _on_turn_input_up_pressed():
 	_handle_direction_input(InputDirection.Up)
@@ -104,3 +121,6 @@ func _on_demo_ui_quit_to_main_menu():
 func _on_state_hook_updated():
 	if "moved" in $StateHook.handle.flags:
 		$Timer.start()
+	if "gameover" in $StateHook.handle.flags:
+		$Timer.stop()
+		state = State.Stopped

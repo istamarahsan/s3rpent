@@ -1,13 +1,13 @@
 [gd_scene load_steps=5 format=3 uid="uid://dqgeam5fis708"]
 
 [ext_resource type="Script" path="res://root.gd" id="1_6g5tq"]
-[ext_resource type="PackedScene" uid="uid://bsyvvvj3wncfy" path="res://demo_game.tscn" id="2_0u2be"]
+[ext_resource type="PackedScene" uid="uid://cpr6dn54l3e84" path="res://game.tscn" id="2_yrfu4"]
 [ext_resource type="PackedScene" uid="uid://ckqdjktrqbuey" path="res://main-menu/main_menu.tscn" id="3_fg417"]
 [ext_resource type="PackedScene" uid="uid://d08rytbwpumya" path="res://splash/splash_screen.tscn" id="4_lsg2w"]
 
 [node name="Root" type="Node"]
 script = ExtResource("1_6g5tq")
-game_scene = ExtResource("2_0u2be")
+game_scene = ExtResource("2_yrfu4")
 main_menu_scene = ExtResource("3_fg417")
 
 [node name="FullscreenUiRoot" type="Control" parent="."]

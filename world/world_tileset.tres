@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dnjlgcqhbvkhi" path="res://assets/world/world-tileset.png" id="4_pmwwd"]
 [ext_resource type="Texture2D" uid="uid://c3xh0f84dgmdg" path="res://assets/world/TrashyTileset.png" id="5_sol11"]
 [ext_resource type="Texture2D" uid="uid://dwwqv3nkr4hq1" path="res://assets/world/powerups-spritesheet.png" id="6_tajfk"]
-[ext_resource type="PackedScene" path="res://world/conversion.tscn" id="8_w77aw"]
+[ext_resource type="PackedScene" uid="uid://dtn5cl2t45at8" path="res://world/conversion.tscn" id="8_w77aw"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_jtywh"]
 tile_data = PackedInt32Array(0, 0, 0, 65536, 65536, 0, 1, 65536, 0, 65537, 0, 0)

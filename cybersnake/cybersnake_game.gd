@@ -163,6 +163,7 @@ func process_timestep():
 
 	if lives_left <= 0:
 		is_game_over = true
+		flags.append("gameover")
 
 func _parse_rotate(vector: Vector2i, rotate_direction: TurnDirection) -> Vector2i:
 	return Vector2i(vector.y, vector.x * -1) if rotate_direction == TurnDirection.Left else Vector2i(vector.y * -1, vector.x)

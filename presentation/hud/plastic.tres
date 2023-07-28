@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="HudSet" load_steps=4 format=3 uid="uid://1peq4r7pyttt"]
+
+[ext_resource type="Texture2D" uid="uid://cl7u2kxg2i4hx" path="res://assets/hud/trash category/trash category (plastic) no text.png" id="1_1l43y"]
+[ext_resource type="Texture2D" uid="uid://rwwhwnuasmjr" path="res://assets/hud/trash category/countdown plastic.png" id="2_3x7qd"]
+[ext_resource type="Script" path="res://presentation/hud/hud_set.gd" id="3_38p28"]
+
+[resource]
+script = ExtResource("3_38p28")
+category_bg = ExtResource("1_1l43y")
+counter_bg = ExtResource("2_3x7qd")

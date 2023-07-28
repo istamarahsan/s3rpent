@@ -1,0 +1,273 @@
+[gd_scene load_steps=16 format=3 uid="uid://cawdem5fi3mwr"]
+
+[ext_resource type="Script" path="res://presentation/hud/hud.gd" id="1_eel46"]
+[ext_resource type="Texture2D" uid="uid://7d1sjum8axs" path="res://assets/hud/direction.png" id="1_rup7t"]
+[ext_resource type="Texture2D" uid="uid://bc4m2fh8xmsqw" path="res://assets/hud/bottom bar.png" id="1_wdiwk"]
+[ext_resource type="Resource" uid="uid://1peq4r7pyttt" path="res://presentation/hud/plastic.tres" id="3_d1v1e"]
+[ext_resource type="Texture2D" uid="uid://rfcgotmjmdov" path="res://assets/hud/timer.png" id="3_fx6ns"]
+[ext_resource type="Resource" uid="uid://bh770fqi3bo55" path="res://presentation/hud/organic.tres" id="4_j7s7m"]
+[ext_resource type="Texture2D" uid="uid://cl7u2kxg2i4hx" path="res://assets/hud/trash category/trash category (plastic) no text.png" id="4_wpyvj"]
+[ext_resource type="Resource" uid="uid://4w4x6ndefd2" path="res://presentation/hud/paper.tres" id="5_aud8h"]
+[ext_resource type="Theme" uid="uid://cj754d21e4sd0" path="res://themes/s3rpent.tres" id="5_dber5"]
+[ext_resource type="FontFile" uid="uid://bck4vn8cx20wc" path="res://assets/fonts/Sagu Exora.ttf" id="5_ejmph"]
+[ext_resource type="Texture2D" uid="uid://rwwhwnuasmjr" path="res://assets/hud/trash category/countdown plastic.png" id="5_xk41w"]
+[ext_resource type="Texture2D" uid="uid://daruim7m32pfi" path="res://assets/hud/pause.png" id="7_dvgmn"]
+[ext_resource type="Script" path="res://hooks/state_hook.gd" id="11_jukjf"]
+[ext_resource type="Script" path="res://hooks/scheduler_hook.gd" id="12_nqxuo"]
+[ext_resource type="PackedScene" uid="uid://m3pv7pcdoa1y" path="res://presentation/hud/heart.tscn" id="13_d2dr5"]
+
+[node name="Hud" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_dber5")
+script = ExtResource("1_eel46")
+plastic_set = ExtResource("3_d1v1e")
+organic_set = ExtResource("4_j7s7m")
+paper_set = ExtResource("5_aud8h")
+
+[node name="Top" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 417.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Top"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Top/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+
+[node name="Control3" type="Control" parent="Top/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Top/HBoxContainer/MarginContainer/Control3"]
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 1
+offset_right = 250.0
+offset_bottom = 100.0
+size_flags_horizontal = 3
+texture = ExtResource("3_fx6ns")
+region_rect = Rect2(0, 0, 250, 100)
+patch_margin_left = 42
+patch_margin_top = 33
+patch_margin_right = 42
+patch_margin_bottom = 33
+
+[node name="TimeLabel" type="Label" parent="Top/HBoxContainer/MarginContainer/Control3/NinePatchRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_dber5")
+theme_type_variation = &"HeaderLarge"
+theme_override_font_sizes/font_size = 40
+text = "00:01"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="VBoxContainer" parent="Top/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 25
+
+[node name="CategoryBg" type="TextureRect" parent="Top/HBoxContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("4_wpyvj")
+stretch_mode = 3
+
+[node name="CategoryLabel" type="Label" parent="Top/HBoxContainer/Control/CategoryBg"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_dber5")
+theme_type_variation = &"HeaderLabel"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_ejmph")
+theme_override_font_sizes/font_size = 56
+text = "PLASTIC"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="Top/HBoxContainer/Control"]
+layout_mode = 2
+
+[node name="CounterBg" type="TextureRect" parent="Top/HBoxContainer/Control/CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("5_xk41w")
+stretch_mode = 3
+
+[node name="CounterLabel" type="Label" parent="Top/HBoxContainer/Control/CenterContainer/CounterBg"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 48
+text = "4"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PauseContainer" type="MarginContainer" parent="Top/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+
+[node name="Control" type="Control" parent="Top/HBoxContainer/PauseContainer"]
+layout_mode = 2
+
+[node name="PauseButton" type="TextureButton" parent="Top/HBoxContainer/PauseContainer/Control"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -100.0
+offset_bottom = 100.0
+grow_horizontal = 0
+toggle_mode = true
+texture_normal = ExtResource("7_dvgmn")
+texture_pressed = ExtResource("7_dvgmn")
+texture_hover = ExtResource("7_dvgmn")
+texture_disabled = ExtResource("7_dvgmn")
+texture_focused = ExtResource("7_dvgmn")
+stretch_mode = 3
+
+[node name="Bottom" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -161.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="VBoxContainer" parent="Bottom"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -108.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 2
+
+[node name="Container" type="Control" parent="Bottom/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DirectionArrow" type="TextureRect" parent="Bottom/HBoxContainer/Container"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -31.0
+offset_right = 31.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(31, 0)
+size_flags_vertical = 3
+texture = ExtResource("1_rup7t")
+expand_mode = 2
+stretch_mode = 3
+
+[node name="TextureRect" type="TextureRect" parent="Bottom/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_wdiwk")
+expand_mode = 2
+stretch_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Bottom/HBoxContainer/TextureRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HeartsContainer" type="HBoxContainer" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Heart1" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer/MarginContainer/HeartsContainer" instance=ExtResource("13_d2dr5")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Heart2" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer/MarginContainer/HeartsContainer" instance=ExtResource("13_d2dr5")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Heart3" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer/MarginContainer/HeartsContainer" instance=ExtResource("13_d2dr5")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MultiplierLabel" type="Label" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme_override_font_sizes/font_size = 56
+text = "X 2.2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Filler" type="Label" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+
+[node name="StateHook" type="Node" parent="."]
+script = ExtResource("11_jukjf")
+
+[node name="SchedulerHook" type="Node" parent="."]
+script = ExtResource("12_nqxuo")
+
+[connection signal="initialized" from="StateHook" to="." method="_on_state_hook_initialized"]
+[connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]
