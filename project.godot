@@ -30,10 +30,6 @@ window/size/mode=3
 window/stretch/mode="viewport"
 window/stretch/aspect="ignore"
 
-[dotnet]
-
-project/assembly_name="untitled-cybersnek"
-
 [input]
 
 ui_left={
