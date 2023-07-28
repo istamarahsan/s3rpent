@@ -10,13 +10,15 @@ extends SnakeSegment
 @export_range(1, 10, 1) var flash_times: int = 3
 @export var flash_color: Color
 
+const glitch_material: ShaderMaterial = preload("res://presentation/snake/snake_segment.tres")
+
 var polarity: CybersnakeGame.Polarity = CybersnakeGame.Polarity.Organic
 var type: SegmentType = SegmentType.Body
 
 var polarity_hitflash_conf: Dictionary = {
 	CybersnakeGame.Polarity.Organic: 0.3,
-	CybersnakeGame.Polarity.Paper: 0.02,
-	CybersnakeGame.Polarity.Plastic: 0.02
+	CybersnakeGame.Polarity.Paper: 0.015,
+	CybersnakeGame.Polarity.Plastic: 0.015
 }
 
 func set_polarity(polarity: CybersnakeGame.Polarity):
@@ -33,6 +35,8 @@ func flash_hit():
 	if _flashing:
 		return
 	_flashing = true
+	
+	
 	
 	$Sprite.material.set_shader_parameter("shake_rate", 1)
 	

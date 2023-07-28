@@ -1,12 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://irjrthrlapp7"]
+[gd_scene load_steps=9 format=3 uid="uid://irjrthrlapp7"]
 
 [ext_resource type="Script" path="res://hooks/state_hook.gd" id="1_k50ys"]
 [ext_resource type="Script" path="res://world/world.gd" id="1_pvxfe"]
 [ext_resource type="TileSet" uid="uid://ch2emyu4h73qt" path="res://world/world_tileset.tres" id="3_anjuj"]
 [ext_resource type="PackedScene" uid="uid://c1cidvt2cnx1a" path="res://world/worldgen/worldgen.tscn" id="4_kb0g1"]
+[ext_resource type="Script" path="res://world/sky.gd" id="5_ksuj7"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_eapv2"]
 frequency = 0.5
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_j3wei"]
+seed = 3424
+frequency = 0.035
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_d0t0x"]
+normalize = false
+noise = SubResource("FastNoiseLite_j3wei")
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_pvxfe")
@@ -36,6 +45,18 @@ layer_2/y_sort_enabled = false
 layer_2/y_sort_origin = 0
 layer_2/z_index = 2
 layer_2/tile_data = PackedInt32Array()
+
+[node name="Sky" type="PointLight2D" parent="."]
+top_level = true
+z_index = 1000
+z_as_relative = false
+scale = Vector2(100, 100)
+energy = 0.5
+texture = SubResource("NoiseTexture2D_d0t0x")
+script = ExtResource("5_ksuj7")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.313726, 0.313726, 0.313726, 1)
 
 [connection signal="initialized" from="StateHook" to="." method="_on_state_hook_initialized"]
 [connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]
