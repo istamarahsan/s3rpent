@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cawdem5fi3mwr" path="res://presentation/hud/hud.tscn" id="8_0l0tr"]
 [ext_resource type="Script" path="res://hooks/state_hook.gd" id="8_6j6d0"]
 
-[node name="DemoGame" type="Node2D"]
+[node name="Game" type="Node2D"]
 script = ExtResource("1_54xge")
 
 [node name="CybersnakeGame" type="Node" parent="."]
@@ -21,6 +21,10 @@ config = ExtResource("3_1honf")
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
+autostart = true
+
+[node name="TransitionTimer" type="Timer" parent="."]
+wait_time = 20.0
 autostart = true
 
 [node name="TimeAccelerator" type="Node" parent="." node_paths=PackedStringArray("timer")]
@@ -47,4 +51,5 @@ script = ExtResource("8_6j6d0")
 [connection signal="left_pressed" from="TurnInput" to="." method="_on_turn_input_left_pressed"]
 [connection signal="right_pressed" from="TurnInput" to="." method="_on_turn_input_right_pressed"]
 [connection signal="up_pressed" from="TurnInput" to="." method="_on_turn_input_up_pressed"]
+[connection signal="toggle_pause" from="HUDLayer/Hud" to="." method="_on_hud_toggle_pause"]
 [connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]

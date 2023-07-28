@@ -10,14 +10,22 @@ class_name Presentation
 var active_segments: Array[SnakeSegment] = []
 var snake_head: SnakeSegment
 
+var countdown_threshold: float = 3
+var prev_time_to_transition: float = 0
+
 func _ready():
 	$DebugCanvas.configure(tile_size)
 	snake_head = snake_segment_scene.instantiate() as SnakeSegment
 	snake_head.setType(SnakeSegment.SegmentType.Head)
 	add_child(snake_head)
+	prev_time_to_transition = scheduler_hook.time_to_next_transition()
 
 func _process(_delta):
 	$Camera2D.position = snake_head.position
+	var t = scheduler_hook.time_to_next_transition()
+	if t < float(countdown_threshold + 1) and int(t) < int(prev_time_to_transition):
+		$Countdown.play()
+	prev_time_to_transition = t
 
 func _on_state_hook_updated():
 	if active_segments.size() < state_hook.handle.snake_state.tail.size():
@@ -56,9 +64,6 @@ func _on_state_hook_updated():
 	if "transition" in state_hook.handle.flags:
 		$Transition.play()
 		_set_segment_polarities()
-		
-	if "moved" in state_hook.handle.flags and state_hook.handle.ticks_to_snake_mode_transition < 5:
-		$Countdown.play()
 
 func _add_missing_segments():
 	var num_missing_segments = max(0, state_hook.handle.snake_state.tail.size() - active_segments.size())
