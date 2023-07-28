@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://df32v68u84obm"]
+
+[ext_resource type="Texture2D" uid="uid://c2l4ahne7htob" path="res://assets/snake/plastic snake tileset.png" id="1_5e4t0"]
+[ext_resource type="Material" uid="uid://dspyij0pnqqfb" path="res://presentation/snake/snake_segment.tres" id="1_s7ej2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rxu61"]
+atlas = ExtResource("1_5e4t0")
+region = Rect2(0, 128, 128, 128)
+
+[node name="shader_test" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = ExtResource("1_s7ej2")
+texture = SubResource("AtlasTexture_rxu61")

@@ -13,6 +13,12 @@ extends SnakeSegment
 var polarity: CybersnakeGame.Polarity = CybersnakeGame.Polarity.Organic
 var type: SegmentType = SegmentType.Body
 
+var polarity_hitflash_conf: Dictionary = {
+	CybersnakeGame.Polarity.Organic: 0.3,
+	CybersnakeGame.Polarity.Paper: 0.02,
+	CybersnakeGame.Polarity.Plastic: 0.02
+}
+
 func set_polarity(polarity: CybersnakeGame.Polarity):
 	self.polarity = polarity
 	_update_texture()
@@ -21,17 +27,44 @@ func setType(type: SegmentType):
 	self.type = type
 	_update_texture()
 
+var _flashing: bool = false
+
 func flash_hit():
-	$Sprite.material.set_shader_parameter("flash_color", flash_color)
-	for time in range(flash_times):
-		$Sprite.material.set_shader_parameter("degree", 1)
-		$FlashTimer.wait_time = flash_time_seconds_hit
-		$FlashTimer.start()
-		await $FlashTimer.timeout
-		$Sprite.material.set_shader_parameter("degree", 0)
-		$FlashTimer.wait_time = flash_interval_seconds_hit
-		$FlashTimer.start()
-		await $FlashTimer.timeout
+	if _flashing:
+		return
+	_flashing = true
+	
+	$Sprite.material.set_shader_parameter("shake_rate", 1)
+	
+	var max_tween = get_tree().create_tween()
+	max_tween.tween_method(
+		func(degree):
+			$Sprite.material.set_shader_parameter("shake_power", degree),
+		0.0,
+		polarity_hitflash_conf[polarity],
+		0.25
+	)
+	await max_tween.finished
+	
+	var min_tween = get_tree().create_tween()
+	min_tween.tween_method(
+		func(degree):
+			$Sprite.material.set_shader_parameter("shake_power", degree),
+		polarity_hitflash_conf[polarity],
+		0.0,
+		0.25
+	)
+	await min_tween.finished
+	$Sprite.material.set_shader_parameter("shake_rate", 0)
+#	$Sprite.material.set_shader_parameter("flash_color", flash_color)
+#	$Sprite.material.set_shader_parameter("shake_rate", 1.0)
+#	$FlashTimer.wait_time = flash_time_seconds_hit
+#	$FlashTimer.start()
+#	await $FlashTimer.timeout
+#	$Sprite.material.set_shader_parameter("shake_rate", 0.0)
+#	$FlashTimer.wait_time = flash_interval_seconds_hit
+#	$FlashTimer.start()
+	_flashing = false
 
 func _update_texture():
 	var theme = _match_polarity()
