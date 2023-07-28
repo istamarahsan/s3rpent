@@ -62,20 +62,19 @@ func reset():
 		powerup_state.is_eaten = false
 		powerup_states.append(powerup_state)
 
+func action_transition():
+	flags = []
+	
+	snake_mode = _next_snake_mode(snake_mode)
+	flags.append("transition")
+
 func action_turn(action: TurnDirection):
 	flags = []
 	
 	if is_game_over:
 		return
-	
-	var new_heading = _parse_rotate(snake_heading, action)
-	var new_head_position: Vector2i = snake_state.head + new_heading
-	var would_go_out_of_bounds: bool = new_head_position.abs().x > world_span or new_head_position.abs().y > world_span
-	var would_collide_with_self: bool = snake_state.tail.any(func(segment_position): return segment_position == new_head_position)
-	if would_go_out_of_bounds or would_collide_with_self:
-		return
-	snake_heading = new_heading
-	process_timestep()
+		
+	snake_heading = _parse_rotate(snake_heading, action)
 
 func process_timestep():
 	flags = []
@@ -154,12 +153,6 @@ func process_timestep():
 	if conversion_time_remaining <= 0:
 		for food_state in food_states.filter(func(state): return state.polarity == Polarity.Coin):
 			food_state.polarity = _random_polarity()
-	
-	ticks_to_snake_mode_transition -= 1
-	if ticks_to_snake_mode_transition <= 0:
-		snake_mode = _next_snake_mode(snake_mode)
-		ticks_to_snake_mode_transition = config.snake_mode_interval
-		flags.append("transition")
 
 	if lives_left <= 0:
 		is_game_over = true

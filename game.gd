@@ -36,6 +36,7 @@ signal quit_to_main_menu
 
 @onready var presentation: Presentation = $Presentation as Presentation
 @onready var inner_game: CybersnakeGame = $CybersnakeGame as CybersnakeGame
+@onready var transition_timer: Timer = $TransitionTimer as Timer
 
 var state_hooks: Array[StateHook] = []
 var scheduler_hooks: Array[SchedulerHook] = []
@@ -46,6 +47,7 @@ var state: State
 func _ready():
 	state = State.Playing
 	_connect_hooks(inner_game)
+	transition_timer.timeout.connect(_on_transition_timer_timeout)
 
 func _process(delta):
 	match state:
@@ -53,13 +55,6 @@ func _process(delta):
 			game_time_elapsed += delta
 			for hook in scheduler_hooks:
 				hook._time_elapsed = game_time_elapsed
-
-func _input(event):
-	if event.is_action_pressed("ui_accept"):
-		if $Timer.is_stopped():
-			$Timer.start()
-		else:
-			$Timer.stop() 
 
 func _recreate_game():
 	inner_game.reset()
@@ -74,6 +69,7 @@ func _connect_hooks(game: CybersnakeGame):
 		if child is SchedulerHook:
 			var hook = child as SchedulerHook
 			hook._game_timer = $Timer
+			hook._transition_timer = transition_timer
 			scheduler_hooks.push_back(hook)
 			
 	for hook in state_hooks:
@@ -81,14 +77,15 @@ func _connect_hooks(game: CybersnakeGame):
 		hook.updated.emit()
 
 func _handle_direction_input(dir: InputDirection):
-	var translated = input_lookup.get([dir, inner_game.snake_heading], null)
-	if translated != null and translated is CybersnakeGame.TurnDirection:
-		is_action_cooldown = true
-		inner_game.action_turn(translated)
-		_propagate_hook_signal()
-	elif [dir, inner_game.snake_heading] in parallel_lookup:
-		inner_game.process_timestep()
-		_propagate_hook_signal()
+	match state:
+		State.Playing:
+			if is_action_cooldown:
+				return
+			var translated = input_lookup.get([dir, inner_game.snake_heading], null)
+			if translated != null and translated is CybersnakeGame.TurnDirection:
+				is_action_cooldown = true
+				inner_game.action_turn(translated)
+				_propagate_hook_signal()
 
 func _propagate_hook_signal():
 	for hook in state_hooks:
@@ -103,6 +100,10 @@ func _on_turn_input_right_pressed():
 func _on_timer_timeout():
 	inner_game.process_timestep()
 	is_action_cooldown = false
+	_propagate_hook_signal()
+
+func _on_transition_timer_timeout():
+	inner_game.action_transition()
 	_propagate_hook_signal()
 
 func _on_demo_ui_request_replay():
@@ -124,3 +125,14 @@ func _on_state_hook_updated():
 	if "gameover" in $StateHook.handle.flags:
 		$Timer.stop()
 		state = State.Stopped
+
+func _on_hud_toggle_pause():
+	match state:
+		State.Playing:
+			state = State.Paused
+			$Timer.stop()
+			transition_timer.paused = true
+		State.Paused:
+			state = State.Playing
+			$Timer.start()
+			transition_timer.paused = false
