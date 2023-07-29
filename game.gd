@@ -117,18 +117,11 @@ func _on_transition_timer_timeout():
 	inner_game.action_transition()
 	_propagate_hook_signal()
 
-func _on_demo_ui_request_replay():
-	_recreate_game()
-	state = State.Playing
-
 func _on_turn_input_up_pressed():
 	_handle_direction_input(InputDirection.Up)
 
 func _on_turn_input_down_pressed():
 	_handle_direction_input(InputDirection.Down)
-
-func _on_demo_ui_quit_to_main_menu():
-	quit_to_main_menu.emit()
 
 func _on_state_hook_updated():
 	if $StateHook.handle.is_game_over:
@@ -163,3 +156,10 @@ func _on_hud_toggle_pause():
 func _on_conversion_timer_timeout():
 	inner_game.action_deactivate_conversion()
 	_propagate_hook_signal()
+
+func _on_gameover_quit_to_main_menu():
+	quit_to_main_menu.emit()
+
+func _on_gameover_replay():
+	_recreate_game()
+	state = State.Playing

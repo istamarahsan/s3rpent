@@ -53,6 +53,14 @@ z_as_relative = false
 
 [node name="GameoverLayer" type="CanvasLayer" parent="."]
 
+[node name="ColorRect" type="ColorRect" parent="GameoverLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.117647)
+
 [node name="Gameover" parent="GameoverLayer" instance=ExtResource("9_emrsr")]
 
 [node name="StateHook" type="Node" parent="."]
@@ -67,4 +75,6 @@ script = ExtResource("8_6j6d0")
 [connection signal="right_pressed" from="TurnInput" to="." method="_on_turn_input_right_pressed"]
 [connection signal="up_pressed" from="TurnInput" to="." method="_on_turn_input_up_pressed"]
 [connection signal="toggle_pause" from="HUDLayer/Hud" to="." method="_on_hud_toggle_pause"]
+[connection signal="quit_to_main_menu" from="GameoverLayer/Gameover" to="." method="_on_gameover_quit_to_main_menu"]
+[connection signal="replay" from="GameoverLayer/Gameover" to="." method="_on_gameover_replay"]
 [connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]

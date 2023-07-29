@@ -29,10 +29,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 550
+theme_override_constants/margin_right = 550
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
 alignment = 1
 
 [node name="GameoverLabel" type="Label" parent="CenterContainer/VBoxContainer"]
@@ -119,7 +120,7 @@ layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Button" type="Button" parent="CenterContainer/VBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="PlayAgain" type="Button" parent="CenterContainer/VBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -128,7 +129,7 @@ theme_type_variation = &"GameoverButton"
 theme_override_font_sizes/font_size = 30
 text = "Play Again"
 
-[node name="Button2" type="Button" parent="CenterContainer/VBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="UploadScore" type="Button" parent="CenterContainer/VBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(320, 60)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -137,10 +138,13 @@ theme_type_variation = &"GameoverButton"
 theme_override_font_sizes/font_size = 30
 text = "Upload Score"
 
-[node name="Button" type="Button" parent="CenterContainer/VBoxContainer/MarginContainer2/VBoxContainer"]
+[node name="MainMenu" type="Button" parent="CenterContainer/VBoxContainer/MarginContainer2/VBoxContainer"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 theme = ExtResource("1_u0gbl")
 theme_type_variation = &"GameoverButton"
 theme_override_font_sizes/font_size = 30
 text = "Main Menu"
+
+[connection signal="button_up" from="CenterContainer/VBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer/PlayAgain" to="." method="_on_play_again_button_up"]
+[connection signal="button_up" from="CenterContainer/VBoxContainer/MarginContainer2/VBoxContainer/MainMenu" to="." method="_on_main_menu_button_up"]
