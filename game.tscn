@@ -19,18 +19,20 @@ config = ExtResource("3_1honf")
 
 [node name="Presentation" parent="." instance=ExtResource("4_76qfm")]
 
-[node name="Timer" type="Timer" parent="."]
+[node name="TickTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
-autostart = true
 
 [node name="TransitionTimer" type="Timer" parent="."]
 wait_time = 20.0
-autostart = true
+
+[node name="ConversionTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
 
 [node name="TimeAccelerator" type="Node" parent="." node_paths=PackedStringArray("timer")]
 script = ExtResource("5_ll0uj")
-timer = NodePath("../Timer")
+timer = NodePath("../TickTimer")
 base_pace = 0.5
 
 [node name="TurnInput" type="Node" parent="."]
@@ -38,18 +40,21 @@ script = ExtResource("6_pok0c")
 
 [node name="DebugControls" type="Node" parent="."]
 
+[node name="ScreenFxLayer" type="CanvasLayer" parent="."]
+
+[node name="Glitch" parent="ScreenFxLayer" instance=ExtResource("8_nqxn2")]
+z_index = 4096
+z_as_relative = false
+
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 
 [node name="Hud" parent="HUDLayer" instance=ExtResource("8_0l0tr")]
 
-[node name="ScreenFxLayer" type="CanvasLayer" parent="."]
-
-[node name="Glitch" parent="ScreenFxLayer" instance=ExtResource("8_nqxn2")]
-
 [node name="StateHook" type="Node" parent="."]
 script = ExtResource("8_6j6d0")
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="TickTimer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="ConversionTimer" to="." method="_on_conversion_timer_timeout"]
 [connection signal="initialized" from="TimeAccelerator" to="TimeAccelerator" method="_on_initialized"]
 [connection signal="updated" from="TimeAccelerator" to="TimeAccelerator" method="_on_updated"]
 [connection signal="down_pressed" from="TurnInput" to="." method="_on_turn_input_down_pressed"]

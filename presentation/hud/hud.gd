@@ -32,9 +32,10 @@ func _ready():
 
 func _process(delta):
 	time_label.text = _format_time(scheduler_hook.time_elapsed())
-	counter_label.text = str(ceilf(scheduler_hook.time_to_next_transition()))
+	counter_label.text = str(ceilf(scheduler_hook.time_conversion_remaining() if state_hook.handle.is_conversion_active else scheduler_hook.time_to_next_transition()))
 
 func _on_state_hook_initialized():
+	_to_set(_match_polarity(state_hook.handle.snake_mode))
 	_sync_ui()
 
 func _on_state_hook_updated():
@@ -44,8 +45,7 @@ func _on_state_hook_updated():
 
 func _sync_ui():
 	_update_hearts()
-	_to_set(_match_polarity(state_hook.handle.snake_mode))
-	category_label.text = _match_polarity_str(state_hook.handle.snake_mode)
+	category_label.text = "$$$$$$" if state_hook.handle.is_conversion_active else _match_polarity_str(state_hook.handle.snake_mode)
 	multiplier_label.text = "X " + str(state_hook.handle.active_point_multiplier)
 	direction_arrow.rotation = deg_to_rad(_match_heading(state_hook.handle.snake_heading))
 	organic_score_label.text = str(state_hook.handle.food_eaten_so_far_cat[CybersnakeGame.Polarity.Organic])

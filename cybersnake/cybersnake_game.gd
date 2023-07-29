@@ -39,7 +39,7 @@ func reset():
 	powerup_states                 = []
 	points                         = 0
 	active_point_multiplier        = 1
-	conversion_time_remaining      = 0
+	is_conversion_active           = false
 	max_lives                      = config.max_lives
 	world_span                     = config.initial_world_span
 	snake_state.head               = Vector2i.ZERO
@@ -82,6 +82,17 @@ func action_turn(action: TurnDirection):
 		
 	snake_heading = _parse_rotate(snake_heading, action)
 
+func action_deactivate_conversion():
+	flags = []
+	
+	if not is_conversion_active:
+		return
+	
+	is_conversion_active = false
+	for food_state in food_states.filter(func(state): return state.polarity == Polarity.Coin):
+		food_state.polarity = _random_polarity()
+	flags.append("conversion:end")
+
 func process_timestep():
 	flags = []
 	
@@ -109,7 +120,7 @@ func process_timestep():
 		if food_state.is_eaten:
 			food_state.position = _random_food_position()
 			food_state.is_eaten = false
-			food_state.polarity = _random_polarity()
+			food_state.polarity = Polarity.Coin if is_conversion_active else _random_polarity()  
 			continue
 		
 		if food_state.position != snake_state.head:
@@ -141,7 +152,7 @@ func process_timestep():
 					lives_left = mini(lives_left + 1, config.max_lives)
 				PowerupType.Conversion:
 					flags.append("powerup:conversion")
-					conversion_time_remaining = config.conversion_duration
+					is_conversion_active = true
 					for food_state in food_states:
 						food_state.polarity = Polarity.Coin
 	
@@ -157,11 +168,6 @@ func process_timestep():
 			powerup_state.type = _random_powerup()
 			powerup_state.is_eaten = false
 		flags.append("regenerate:powerup")
-	
-	conversion_time_remaining = max(0, conversion_time_remaining-1)
-	if conversion_time_remaining <= 0:
-		for food_state in food_states.filter(func(state): return state.polarity == Polarity.Coin):
-			food_state.polarity = _random_polarity()
 
 	if lives_left <= 0:
 		is_game_over = true

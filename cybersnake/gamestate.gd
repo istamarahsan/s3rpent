@@ -20,5 +20,5 @@ var points: float
 var active_point_multiplier: float
 var flags: Array[String]
 var powerup_states: Array[PowerupState]
-var conversion_time_remaining: int
+var is_conversion_active: bool
 var world_span: int

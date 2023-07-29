@@ -36,7 +36,9 @@ signal quit_to_main_menu
 
 @onready var presentation: Presentation = $Presentation as Presentation
 @onready var inner_game: CybersnakeGame = $CybersnakeGame as CybersnakeGame
+@onready var tick_timer: Timer = $TickTimer as Timer
 @onready var transition_timer: Timer = $TransitionTimer as Timer
+@onready var conversion_timer: Timer = $ConversionTimer as Timer
 
 var state_hooks: Array[StateHook] = []
 var scheduler_hooks: Array[SchedulerHook] = []
@@ -48,6 +50,8 @@ func _ready():
 	state = State.Playing
 	_connect_hooks(inner_game)
 	transition_timer.timeout.connect(_on_transition_timer_timeout)
+	tick_timer.start()
+	transition_timer.start()
 
 func _process(delta):
 	match state:
@@ -58,6 +62,11 @@ func _process(delta):
 
 func _recreate_game():
 	inner_game.reset()
+	tick_timer.stop()
+	transition_timer.stop()
+	conversion_timer.stop()
+	tick_timer.start()
+	transition_timer.start()
 
 func _connect_hooks(game: CybersnakeGame):
 	state_hooks.clear()
@@ -68,8 +77,9 @@ func _connect_hooks(game: CybersnakeGame):
 			state_hooks.push_back(hook)
 		if child is SchedulerHook:
 			var hook = child as SchedulerHook
-			hook._game_timer = $Timer
+			hook._game_timer = tick_timer
 			hook._transition_timer = transition_timer
+			hook._conversion_timer = conversion_timer
 			scheduler_hooks.push_back(hook)
 			
 	for hook in state_hooks:
@@ -120,19 +130,36 @@ func _on_demo_ui_quit_to_main_menu():
 	quit_to_main_menu.emit()
 
 func _on_state_hook_updated():
+	if $StateHook.handle.is_game_over:
+		tick_timer.stop()
+		transition_timer.stop()
+		conversion_timer.stop()
+		return
 	if "moved" in $StateHook.handle.flags:
-		$Timer.start()
+		tick_timer.start()
 	if "gameover" in $StateHook.handle.flags:
-		$Timer.stop()
+		tick_timer.stop()
 		state = State.Stopped
+	if "powerup:conversion" in $StateHook.handle.flags:
+		transition_timer.paused = true
+		conversion_timer.stop()
+		conversion_timer.start()
+	if "conversion:end" in $StateHook.handle.flags:
+		transition_timer.paused = false
 
 func _on_hud_toggle_pause():
 	match state:
 		State.Playing:
 			state = State.Paused
-			$Timer.stop()
+			tick_timer.stop()
 			transition_timer.paused = true
+			conversion_timer.paused = true
 		State.Paused:
 			state = State.Playing
-			$Timer.start()
+			tick_timer.start()
 			transition_timer.paused = false
+			conversion_timer.paused = false
+
+func _on_conversion_timer_timeout():
+	inner_game.action_deactivate_conversion()
+	_propagate_hook_signal()

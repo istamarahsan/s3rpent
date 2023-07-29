@@ -56,7 +56,7 @@ func _on_state_hook_updated():
 	if state_hook.handle.flags.any(func(flag): return flag.begins_with("powerup")):
 		$PowerUp.play()
 		
-	if state_hook.handle.conversion_time_remaining > 0:
+	if state_hook.handle.is_conversion_active:
 		$DebugCanvas.visible = true
 	else:
 		$DebugCanvas.visible = false

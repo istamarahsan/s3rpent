@@ -8,5 +8,4 @@ class_name GameConfig
 @export var food_cap: int
 @export var snake_mode_interval: int
 @export_range(1, 10, 1) var max_lives: int
-@export_range(1, 999, 1) var conversion_duration: int
 @export_range(1, 10, 1) var initial_length: int
