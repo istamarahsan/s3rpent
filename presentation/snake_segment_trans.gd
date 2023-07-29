@@ -30,34 +30,7 @@ func setType(type: SegmentType):
 var _flashing: bool = false
 
 func flash_hit():
-	if _flashing:
-		return
-	_flashing = true
-	
-	$Shademask.material.set_shader_parameter("shake_power", 0)
-	$Shademask.material.set_shader_parameter("shake_rate", 1)
-	
-	var max_tween = get_tree().create_tween()
-	max_tween.tween_method(
-		func(degree):
-			$Shademask.material.set_shader_parameter("shake_power", degree),
-		0.0,
-		polarity_hitflash_conf[polarity],
-		0.25
-	)
-	await max_tween.finished
-	
-	var min_tween = get_tree().create_tween()
-	min_tween.tween_method(
-		func(degree):
-			$Shademask.material.set_shader_parameter("shake_power", degree),
-		polarity_hitflash_conf[polarity],
-		0.0,
-		0.25
-	)
-	await min_tween.finished
-	$Shademask.material.set_shader_parameter("shake_rate", 0)
-	_flashing = false
+	pass
 
 func _update_texture():
 	var theme = _match_polarity()
@@ -74,7 +47,6 @@ func _update_texture():
 		SegmentType.Tail:
 			texture = theme.tail
 	$Sprite.texture = texture
-	$Shademask.texture = texture
 
 func _match_polarity() -> SnakeTheme:
 	match polarity:

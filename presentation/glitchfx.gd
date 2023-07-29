@@ -12,7 +12,7 @@ func _ready():
 var _glitching: bool = false
 
 func _on_state_hook_updated():
-	if not _glitching and "hit" in state_hook.handle.flags:
+	if not _glitching and state_hook.handle.flags.any(func(flag): return flag.begins_with("hit")):
 		_glitching = true
 		await _glitch()
 		_glitching = false
