@@ -10,8 +10,6 @@ extends SnakeSegment
 @export_range(1, 10, 1) var flash_times: int = 3
 @export var flash_color: Color
 
-const glitch_material: ShaderMaterial = preload("res://presentation/snake/snake_segment.tres")
-
 var polarity: CybersnakeGame.Polarity = CybersnakeGame.Polarity.Organic
 var type: SegmentType = SegmentType.Body
 
@@ -36,14 +34,13 @@ func flash_hit():
 		return
 	_flashing = true
 	
-	
-	
-	$Sprite.material.set_shader_parameter("shake_rate", 1)
+	$Shademask.material.set_shader_parameter("shake_power", 0)
+	$Shademask.material.set_shader_parameter("shake_rate", 1)
 	
 	var max_tween = get_tree().create_tween()
 	max_tween.tween_method(
 		func(degree):
-			$Sprite.material.set_shader_parameter("shake_power", degree),
+			$Shademask.material.set_shader_parameter("shake_power", degree),
 		0.0,
 		polarity_hitflash_conf[polarity],
 		0.25
@@ -53,21 +50,13 @@ func flash_hit():
 	var min_tween = get_tree().create_tween()
 	min_tween.tween_method(
 		func(degree):
-			$Sprite.material.set_shader_parameter("shake_power", degree),
+			$Shademask.material.set_shader_parameter("shake_power", degree),
 		polarity_hitflash_conf[polarity],
 		0.0,
 		0.25
 	)
 	await min_tween.finished
-	$Sprite.material.set_shader_parameter("shake_rate", 0)
-#	$Sprite.material.set_shader_parameter("flash_color", flash_color)
-#	$Sprite.material.set_shader_parameter("shake_rate", 1.0)
-#	$FlashTimer.wait_time = flash_time_seconds_hit
-#	$FlashTimer.start()
-#	await $FlashTimer.timeout
-#	$Sprite.material.set_shader_parameter("shake_rate", 0.0)
-#	$FlashTimer.wait_time = flash_interval_seconds_hit
-#	$FlashTimer.start()
+	$Shademask.material.set_shader_parameter("shake_rate", 0)
 	_flashing = false
 
 func _update_texture():
@@ -85,6 +74,7 @@ func _update_texture():
 		SegmentType.Tail:
 			texture = theme.tail
 	$Sprite.texture = texture
+	$Shademask.texture = texture
 
 func _match_polarity() -> SnakeTheme:
 	match polarity:

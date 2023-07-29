@@ -4,7 +4,7 @@
 [ext_resource type="Resource" uid="uid://dxgiplhlryaqw" path="res://presentation/snake/plastic.tres" id="2_0s8o6"]
 [ext_resource type="Resource" uid="uid://bdnjgq7c4o4yb" path="res://presentation/snake/glass.tres" id="3_ckgfs"]
 [ext_resource type="Resource" uid="uid://b3kvx0hxjqior" path="res://presentation/snake/stinky.tres" id="4_caytu"]
-[ext_resource type="Material" uid="uid://dspyij0pnqqfb" path="res://presentation/snake/snake_segment.tres" id="5_rlixu"]
+[ext_resource type="Texture2D" uid="uid://dwx5cnnq6hs68" path="res://assets/snake/organic snake/head.png" id="5_thhkm"]
 
 [node name="SnakeSegment" type="Node2D"]
 script = ExtResource("1_6fdbu")
@@ -15,8 +15,7 @@ flash_times = 2
 flash_color = Color(0.941176, 0, 0, 0.270588)
 
 [node name="Sprite" type="Sprite2D" parent="."]
-modulate = Color(0.313726, 0.313726, 0.313726, 1)
-material = ExtResource("5_rlixu")
 rotation = -1.5708
+texture = ExtResource("5_thhkm")
 
 [node name="FlashTimer" type="Timer" parent="."]

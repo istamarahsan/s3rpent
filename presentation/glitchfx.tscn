@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://ch1161vk4vcuj"]
+
+[ext_resource type="Material" uid="uid://c45gs3ns52gla" path="res://presentation/glitchfx.tres" id="1_v4ehu"]
+[ext_resource type="Script" path="res://presentation/glitchfx.gd" id="2_ypklh"]
+[ext_resource type="Script" path="res://hooks/state_hook.gd" id="3_s7t5u"]
+
+[node name="Glitch" type="ColorRect"]
+material = ExtResource("1_v4ehu")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.654902, 1, 1)
+script = ExtResource("2_ypklh")
+
+[node name="StateHook" type="Node" parent="."]
+script = ExtResource("3_s7t5u")
+
+[connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]
