@@ -110,6 +110,7 @@ func process_timestep():
 		
 		if food_state.polarity != snake_mode and food_state.polarity != Polarity.Coin:
 			lives_left -= 1
+			food_state.is_eaten = true
 			flags.append("hit")
 			continue
 		
