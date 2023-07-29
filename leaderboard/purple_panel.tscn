@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cimriaptdsxda"]
+
+[ext_resource type="Texture2D" uid="uid://bs388sk044l82" path="res://assets/leaderboard/leaderboard bar.png" id="1_82oy5"]
+
+[node name="NinePatchRect" type="NinePatchRect"]
+texture = ExtResource("1_82oy5")
+region_rect = Rect2(0, 0, 100, 101)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16

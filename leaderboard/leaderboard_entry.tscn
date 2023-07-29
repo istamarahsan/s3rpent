@@ -1,0 +1,82 @@
+[gd_scene load_steps=4 format=3 uid="uid://baltlhfhhvsfl"]
+
+[ext_resource type="PackedScene" uid="uid://cimriaptdsxda" path="res://leaderboard/purple_panel.tscn" id="1_1uepu"]
+[ext_resource type="Theme" uid="uid://cj754d21e4sd0" path="res://themes/s3rpent.tres" id="1_s7p8p"]
+[ext_resource type="Script" path="res://leaderboard/leaderboard_entry.gd" id="2_eqfmg"]
+
+[node name="Entry" type="HBoxContainer" node_paths=PackedStringArray("rank_label", "name_label", "score_label")]
+custom_minimum_size = Vector2(1269, 101)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -634.5
+offset_top = -50.5
+offset_right = 634.5
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_s7p8p")
+theme_override_constants/separation = 25
+script = ExtResource("2_eqfmg")
+rank_label = NodePath("RankPanel/Rank")
+name_label = NodePath("ScorePanel/MarginContainer/HBoxContainer/Name")
+score_label = NodePath("ScorePanel/MarginContainer/HBoxContainer/Score")
+
+[node name="RankPanel" parent="." instance=ExtResource("1_1uepu")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Rank" type="Label" parent="RankPanel"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -8.5
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.254902, 0.564706, 1)
+theme_override_font_sizes/font_size = 80
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScorePanel" parent="." instance=ExtResource("1_1uepu")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 10.0
+
+[node name="MarginContainer" type="MarginContainer" parent="ScorePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 100
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScorePanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="Name" type="Label" parent="ScorePanel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.254902, 0.564706, 1)
+theme_override_font_sizes/font_size = 80
+text = "CONTOH"
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="ScorePanel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.254902, 0.564706, 1)
+theme_override_font_sizes/font_size = 80
+text = "0025"
+horizontal_alignment = 2
+vertical_alignment = 1
