@@ -16,7 +16,7 @@ func time_elapsed() -> float:
 	return _time_elapsed
 	
 func time_to_next_transition() -> float:
-	return _transition_timer.time_left if _transition_timer != null and not _transition_timer.is_stopped() else 0.0
+	return 0.0 if _transition_timer == null else _transition_timer.wait_time if _transition_timer.is_stopped() else _transition_timer.time_left
 
 func time_conversion_remaining() -> float:
-	return _conversion_timer.time_left if _conversion_timer != null and not _conversion_timer.is_stopped() else 0.0
+	return 0.0 if _conversion_timer == null else _conversion_timer.wait_time if _conversion_timer.is_stopped() else _conversion_timer.time_left

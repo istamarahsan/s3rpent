@@ -1,5 +1,4 @@
 extends Control
-class_name MainMenu
 
 signal play
 signal quit

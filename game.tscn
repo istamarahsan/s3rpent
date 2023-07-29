@@ -14,6 +14,9 @@
 [node name="Game" type="Node2D"]
 script = ExtResource("1_54xge")
 
+[node name="StartGameDelayTimer" type="Timer" parent="."]
+one_shot = true
+
 [node name="CybersnakeGame" type="Node" parent="."]
 script = ExtResource("2_8n276")
 config = ExtResource("3_1honf")
@@ -66,6 +69,7 @@ color = Color(0, 0, 0, 0.117647)
 [node name="StateHook" type="Node" parent="."]
 script = ExtResource("8_6j6d0")
 
+[connection signal="timeout" from="StartGameDelayTimer" to="." method="_on_start_game_delay_timer_timeout"]
 [connection signal="timeout" from="TickTimer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="ConversionTimer" to="." method="_on_conversion_timer_timeout"]
 [connection signal="initialized" from="TimeAccelerator" to="TimeAccelerator" method="_on_initialized"]

@@ -47,15 +47,13 @@ var game_time_elapsed: float = 0
 var state: State
 
 func _ready():
-	state = State.Playing
 	_connect_hooks(inner_game)
 	transition_timer.timeout.connect(_on_transition_timer_timeout)
-	tick_timer.start()
-	transition_timer.start()
 	$GameoverLayer.visible = false
 	for hook in state_hooks:
 		hook.initialized.emit()
 		hook.updated.emit()
+	$StartGameDelayTimer.start()
 
 func _process(delta):
 	match state:
@@ -169,3 +167,8 @@ func _on_gameover_replay():
 	_recreate_game()
 	state = State.Playing
 	$GameoverLayer.visible = false
+
+func _on_start_game_delay_timer_timeout():
+	tick_timer.start()
+	transition_timer.start()
+	state = State.Playing

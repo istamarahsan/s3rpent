@@ -11,8 +11,7 @@ func _input(event):
 		back.emit()
 
 func _ready():
-	if get_tree().root.get_children().any(func(child): return child == self):
-		reload()
+	reload()
 
 func reload():
 	$FetchScores.fetch()
