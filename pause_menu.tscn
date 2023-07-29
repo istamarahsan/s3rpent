@@ -1,0 +1,128 @@
+[gd_scene load_steps=4 format=3 uid="uid://nklyn6swbysf"]
+
+[ext_resource type="Texture2D" uid="uid://jkuqg5m053s3" path="res://assets/buttons_and_setting_background/button.png" id="1_rrgoc"]
+[ext_resource type="Texture2D" uid="uid://vom4wga2kxi8" path="res://assets/buttons_and_setting_background/button (highlight).png" id="2_pu81i"]
+[ext_resource type="FontFile" uid="uid://dpogoydi7t2cl" path="res://assets/fonts/spyagency3_2.ttf" id="3_b4yts"]
+
+[node name="pause menu" type="Control"]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -962.0
+offset_right = 961.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.493
+anchor_top = 0.225
+anchor_right = 0.493
+anchor_bottom = 0.225
+offset_left = -262.039
+offset_top = -1.52588e-05
+offset_right = 343.961
+offset_bottom = 516.0
+grow_horizontal = 2
+metadata/_edit_group_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_right = 606.0
+offset_bottom = 516.0
+
+[node name="BackToGame" type="TextureButton" parent="Panel/VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("1_rrgoc")
+texture_hover = ExtResource("2_pu81i")
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/BackToGame"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -255.0
+offset_top = -30.5
+offset_right = 255.0
+offset_bottom = 30.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_b4yts")
+theme_override_font_sizes/font_size = 56
+text = "Back To Game"
+horizontal_alignment = 1
+
+[node name="Retry" type="TextureButton" parent="Panel/VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("1_rrgoc")
+texture_hover = ExtResource("2_pu81i")
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Retry"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -255.0
+offset_top = -30.5
+offset_right = 255.0
+offset_bottom = 30.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_b4yts")
+theme_override_font_sizes/font_size = 56
+text = "Retry"
+horizontal_alignment = 1
+
+[node name="Option" type="TextureButton" parent="Panel/VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("1_rrgoc")
+texture_hover = ExtResource("2_pu81i")
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Option"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -255.0
+offset_top = -30.5
+offset_right = 255.0
+offset_bottom = 30.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_b4yts")
+theme_override_font_sizes/font_size = 56
+text = "Option"
+horizontal_alignment = 1
+
+[node name="Title" type="TextureButton" parent="Panel/VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("1_rrgoc")
+texture_hover = ExtResource("2_pu81i")
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Title"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -255.0
+offset_top = -30.5
+offset_right = 255.0
+offset_bottom = 30.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_b4yts")
+theme_override_font_sizes/font_size = 56
+text = "Quit To Title"
+horizontal_alignment = 1
