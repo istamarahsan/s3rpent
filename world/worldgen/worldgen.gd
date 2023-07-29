@@ -11,7 +11,13 @@ var _ceramic_singles: Array[Vector2i] = []
 var _ceramic_rects: Array[Rect2i] = []
 var _dirty_spots: Array[Array] = []
 
+const dirty_offset: int = 15
+
 func regenerate(span: int, seed: int = 0):
+	noise_source.seed = seed
+	dirty_noise_source.seed = seed + dirty_offset
+	seed(seed)
+	
 	_world = {}
 	var space = VecExtensions.position_space(
 		Vector2i(-span, -span), 

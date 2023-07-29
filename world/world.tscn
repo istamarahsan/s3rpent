@@ -55,7 +55,7 @@ energy = 0.5
 texture = SubResource("NoiseTexture2D_d0t0x")
 script = ExtResource("5_ksuj7")
 
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
+[node name="Tint" type="CanvasModulate" parent="."]
 color = Color(0.313726, 0.313726, 0.313726, 1)
 
 [connection signal="initialized" from="StateHook" to="." method="_on_state_hook_initialized"]

@@ -12,18 +12,25 @@ const conversion_scene: PackedScene = preload("res://world/conversion.tscn")
 var active_conversion_tiles: Array[Node2D] = []
 
 func _on_state_hook_initialized():
-	$Worldgen.regenerate(state_hook.handle.world_span)
+	randomize()
+	$Worldgen.regenerate(state_hook.handle.world_span, randi())
+	
 	tilemap.set_cells_terrain_connect(0, VecExtensions.position_space(-Vector2i.ONE * (state_hook.handle.world_span + outer_span), Vector2i.ONE * (state_hook.handle.world_span + outer_span)), 0, 3, false)
 	tilemap.set_cells_terrain_connect(0, VecExtensions.position_space(-Vector2i.ONE * state_hook.handle.world_span, Vector2i.ONE * state_hook.handle.world_span), 0, 0, false)
+	
 	for ceramic_rect in $Worldgen.ceramic_rects():
 		var tiles = VecExtensions.position_space(ceramic_rect.position, ceramic_rect.end)
 		tilemap.set_cells_terrain_connect(0, tiles, 0, 1, false)
+	
 	for dirty_spot in $Worldgen.dirty_spots():
 		tilemap.set_cells_terrain_connect(0, dirty_spot, 0, 2, false)
+	
 	for ceramic_single in $Worldgen.ceramic_singles():
 		tilemap.set_cells_terrain_path(0, [ceramic_single], 0, 1, false)
+	
 	var border_space: Array[Vector2i] = VecExtensions.perimeter(Vector2i.ONE * -state_hook.handle.world_span - Vector2i.ONE, Vector2i.ONE * state_hook.handle.world_span + Vector2i.ONE)
 	tilemap.set_cells_terrain_connect(0, border_space, 0, 3, false)
+	
 	for powerup in state_hook.handle.powerup_states:
 		if powerup.is_eaten:
 			continue
