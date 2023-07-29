@@ -124,6 +124,7 @@ texture_normal = ExtResource("5_pruwq")
 texture_hover = ExtResource("6_uesy2")
 
 [node name="Label" type="Label" parent="Container2/backtomain"]
+layout_mode = 0
 offset_left = 33.5
 offset_top = 26.0
 offset_right = 622.5

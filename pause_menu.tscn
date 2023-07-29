@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://nklyn6swbysf"]
+[gd_scene load_steps=5 format=3 uid="uid://nklyn6swbysf"]
 
+[ext_resource type="Script" path="res://pause_menu.gd" id="1_n1dvc"]
 [ext_resource type="Texture2D" uid="uid://jkuqg5m053s3" path="res://assets/buttons_and_setting_background/button.png" id="1_rrgoc"]
 [ext_resource type="Texture2D" uid="uid://vom4wga2kxi8" path="res://assets/buttons_and_setting_background/button (highlight).png" id="2_pu81i"]
 [ext_resource type="FontFile" uid="uid://dpogoydi7t2cl" path="res://assets/fonts/spyagency3_2.ttf" id="3_b4yts"]
@@ -15,6 +16,7 @@ offset_bottom = 1080.0
 grow_horizontal = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
+script = ExtResource("1_n1dvc")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -126,3 +128,6 @@ theme_override_fonts/font = ExtResource("3_b4yts")
 theme_override_font_sizes/font_size = 56
 text = "Quit To Title"
 horizontal_alignment = 1
+
+[connection signal="pressed" from="Panel/VBoxContainer/BackToGame" to="." method="_on_back_to_game_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Retry" to="." method="_on_retry_pressed"]
