@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cawdem5fi3mwr"]
+[gd_scene load_steps=20 format=3 uid="uid://cawdem5fi3mwr"]
 
 [ext_resource type="Script" path="res://presentation/hud/hud.gd" id="1_eel46"]
 [ext_resource type="Texture2D" uid="uid://7d1sjum8axs" path="res://assets/hud/direction.png" id="1_rup7t"]
@@ -15,6 +15,19 @@
 [ext_resource type="Script" path="res://hooks/state_hook.gd" id="11_jukjf"]
 [ext_resource type="Script" path="res://hooks/scheduler_hook.gd" id="12_nqxuo"]
 [ext_resource type="PackedScene" uid="uid://m3pv7pcdoa1y" path="res://presentation/hud/heart.tscn" id="13_d2dr5"]
+[ext_resource type="Texture2D" uid="uid://c3xh0f84dgmdg" path="res://assets/world/TrashyTileset.png" id="14_cc7ou"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yk25a"]
+atlas = ExtResource("14_cc7ou")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p30q8"]
+atlas = ExtResource("14_cc7ou")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ofi4o"]
+atlas = ExtResource("14_cc7ou")
+region = Rect2(128, 128, 128, 128)
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -226,9 +239,9 @@ alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
+theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_bottom = 15
 
 [node name="HeartsContainer" type="HBoxContainer" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer/MarginContainer"]
 unique_name_in_owner = true
@@ -258,10 +271,100 @@ text = "X 2.2"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Filler" type="Label" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 45
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 52
+theme_override_constants/margin_bottom = 27
+
+[node name="Filler" type="HBoxContainer" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer/MarginContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer/MarginContainer2/Filler"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer/MarginContainer2/Filler/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = SubResource("AtlasTexture_yk25a")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="OrganicScoreLabel" type="Label" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer/MarginContainer2/Filler/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer/MarginContainer2/Filler"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer/MarginContainer2/Filler/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = SubResource("AtlasTexture_p30q8")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="GlassScoreLabel" type="Label" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer/MarginContainer2/Filler/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer/MarginContainer2/Filler"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer/MarginContainer2/Filler/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = SubResource("AtlasTexture_ofi4o")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PlasticScoreLabel" type="Label" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer/MarginContainer2/Filler/HBoxContainer3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 1
+
+[node name="TotalScoreLabel" type="Label" parent="Bottom/HBoxContainer/TextureRect/HBoxContainer/MarginContainer2/Filler"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 64
+text = "100"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 1
 
 [node name="StateHook" type="Node" parent="."]
 script = ExtResource("11_jukjf")

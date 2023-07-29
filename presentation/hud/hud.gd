@@ -6,22 +6,26 @@ signal toggle_pause
 @export var organic_set: HudSet
 @export var paper_set: HudSet
 
-@onready var time_label: Label = get_node("%TimeLabel") as Label
-@onready var category_bg: TextureRect = get_node("%CategoryBg") as TextureRect
-@onready var category_label: Label = get_node("%CategoryLabel") as Label
-@onready var counter_bg: TextureRect = get_node("%CounterBg") as TextureRect
-@onready var counter_label: Label = get_node("%CounterLabel") as Label
-@onready var pause_button: TextureButton = get_node("%PauseButton") as TextureButton
+@onready var time_label: Label               = get_node("%TimeLabel") as Label
+@onready var category_bg: TextureRect        = get_node("%CategoryBg") as TextureRect
+@onready var category_label: Label           = get_node("%CategoryLabel") as Label
+@onready var counter_bg: TextureRect         = get_node("%CounterBg") as TextureRect
+@onready var counter_label: Label            = get_node("%CounterLabel") as Label
+@onready var pause_button: TextureButton     = get_node("%PauseButton") as TextureButton
 @onready var hearts_container: HBoxContainer = get_node("%HeartsContainer") as HBoxContainer
-@onready var multiplier_label: Label = get_node("%MultiplierLabel") as Label
-@onready var direction_arrow: TextureRect = get_node("%DirectionArrow") as TextureRect
-@onready var state_hook: StateHook = $StateHook as StateHook
-@onready var scheduler_hook: SchedulerHook = $SchedulerHook as SchedulerHook
-@onready var hearts: Array[Control] = [
+@onready var multiplier_label: Label         = get_node("%MultiplierLabel") as Label
+@onready var direction_arrow: TextureRect    = get_node("%DirectionArrow") as TextureRect
+@onready var state_hook: StateHook           = $StateHook as StateHook
+@onready var scheduler_hook: SchedulerHook   = $SchedulerHook as SchedulerHook
+@onready var hearts: Array[Control]          = [
 	get_node("%Heart1") as Control,
 	get_node("%Heart2") as Control,
 	get_node("%Heart3") as Control
 ]
+@onready var organic_score_label: Label      = get_node("%OrganicScoreLabel") as Label
+@onready var glass_score_label: Label        = get_node("%GlassScoreLabel") as Label
+@onready var plastic_score_label: Label      = get_node("%PlasticScoreLabel") as Label
+@onready var total_score_label: Label        = get_node("%TotalScoreLabel") as Label
 
 func _ready():
 	pause_button.button_up.connect(func(): toggle_pause.emit())
@@ -31,19 +35,23 @@ func _process(delta):
 	counter_label.text = str(ceilf(scheduler_hook.time_to_next_transition()))
 
 func _on_state_hook_initialized():
+	_sync_ui()
+
+func _on_state_hook_updated():
+	_sync_ui()
+	if "transition" in state_hook.handle.flags:
+		_to_set(_match_polarity(state_hook.handle.snake_mode))
+
+func _sync_ui():
 	_update_hearts()
 	_to_set(_match_polarity(state_hook.handle.snake_mode))
 	category_label.text = _match_polarity_str(state_hook.handle.snake_mode)
 	multiplier_label.text = "X " + str(state_hook.handle.active_point_multiplier)
 	direction_arrow.rotation = deg_to_rad(_match_heading(state_hook.handle.snake_heading))
-
-func _on_state_hook_updated():
-	_update_hearts()
-	if "transition" in state_hook.handle.flags:
-		_to_set(_match_polarity(state_hook.handle.snake_mode))
-	category_label.text = _match_polarity_str(state_hook.handle.snake_mode)
-	multiplier_label.text = "X " + str(state_hook.handle.active_point_multiplier)
-	direction_arrow.rotation = deg_to_rad(_match_heading(state_hook.handle.snake_heading))
+	organic_score_label.text = str(state_hook.handle.food_eaten_so_far_cat[CybersnakeGame.Polarity.Organic])
+	glass_score_label.text = str(state_hook.handle.food_eaten_so_far_cat[CybersnakeGame.Polarity.Paper])
+	plastic_score_label.text = str(state_hook.handle.food_eaten_so_far_cat[CybersnakeGame.Polarity.Plastic])
+	total_score_label.text = str(state_hook.handle.food_eaten_so_far)
 
 func _match_polarity_str(value: CybersnakeGame.Polarity) -> String:
 	match value:

@@ -29,6 +29,12 @@ func reset():
 	ticks_to_snake_mode_transition = config.snake_mode_interval
 	snake_state                    = SnakePositionState.new()
 	snake_heading                  = Vector2i.RIGHT
+	food_eaten_so_far_cat          = {
+		Polarity.Organic: 0,
+		Polarity.Paper:   0,
+		Polarity.Plastic: 0,
+		Polarity.Coin:    0
+	}
 	food_states                    = []
 	powerup_states                 = []
 	points                         = 0
@@ -115,7 +121,7 @@ func process_timestep():
 			continue
 		
 		food_state.is_eaten = true
-		food_eaten_so_far += 1
+		food_eaten_so_far_cat[food_state.polarity] += 1
 		flags.append("ate")
 		if food_eaten_so_far % 10 == 0:
 			active_point_multiplier += 0.1
