@@ -52,6 +52,7 @@ func _ready():
 	transition_timer.timeout.connect(_on_transition_timer_timeout)
 	tick_timer.start()
 	transition_timer.start()
+	$GameoverLayer.visible = false
 
 func _process(delta):
 	match state:
@@ -134,12 +135,11 @@ func _on_state_hook_updated():
 		tick_timer.stop()
 		transition_timer.stop()
 		conversion_timer.stop()
+		state = State.Stopped
+		$GameoverLayer.visible = true
 		return
 	if "moved" in $StateHook.handle.flags:
 		tick_timer.start()
-	if "gameover" in $StateHook.handle.flags:
-		tick_timer.stop()
-		state = State.Stopped
 	if "powerup:conversion" in $StateHook.handle.flags:
 		transition_timer.paused = true
 		conversion_timer.stop()

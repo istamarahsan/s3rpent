@@ -1,11 +1,25 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://cj754d21e4sd0"]
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://cj754d21e4sd0"]
 
+[ext_resource type="StyleBox" uid="uid://ctiibdtfybme" path="res://themes/gameover_button_normal.tres" id="1_2rbvx"]
 [ext_resource type="FontFile" uid="uid://bck4vn8cx20wc" path="res://assets/fonts/Sagu Exora.ttf" id="1_2wygk"]
 [ext_resource type="FontFile" uid="uid://dpogoydi7t2cl" path="res://assets/fonts/spyagency3_2.ttf" id="1_h0ji3"]
+[ext_resource type="StyleBox" uid="uid://c6rdwwoy6vh7o" path="res://themes/gameover_button_highlight.tres" id="2_y7gu5"]
 
 [resource]
 default_font = ExtResource("1_h0ji3")
 default_font_size = 16
+GameoverButton/base_type = &"Button"
+GameoverButton/colors/font_color = Color(1, 0.258824, 0.564706, 1)
+GameoverButton/colors/font_disabled_color = Color(1, 0.258824, 0.564706, 1)
+GameoverButton/colors/font_focus_color = Color(1, 1, 1, 1)
+GameoverButton/colors/font_hover_color = Color(1, 1, 1, 1)
+GameoverButton/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+GameoverButton/colors/font_pressed_color = Color(1, 1, 1, 1)
+GameoverButton/styles/disabled = ExtResource("1_2rbvx")
+GameoverButton/styles/focus = ExtResource("2_y7gu5")
+GameoverButton/styles/hover = ExtResource("2_y7gu5")
+GameoverButton/styles/normal = ExtResource("1_2rbvx")
+GameoverButton/styles/pressed = ExtResource("2_y7gu5")
 Label/colors/font_color = Color(0.85098, 0.0784314, 0.8, 1)
 Label/fonts/font = ExtResource("1_h0ji3")
 LabelHeader/base_type = &"Label"

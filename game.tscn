@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cpr6dn54l3e84"]
+[gd_scene load_steps=11 format=3 uid="uid://cpr6dn54l3e84"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_54xge"]
 [ext_resource type="Script" path="res://cybersnake/cybersnake_game.gd" id="2_8n276"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cawdem5fi3mwr" path="res://presentation/hud/hud.tscn" id="8_0l0tr"]
 [ext_resource type="Script" path="res://hooks/state_hook.gd" id="8_6j6d0"]
 [ext_resource type="PackedScene" uid="uid://ch1161vk4vcuj" path="res://presentation/glitchfx.tscn" id="8_nqxn2"]
+[ext_resource type="PackedScene" uid="uid://b0x764v7qrymq" path="res://gameover.tscn" id="9_emrsr"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_54xge")
@@ -49,6 +50,10 @@ z_as_relative = false
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 
 [node name="Hud" parent="HUDLayer" instance=ExtResource("8_0l0tr")]
+
+[node name="GameoverLayer" type="CanvasLayer" parent="."]
+
+[node name="Gameover" parent="GameoverLayer" instance=ExtResource("9_emrsr")]
 
 [node name="StateHook" type="Node" parent="."]
 script = ExtResource("8_6j6d0")
