@@ -95,6 +95,7 @@ func process_timestep():
 	var would_go_out_of_bounds: bool = new_head_position.abs().x > world_span or new_head_position.abs().y > world_span
 	var would_collide_with_self: bool = snake_state.tail.any(func(segment_position): return segment_position == new_head_position)
 	if would_go_out_of_bounds or would_collide_with_self:
+		active_point_multiplier = 1
 		lives_left -= 1
 		flags.append("hit:wall")
 	else:
@@ -115,6 +116,7 @@ func process_timestep():
 			continue
 		
 		if food_state.polarity != snake_mode and food_state.polarity != Polarity.Coin:
+			active_point_multiplier = 1
 			lives_left -= 1
 			food_state.is_eaten = true
 			flags.append("hit")
