@@ -11,11 +11,16 @@ func _process(delta):
 	pass
 
 
-func _on_back_to_game_pressed():
-	#this is for backtogame button
+func _on_start_2_pressed():
+	get_tree().change_scene_to_file("res://root.tscn")
 	pass # Replace with function body.
 
 
-func _on_retry_pressed():
-	#this is for retry button
+func _on_option_pressed():
+	get_tree().change_scene_to_file("res://options.tscn")
+	pass # Replace with function body.
+
+
+func _on_quit_pressed():
+	get_tree().quit()
 	pass # Replace with function body.

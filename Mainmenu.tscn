@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://db8ldjtfob3w2"]
+[gd_scene load_steps=7 format=3 uid="uid://db8ldjtfob3w2"]
 
-[ext_resource type="FontFile" uid="uid://bp8je8liwpxim" path="res://energear-font/Energear-RqvV.ttf" id="1_mwnca"]
-[ext_resource type="Script" path="res://menuscript.gd" id="1_qsno5"]
-[ext_resource type="FontFile" uid="uid://cdb2t0umx5yck" path="res://drexs-font/Drexs-z8gB3.ttf" id="3_yxsl3"]
-[ext_resource type="FontFile" uid="uid://dcrt5pq527yy2" path="res://drexs-font/Drexs-51Pp8.otf" id="4_dqx88"]
+[ext_resource type="Script" path="res://Mainmenu.gd" id="1_l316s"]
+[ext_resource type="Texture2D" uid="uid://bhu4toh0grvkt" path="res://assets/buttons_and_setting_background/MainMenuBG.PNG" id="1_q85bb"]
+[ext_resource type="FontFile" uid="uid://bck4vn8cx20wc" path="res://assets/fonts/Sagu Exora.ttf" id="2_jvawd"]
+[ext_resource type="Texture2D" uid="uid://jkuqg5m053s3" path="res://assets/buttons_and_setting_background/button.png" id="3_7ureb"]
+[ext_resource type="Texture2D" uid="uid://vom4wga2kxi8" path="res://assets/buttons_and_setting_background/button (highlight).png" id="4_4402h"]
+[ext_resource type="FontFile" uid="uid://dpogoydi7t2cl" path="res://assets/fonts/spyagency3_2.ttf" id="5_ejdjf"]
 
 [node name="Mainmenu" type="Control"]
 layout_mode = 3
@@ -12,59 +14,118 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_l316s")
 
 [node name="BackgroundColor" type="ColorRect" parent="."]
 layout_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.141176, 0, 0.345098, 1)
+color = Color(0.141176, 0, 0.345098, 0)
 
-[node name="Title" type="VBoxContainer" parent="."]
+[node name="MainMenuBg" type="Sprite2D" parent="BackgroundColor"]
+position = Vector2(960, 539)
+texture = ExtResource("1_q85bb")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.548
+anchor_right = 0.5
+anchor_bottom = 0.548
+offset_left = -427.0
+offset_top = 215.16
+offset_right = 428.0
+offset_bottom = 342.16
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("2_jvawd")
+theme_override_font_sizes/font_size = 100
+text = "CyberSnake"
+
+[node name="Start2" type="TextureButton" parent="."]
+layout_mode = 2
+offset_left = 698.0
+offset_top = 689.0
+offset_right = 1295.0
+offset_bottom = 815.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture_normal = ExtResource("3_7ureb")
+texture_hover = ExtResource("4_4402h")
+
+[node name="Label" type="Label" parent="Start2"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -211.5
-offset_top = -38.0
-offset_right = 211.5
-offset_bottom = 38.0
+offset_left = -106.0
+offset_top = -30.5
+offset_right = 106.0
+offset_bottom = 30.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 7
-
-[node name="Label" type="Label" parent="Title"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_fonts/font = ExtResource("1_mwnca")
-theme_override_font_sizes/font_size = 100
-text = "CyberSnake"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Title"]
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/separation = 4
-script = ExtResource("1_qsno5")
-
-[node name="Start" type="Button" parent="Title/VBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_yxsl3")
-theme_override_font_sizes/font_size = 50
+theme_override_fonts/font = ExtResource("5_ejdjf")
+theme_override_font_sizes/font_size = 56
 text = "Start"
+horizontal_alignment = 1
 
-[node name="Option" type="Button" parent="Title/VBoxContainer"]
+[node name="Option" type="TextureButton" parent="."]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("4_dqx88")
-theme_override_font_sizes/font_size = 30
+offset_top = 934.0
+offset_right = 597.0
+offset_bottom = 1060.0
+texture_normal = ExtResource("3_7ureb")
+texture_hover = ExtResource("4_4402h")
+
+[node name="Label3" type="Label" parent="Option"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -106.0
+offset_top = -30.5
+offset_right = 106.0
+offset_bottom = 30.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_ejdjf")
+theme_override_font_sizes/font_size = 56
 text = "Option"
+horizontal_alignment = 1
 
-[node name="Quit" type="Button" parent="Title/VBoxContainer"]
+[node name="Quit" type="TextureButton" parent="."]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("4_dqx88")
-theme_override_font_sizes/font_size = 30
-text = "Quit"
+offset_left = 1295.0
+offset_top = 934.0
+offset_right = 1892.0
+offset_bottom = 1060.0
+texture_normal = ExtResource("3_7ureb")
+texture_hover = ExtResource("4_4402h")
 
-[connection signal="pressed" from="Title/VBoxContainer/Start" to="Title/VBoxContainer" method="_on_start_pressed"]
-[connection signal="pressed" from="Title/VBoxContainer/Option" to="Title/VBoxContainer" method="_on_option_pressed"]
-[connection signal="pressed" from="Title/VBoxContainer/Quit" to="Title/VBoxContainer" method="_on_quit_pressed"]
+[node name="Label2" type="Label" parent="Quit"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -106.0
+offset_top = -30.5
+offset_right = 106.0
+offset_bottom = 30.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_ejdjf")
+theme_override_font_sizes/font_size = 56
+text = "Quit"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="Start2" to="." method="_on_start_2_pressed"]
+[connection signal="pressed" from="Option" to="." method="_on_option_pressed"]
+[connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]
