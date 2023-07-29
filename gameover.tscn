@@ -1,16 +1,24 @@
-[gd_scene load_steps=8 format=3 uid="uid://b0x764v7qrymq"]
+[gd_scene load_steps=11 format=3 uid="uid://b0x764v7qrymq"]
 
 [ext_resource type="FontFile" uid="uid://bck4vn8cx20wc" path="res://assets/fonts/Sagu Exora.ttf" id="1_alifs"]
 [ext_resource type="Theme" uid="uid://cj754d21e4sd0" path="res://themes/s3rpent.tres" id="1_u0gbl"]
 [ext_resource type="Script" path="res://gameover.gd" id="2_2no3n"]
 [ext_resource type="Texture2D" uid="uid://jkuqg5m053s3" path="res://assets/buttons_and_setting_background/button.png" id="2_kvn32"]
 [ext_resource type="Texture2D" uid="uid://vom4wga2kxi8" path="res://assets/buttons_and_setting_background/button (highlight).png" id="3_0b3lv"]
+[ext_resource type="PackedScene" uid="uid://c75m6usklu4yh" path="res://upload_score_form.tscn" id="6_23rhg"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_n4s05"]
 texture = ExtResource("2_kvn32")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0kbcx"]
 texture = ExtResource("3_0b3lv")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dgwu8"]
+bg_color = Color(0.929412, 0.913725, 0.996078, 0)
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fydqg"]
+bg_color = Color(0.141176, 0.027451, 0.298039, 1)
 
 [node name="Gameover" type="Control"]
 layout_mode = 3
@@ -146,5 +154,52 @@ theme_type_variation = &"GameoverButton"
 theme_override_font_sizes/font_size = 30
 text = "Main Menu"
 
+[node name="PopupPanel" type="PopupPanel" parent="."]
+title = "Upload Score"
+initial_position = 2
+size = Vector2i(1260, 360)
+unresizable = false
+borderless = false
+theme_override_styles/panel = SubResource("StyleBoxFlat_dgwu8")
+
+[node name="MarginContainer" type="MarginContainer" parent="PopupPanel"]
+offset_right = 1260.0
+offset_bottom = 360.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Panel" type="Panel" parent="."]
+visible = false
+custom_minimum_size = Vector2(800, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fydqg")
+
+[node name="UploadForm" parent="Panel" instance=ExtResource("6_23rhg")]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
 [connection signal="button_up" from="CenterContainer/VBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer/PlayAgain" to="." method="_on_play_again_button_up"]
+[connection signal="button_up" from="CenterContainer/VBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer/UploadScore" to="." method="_on_upload_score_button_up"]
 [connection signal="button_up" from="CenterContainer/VBoxContainer/MarginContainer2/VBoxContainer/MainMenu" to="." method="_on_main_menu_button_up"]
+[connection signal="submit" from="Panel/UploadForm" to="." method="_on_upload_form_submit"]
