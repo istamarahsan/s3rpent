@@ -2,7 +2,9 @@ extends Node
 
 enum UpperState {
 	MainMenu,
-	Playing
+	Playing,
+	Leaderboard,
+	Settings
 }
 
 @export var game_scene: PackedScene
