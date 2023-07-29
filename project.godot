@@ -10,11 +10,12 @@ config_version=5
 
 [application]
 
-config/name="s3rpent"
+config/name="S3RPENT"
 run/main_scene="res://root.tscn"
 config/features=PackedStringArray("4.1", "Mobile")
 boot_splash/show_image=false
-config/icon="res://icon.svg"
+config/icon="res://icon.png"
+config/windows_native_icon="res://icon.ico"
 
 [autoload]
 
