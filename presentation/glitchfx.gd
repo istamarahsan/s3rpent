@@ -7,11 +7,12 @@ extends ColorRect
 
 @onready var state_hook: StateHook = $StateHook as StateHook
 
-func _ready():
+var _glitching: bool = false
+
+func _on_state_hook_initialized():
+	_glitching = false
 	material.set_shader_parameter("shake_power", 0)
 	material.set_shader_parameter("shake_rate", 0)
-
-var _glitching: bool = false
 
 func _on_state_hook_updated():
 	if not _glitching and state_hook.handle.flags.any(func(flag): return flag.begins_with("hit")):

@@ -24,6 +24,7 @@ func _ready():
 	reset()
 
 func reset():
+	flags                          = []
 	is_game_over                   = false
 	lives_left                     = config.max_lives
 	ticks_to_snake_mode_transition = config.snake_mode_interval

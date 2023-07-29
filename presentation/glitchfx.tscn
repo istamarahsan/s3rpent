@@ -17,4 +17,5 @@ script = ExtResource("2_ypklh")
 [node name="StateHook" type="Node" parent="."]
 script = ExtResource("3_s7t5u")
 
+[connection signal="initialized" from="StateHook" to="." method="_on_state_hook_initialized"]
 [connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]

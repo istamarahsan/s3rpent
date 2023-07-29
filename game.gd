@@ -53,6 +53,9 @@ func _ready():
 	tick_timer.start()
 	transition_timer.start()
 	$GameoverLayer.visible = false
+	for hook in state_hooks:
+		hook.initialized.emit()
+		hook.updated.emit()
 
 func _process(delta):
 	match state:
@@ -63,9 +66,15 @@ func _process(delta):
 
 func _recreate_game():
 	inner_game.reset()
+	for hook in state_hooks:
+		hook.initialized.emit()
+		hook.updated.emit()
 	tick_timer.stop()
 	transition_timer.stop()
 	conversion_timer.stop()
+	tick_timer.paused = false
+	transition_timer.paused = false
+	conversion_timer.paused = false
 	tick_timer.start()
 	transition_timer.start()
 
@@ -82,10 +91,6 @@ func _connect_hooks(game: CybersnakeGame):
 			hook._transition_timer = transition_timer
 			hook._conversion_timer = conversion_timer
 			scheduler_hooks.push_back(hook)
-			
-	for hook in state_hooks:
-		hook.initialized.emit()
-		hook.updated.emit()
 
 func _handle_direction_input(dir: InputDirection):
 	match state:
@@ -125,9 +130,9 @@ func _on_turn_input_down_pressed():
 
 func _on_state_hook_updated():
 	if $StateHook.handle.is_game_over:
-		tick_timer.stop()
-		transition_timer.stop()
-		conversion_timer.stop()
+		tick_timer.paused = true
+		transition_timer.paused = true
+		conversion_timer.paused = true
 		state = State.Stopped
 		$GameoverLayer.visible = true
 		return
@@ -163,3 +168,4 @@ func _on_gameover_quit_to_main_menu():
 func _on_gameover_replay():
 	_recreate_game()
 	state = State.Playing
+	$GameoverLayer.visible = false
