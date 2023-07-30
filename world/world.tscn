@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://irjrthrlapp7"]
+[gd_scene load_steps=12 format=3 uid="uid://irjrthrlapp7"]
 
 [ext_resource type="Script" path="res://hooks/state_hook.gd" id="1_k50ys"]
 [ext_resource type="Script" path="res://world/world.gd" id="1_pvxfe"]
@@ -8,6 +8,8 @@
 [ext_resource type="Script" path="res://world/sky.gd" id="5_ksuj7"]
 [ext_resource type="Environment" uid="uid://6mfps4oaxxe2" path="res://world/environment.tres" id="6_oboch"]
 [ext_resource type="Texture2D" uid="uid://hg1idakjwdl7" path="res://world/light_radial.tres" id="8_ff31u"]
+[ext_resource type="AudioStream" uid="uid://b4k0f7r0y4at2" path="res://assets/sfx/Ambience_perhaps_3.wav" id="9_npsqt"]
+[ext_resource type="Script" path="res://audio/audio_hook_2d.gd" id="10_5e7bb"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_eapv2"]
 frequency = 0.5
@@ -96,6 +98,70 @@ texture_scale = 2.0
 energy = 0.4
 texture = ExtResource("8_ff31u")
 texture_scale = 2.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(0, -2700)
+stream = ExtResource("9_npsqt")
+autoplay = true
+max_distance = 2500.0
+bus = &"Ambience"
+script = ExtResource("10_5e7bb")
+
+[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(0, 2700)
+stream = ExtResource("9_npsqt")
+autoplay = true
+max_distance = 2500.0
+bus = &"Ambience"
+script = ExtResource("10_5e7bb")
+
+[node name="AudioStreamPlayer2D3" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(2700, 0)
+stream = ExtResource("9_npsqt")
+autoplay = true
+max_distance = 2500.0
+bus = &"Ambience"
+script = ExtResource("10_5e7bb")
+
+[node name="AudioStreamPlayer2D4" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(-2700, 0)
+stream = ExtResource("9_npsqt")
+autoplay = true
+max_distance = 2500.0
+bus = &"Ambience"
+script = ExtResource("10_5e7bb")
+
+[node name="AudioStreamPlayer2D5" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(-2700, -2700)
+stream = ExtResource("9_npsqt")
+autoplay = true
+max_distance = 2500.0
+bus = &"Ambience"
+script = ExtResource("10_5e7bb")
+
+[node name="AudioStreamPlayer2D6" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(2700, -2700)
+stream = ExtResource("9_npsqt")
+autoplay = true
+max_distance = 2500.0
+bus = &"Ambience"
+script = ExtResource("10_5e7bb")
+
+[node name="AudioStreamPlayer2D7" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(2700, 2700)
+stream = ExtResource("9_npsqt")
+autoplay = true
+max_distance = 2500.0
+bus = &"Ambience"
+script = ExtResource("10_5e7bb")
+
+[node name="AudioStreamPlayer2D8" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(-2700, 2700)
+stream = ExtResource("9_npsqt")
+autoplay = true
+max_distance = 2500.0
+bus = &"Ambience"
+script = ExtResource("10_5e7bb")
 
 [connection signal="initialized" from="StateHook" to="." method="_on_state_hook_initialized"]
 [connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]

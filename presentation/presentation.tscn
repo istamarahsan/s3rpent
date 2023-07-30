@@ -45,6 +45,9 @@ zoom = Vector2(0.8, 0.8)
 position_smoothing_enabled = true
 rotation_smoothing_enabled = true
 
+[node name="AudioListener2D" type="AudioListener2D" parent="Camera2D"]
+current = true
+
 [node name="StateHook" type="Node" parent="."]
 script = ExtResource("4_xf8xl")
 
