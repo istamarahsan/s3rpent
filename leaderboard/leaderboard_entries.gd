@@ -5,6 +5,7 @@ extends MarginContainer
 @export var final_size: Vector2
 @export var final_position: Vector2
 @export var entries_container: Container
+@export var loading: Control
 
 const entry_scene: PackedScene = preload("res://leaderboard/leaderboard_entry.tscn")
 
@@ -15,6 +16,8 @@ func _ready():
 func _on_fetch_scores_request_completed(result, response_code, headers, body):
 	if response_code != 200:
 		return
+	
+	loading.visible = false
 	
 	for child in entries_container.get_children():
 		child.queue_free()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://qun2d4nvihd2"]
+[gd_scene load_steps=11 format=3 uid="uid://qun2d4nvihd2"]
 
 [ext_resource type="Theme" uid="uid://cj754d21e4sd0" path="res://themes/s3rpent.tres" id="1_n6gwn"]
 [ext_resource type="Texture2D" uid="uid://2m1iowofuo0n" path="res://assets/leaderboard/leaderboard background.png" id="1_vcha3"]
@@ -7,6 +7,28 @@
 [ext_resource type="Script" path="res://leaderboard/leaderboard_entries.gd" id="3_nggpm"]
 [ext_resource type="FontFile" uid="uid://bck4vn8cx20wc" path="res://assets/fonts/Sagu Exora.ttf" id="4_edgjh"]
 [ext_resource type="Script" path="res://leaderboard/fetch_scores.gd" id="7_1sisu"]
+[ext_resource type="Texture2D" uid="uid://cahrq0h3c45wo" path="res://assets/leaderboard/loading.png" id="8_7k2d5"]
+
+[sub_resource type="Animation" id="Animation_1q2mx"]
+resource_name = "loading"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Loading:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1trlo"]
+_data = {
+"loading": SubResource("Animation_1q2mx")
+}
 
 [node name="Leaderboard" type="Control"]
 custom_minimum_size = Vector2(1920, 1080)
@@ -28,7 +50,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_vcha3")
 
-[node name="MarginContainer" type="MarginContainer" parent="." node_paths=PackedStringArray("entries_container")]
+[node name="MarginContainer" type="MarginContainer" parent="." node_paths=PackedStringArray("entries_container", "loading")]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -47,6 +69,7 @@ initial_position = Vector2(0, 979)
 final_size = Vector2(1920, 850)
 final_position = Vector2(0, 230)
 entries_container = NodePath("ScrollContainer/VBoxContainer")
+loading = NodePath("../Loading")
 metadata/_edit_lock_ = true
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
@@ -125,6 +148,32 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 51
 text = "Back"
 flat = true
+
+[node name="Loading" type="TextureRect" parent="."]
+modulate = Color(0.52549, 0.0745098, 0.768627, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 6.28319
+pivot_offset = Vector2(100, 100)
+texture = ExtResource("8_7k2d5")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "loading"
+libraries = {
+"": SubResource("AnimationLibrary_1trlo")
+}
 
 [connection signal="request_completed" from="FetchScores" to="MarginContainer" method="_on_fetch_scores_request_completed"]
 [connection signal="button_up" from="Button" to="." method="_on_button_button_up"]

@@ -6,7 +6,6 @@ signal quit_to_main_menu
 signal quit_to_leaderboard
 
 @export var name_field: LineEdit
-@export var error_label: Label
 @export var result_label: Label
 @export var submit_button: Button
 @export var to_leaderboard_button: Button
@@ -15,20 +14,6 @@ signal quit_to_leaderboard
 
 const valid_name_str: String = ""
 var awaiting_request: bool = false
-
-func _ready():
-	name_field.text_changed.connect(_on_name_field_text_changed)
-
-func _on_name_field_text_changed(new: String):
-	var validation := _validate_name(new)
-	
-	if validation != valid_name_str:
-		error_label.text = validation
-		submit_button.disabled = true
-		return
-	
-	error_label.text = ""
-	submit_button.disabled = false
 
 func _on_play_again_button_up():
 	replay.emit()
@@ -47,13 +32,24 @@ func _on_submit_button_up():
 func _validate_name(str: String) -> String:
 	return valid_name_str
 
-func _on_score_post_completed(success):
+func _on_score_post_completed(success, message):
+	result_label.text = message
 	if success:
-		result_label.text = "Score uploaded!"
 		to_leaderboard_button.visible = true
 	else: 
-		result_label.text = "Unable to upload."
 		submit_button.visible = true
 
 func _on_to_leaderboard_button_up():
 	quit_to_leaderboard.emit()
+
+var prev_text: String = ""
+var valid_chars: Array[String] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+func _on_line_edit_text_changed(new_text):
+	if new_text == "":
+		prev_text = ""
+		return
+	for char in new_text.split():
+		if char not in valid_chars:
+			name_field.text = prev_text
+			return
+	prev_text = new_text

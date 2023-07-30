@@ -25,5 +25,6 @@ atlas = ExtResource("1_x21qp")
 region = Rect2(128, 0, 128, 128)
 
 [node name="Conversion" type="Sprite2D"]
+modulate = Color(2, 2, 2, 1)
 material = SubResource("ShaderMaterial_r82ui")
 texture = SubResource("AtlasTexture_x0vm0")

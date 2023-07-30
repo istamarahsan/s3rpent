@@ -380,6 +380,7 @@ texture_region_size = Vector2i(128, 128)
 texture = ExtResource("6_tajfk")
 texture_region_size = Vector2i(128, 128)
 0:0/0 = 0
+2:0/0 = 0
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_lr2hr"]
 resource_name = "conversion"

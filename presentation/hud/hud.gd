@@ -1,10 +1,12 @@
 extends Control
 
 signal toggle_pause
+signal debug_toggle_camera
 
 @export var plastic_set: HudSet
 @export var organic_set: HudSet
 @export var paper_set: HudSet
+@export var sparks: Array[GPUParticles2D] = []
 
 @onready var time_label: Label               = get_node("%TimeLabel") as Label
 @onready var category_bg: TextureRect        = get_node("%CategoryBg") as TextureRect
@@ -34,6 +36,10 @@ func _process(delta):
 	time_label.text = _format_time(scheduler_hook.time_elapsed())
 	counter_label.text = str(ceilf(scheduler_hook.time_conversion_remaining() if (state_hook.handle != null and state_hook.handle.is_conversion_active) else scheduler_hook.time_to_next_transition()))
 
+func _input(event):
+	if event.is_action_pressed("ui_accept"):
+		_do_sparks(0.08)
+
 func _on_state_hook_initialized():
 	_to_set(_match_polarity(state_hook.handle.snake_mode))
 	_sync_ui()
@@ -42,6 +48,14 @@ func _on_state_hook_updated():
 	_sync_ui()
 	if "transition" in state_hook.handle.flags:
 		_to_set(_match_polarity(state_hook.handle.snake_mode))
+	if state_hook.handle.flags.any(func(flag): return flag.begins_with("hit")):
+		_do_sparks(1)
+
+func _do_sparks(delay: float):
+	for spark in sparks:
+		spark.restart()
+		await get_tree().create_timer(delay).timeout
+		
 
 func _sync_ui():
 	_update_hearts()
@@ -103,3 +117,7 @@ func _match_heading(heading: Vector2i) -> float:
 			return 0
 		_:
 			return 0
+
+
+func _on_debug_camera_toggle_button_up():
+	debug_toggle_camera.emit()

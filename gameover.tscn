@@ -30,7 +30,7 @@ texture = ExtResource("2_kvn32")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mhgl3"]
 texture = ExtResource("3_0b3lv")
 
-[node name="Gameover" type="Control" node_paths=PackedStringArray("name_field", "error_label", "result_label", "submit_button", "to_leaderboard_button")]
+[node name="Gameover" type="Control" node_paths=PackedStringArray("name_field", "result_label", "submit_button", "to_leaderboard_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -40,8 +40,7 @@ grow_vertical = 2
 theme = ExtResource("1_u0gbl")
 script = ExtResource("2_2no3n")
 name_field = NodePath("UploadScore/MarginContainer/VBoxContainer/ColorRect/MarginContainer/Form/VBoxContainer/LineEdit")
-error_label = NodePath("UploadScore/MarginContainer/VBoxContainer/ColorRect/MarginContainer/Form/VBoxContainer/Error")
-result_label = NodePath("UploadScore/MarginContainer/VBoxContainer/Label/Result")
+result_label = NodePath("UploadScore/MarginContainer/VBoxContainer/ColorRect/MarginContainer/Form/VBoxContainer/Error")
 submit_button = NodePath("UploadScore/MarginContainer/VBoxContainer/ColorRect/MarginContainer/Form/Submit")
 to_leaderboard_button = NodePath("UploadScore/MarginContainer/VBoxContainer/ColorRect/MarginContainer/Form/ToLeaderboard")
 
@@ -186,7 +185,8 @@ theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
 [node name="UploadScore" type="Panel" parent="."]
-custom_minimum_size = Vector2(800, 300)
+visible = false
+custom_minimum_size = Vector2(800, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -194,9 +194,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -400.0
-offset_top = -200.0
+offset_top = -150.0
 offset_right = 400.0
-offset_bottom = 200.0
+offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_fydqg")
@@ -252,7 +252,7 @@ theme_override_font_sizes/font_size = 64
 theme_override_styles/normal = SubResource("StyleBoxFlat_hnfjd")
 placeholder_text = "name"
 alignment = 1
-max_length = 10
+max_length = 5
 context_menu_enabled = false
 middle_mouse_paste_enabled = false
 
@@ -287,6 +287,7 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_pycc4")
 text = "Leaderboard"
 
 [node name="Label" type="ColorRect" parent="UploadScore/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 7
 color = Color(0.411765, 0.0627451, 0.631373, 1)
@@ -313,6 +314,7 @@ script = ExtResource("7_tb6g6")
 [connection signal="button_up" from="CenterContainer/VBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer/PlayAgain" to="." method="_on_play_again_button_up"]
 [connection signal="button_up" from="CenterContainer/VBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer/UploadScore" to="." method="_on_upload_score_button_up"]
 [connection signal="button_up" from="CenterContainer/VBoxContainer/MarginContainer2/VBoxContainer/MainMenu" to="." method="_on_main_menu_button_up"]
+[connection signal="text_changed" from="UploadScore/MarginContainer/VBoxContainer/ColorRect/MarginContainer/Form/VBoxContainer/LineEdit" to="." method="_on_line_edit_text_changed"]
 [connection signal="button_up" from="UploadScore/MarginContainer/VBoxContainer/ColorRect/MarginContainer/Form/Submit" to="." method="_on_submit_button_up"]
 [connection signal="button_up" from="UploadScore/MarginContainer/VBoxContainer/ColorRect/MarginContainer/Form/ToLeaderboard" to="." method="_on_to_leaderboard_button_up"]
 [connection signal="completed" from="ScorePOST" to="." method="_on_score_post_completed"]

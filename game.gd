@@ -33,6 +33,7 @@ var parallel_lookup = {
 }
 
 signal quit_to_main_menu
+signal quit_to_leaderboard
 
 @onready var presentation: Presentation = $Presentation as Presentation
 @onready var inner_game: CybersnakeGame = $CybersnakeGame as CybersnakeGame
@@ -207,3 +208,11 @@ func _on_pause_menu_retry():
 			state = State.Playing
 			_recreate_game()
 			$PauseMenuLayer.visible = false
+
+var zoomed: bool = false
+func _on_hud_debug_toggle_camera():
+	$Presentation/Camera2D.zoom = Vector2(0.8, 0.8) if zoomed else Vector2(0.1, 0.1)
+	zoomed = not zoomed
+
+func _on_gameover_quit_to_leaderboard():
+	quit_to_leaderboard.emit()

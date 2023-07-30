@@ -30,6 +30,7 @@ func _create_main_menu():
 func _create_game():
 	var game = game_scene.instantiate() as Game
 	game.quit_to_main_menu.connect(func(): _on_game_quit_to_main_menu(game))
+	game.quit_to_leaderboard.connect(func(): _on_game_quit_to_leaderboard(game))
 	add_child(game)
 
 func _create_leaderboard():
@@ -78,6 +79,13 @@ func _on_game_quit_to_main_menu(game: Game):
 	state = UpperState.MainMenu
 	$MainmenuMusic.play()
 	_create_main_menu()
+	game.queue_free()
+
+func _on_game_quit_to_leaderboard(game: Game):
+	if state != UpperState.Playing:
+		return
+	state = UpperState.Leaderboard
+	_create_leaderboard()
 	game.queue_free()
 
 func _fade_out_music(player: AudioStreamPlayer, seconds: float):

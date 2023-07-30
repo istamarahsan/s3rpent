@@ -1,9 +1,15 @@
+@tool
 extends Node2D
 
 @export var scatter_noise: Noise
 @export_range(0, 1, 0.01) var scatter_frequency: float
-
-@onready var tilemap: TileMap = $TileMap as TileMap
+@export var regenerate: bool:
+	get:
+		return false
+	set(value):
+		$Worldgen.regenerate(20, randi())
+		_generate_map_from_worldgen(20)
+@export var tilemap: TileMap
 @onready var state_hook: StateHook = $StateHook as StateHook
 
 const outer_span: int = 20
@@ -12,11 +18,19 @@ const conversion_scene: PackedScene = preload("res://world/conversion.tscn")
 var active_conversion_tiles: Array[Node2D] = []
 
 func _on_state_hook_initialized():
+	tilemap.clear()
 	randomize()
-	$Worldgen.regenerate(state_hook.handle.world_span, randi())
+	$Worldgen.regenerate(state_hook.handle.world_span, randi()) 
+	_generate_map_from_worldgen(state_hook.handle.world_span)
 	
-	tilemap.set_cells_terrain_connect(0, VecExtensions.position_space(-Vector2i.ONE * (state_hook.handle.world_span + outer_span), Vector2i.ONE * (state_hook.handle.world_span + outer_span)), 0, 3, false)
-	tilemap.set_cells_terrain_connect(0, VecExtensions.position_space(-Vector2i.ONE * state_hook.handle.world_span, Vector2i.ONE * state_hook.handle.world_span), 0, 0, false)
+	for powerup in state_hook.handle.powerup_states:
+		if powerup.is_eaten:
+			continue
+		_set_cell_powerup(powerup.position, powerup.type)
+
+func _generate_map_from_worldgen(span: int):
+	tilemap.set_cells_terrain_connect(0, VecExtensions.position_space(-Vector2i.ONE * (span + outer_span), Vector2i.ONE * (span + outer_span)), 0, 3, false)
+	tilemap.set_cells_terrain_connect(0, VecExtensions.position_space(-Vector2i.ONE * span, Vector2i.ONE * span), 0, 0, false)
 	
 	for ceramic_rect in $Worldgen.ceramic_rects():
 		var tiles = VecExtensions.position_space(ceramic_rect.position, ceramic_rect.end)
@@ -28,13 +42,8 @@ func _on_state_hook_initialized():
 	for ceramic_single in $Worldgen.ceramic_singles():
 		tilemap.set_cells_terrain_path(0, [ceramic_single], 0, 1, false)
 	
-	var border_space: Array[Vector2i] = VecExtensions.perimeter(Vector2i.ONE * -state_hook.handle.world_span - Vector2i.ONE, Vector2i.ONE * state_hook.handle.world_span + Vector2i.ONE)
+	var border_space: Array[Vector2i] = VecExtensions.perimeter(Vector2i.ONE * -span - Vector2i.ONE, Vector2i.ONE * span + Vector2i.ONE)
 	tilemap.set_cells_terrain_connect(0, border_space, 0, 3, false)
-	
-	for powerup in state_hook.handle.powerup_states:
-		if powerup.is_eaten:
-			continue
-		_set_cell_powerup(powerup.position, powerup.type)
 
 func _on_state_hook_updated():
 	tilemap.clear_layer(1)
@@ -76,6 +85,9 @@ func _set_cell_food(cell_position: Vector2i, polarity: CybersnakeGame.Polarity):
 			atlas_coordinate = Vector2i(1, 0) if alt else Vector2i(0, 0)
 		CybersnakeGame.Polarity.Plastic:
 			atlas_coordinate = Vector2i(1, 1)
+		CybersnakeGame.Polarity.Coin:
+			source_id = 5
+			atlas_coordinate = Vector2i(2, 0)
 		_:
 			return
 	tilemap.set_cell(1, cell_position, source_id, atlas_coordinate)
