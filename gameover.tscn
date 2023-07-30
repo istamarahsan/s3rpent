@@ -184,34 +184,23 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="UploadScore" type="Panel" parent="."]
-visible = false
-custom_minimum_size = Vector2(800, 0)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -400.0
-offset_top = -150.0
-offset_right = 400.0
-offset_bottom = 150.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="UploadScore" type="PopupPanel" parent="."]
+title = "Upload Score"
+initial_position = 2
+size = Vector2i(800, 350)
+borderless = false
 theme_override_styles/panel = SubResource("StyleBoxFlat_fydqg")
 
 [node name="MarginContainer" type="MarginContainer" parent="UploadScore"]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UploadScore/MarginContainer"]
 layout_mode = 2
