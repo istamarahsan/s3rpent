@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dqgeam5fis708"]
+[gd_scene load_steps=5 format=3 uid="uid://dqgeam5fis708"]
 
 [ext_resource type="Script" path="res://root.gd" id="1_6g5tq"]
 [ext_resource type="PackedScene" uid="uid://d08rytbwpumya" path="res://splash/splash_screen.tscn" id="4_lsg2w"]
 [ext_resource type="AudioStream" uid="uid://ci5077kph6lc0" path="res://assets/music/Main_Menu.wav" id="4_o1qwu"]
+[ext_resource type="Script" path="res://audio/audio_hook.gd" id="4_ojc3g"]
 
 [node name="Root" type="Node"]
 script = ExtResource("1_6g5tq")
@@ -22,3 +23,5 @@ layout_mode = 1
 [node name="MainmenuMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_o1qwu")
 bus = &"Music"
+script = ExtResource("4_ojc3g")
+channel = 1

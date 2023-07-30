@@ -422,6 +422,7 @@ script = ExtResource("11_jukjf")
 script = ExtResource("12_nqxuo")
 
 [node name="DebugCameraToggle" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 1583.0
 offset_top = 46.0

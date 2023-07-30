@@ -13,6 +13,7 @@ enum UpperState {
 const main_menu_scene: PackedScene = preload("res://Mainmenu.tscn")
 const game_scene: PackedScene = preload("res://game.tscn")
 const leaderboard_scene: PackedScene = preload("res://leaderboard/leaderboard.tscn")
+const settings_scene: PackedScene = preload("res://settings/settings.tscn")
 
 var state: UpperState = UpperState.MainMenu
 
@@ -25,6 +26,7 @@ func _create_main_menu():
 	main_menu.play.connect(func(): _on_main_menu_play(main_menu))
 	main_menu.leaderboard.connect(func(): _on_main_menu_leaderboard(main_menu))
 	main_menu.quit.connect(func(): _on_main_menu_quit(main_menu))
+	main_menu.settings.connect(func(): _on_main_menu_settings(main_menu))
 	fullscreen_ui_root.add_child(main_menu)
 
 func _create_game():
@@ -37,6 +39,19 @@ func _create_leaderboard():
 	var leaderboard = leaderboard_scene.instantiate() as Leaderboard
 	leaderboard.back.connect(func(): _on_leaderboard_back(leaderboard))
 	add_child(leaderboard)
+
+func _create_settings():
+	var settings = settings_scene.instantiate() as Settings
+	settings.back.connect(func(): _on_settings_back(settings))
+	add_child(settings)
+
+func _on_settings_back(settings: Settings):
+	if state != UpperState.Settings:
+		return
+	state = UpperState.MainMenu
+	
+	_create_main_menu()
+	settings.queue_free()
 
 func _on_main_menu_play(main_menu: MainMenu):
 	if state != UpperState.MainMenu:
@@ -56,12 +71,17 @@ func _on_main_menu_leaderboard(main_menu: MainMenu):
 		return
 	state = UpperState.Leaderboard
 	
-	var tween = get_tree().create_tween().set_ease(Tween.EASE_OUT)
-	tween.tween_property($MainmenuMusic, "volume_db", -20, 1.5)
-	
 	_create_leaderboard()
 	main_menu.queue_free()
 
+func _on_main_menu_settings(main_menu: MainMenu):
+	if state != UpperState.MainMenu:
+		return
+	state = UpperState.Settings
+	
+	_create_settings()
+	main_menu.queue_free()
+	
 func _on_leaderboard_back(leaderboard: Leaderboard):
 	if state != UpperState.Leaderboard:
 		return

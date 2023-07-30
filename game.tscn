@@ -51,7 +51,7 @@ layer = 2
 [node name="Glitch" parent="ScreenFxLayer" instance=ExtResource("8_nqxn2")]
 z_index = 4096
 z_as_relative = false
-mouse_filter = 1
+mouse_filter = 2
 
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 

@@ -180,8 +180,10 @@ func _parse_rotate(vector: Vector2i, rotate_direction: TurnDirection) -> Vector2
 func _random_food_position() -> Vector2i:
 	var all_spaces = _position_space()
 	var unavailable_spaces = {}
-	for uneaten_food_position in food_states.filter(func(_state): return not _state.is_eaten):
-		unavailable_spaces[uneaten_food_position.position] = true
+	for uneaten_food in food_states.filter(func(_state): return not _state.is_eaten):
+		unavailable_spaces[uneaten_food.position] = true
+	for power_up in powerup_states.filter(func(_state): return not _state.is_eaten):
+		unavailable_spaces[power_up.position] = true
 	unavailable_spaces[snake_state.head] = true
 	for segment_position in snake_state.tail:
 		unavailable_spaces[segment_position] = true

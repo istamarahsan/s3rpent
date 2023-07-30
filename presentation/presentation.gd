@@ -42,6 +42,7 @@ func _on_state_hook_updated():
 		
 	if "moved" in state_hook.handle.flags:
 		snake_head.rotation = _rotation_for_heading(state_hook.handle.snake_heading)
+		$Move.play()
 	
 	_animate_movement()
 	_set_segment_types()
@@ -62,6 +63,9 @@ func _on_state_hook_updated():
 	if "transition" in state_hook.handle.flags:
 		$Transition.play()
 		_set_segment_polarities()
+	
+	if "gameover" in state_hook.handle.flags:
+		$GameOver.play()
 
 func _add_missing_segments():
 	var num_missing_segments = max(0, state_hook.handle.snake_state.tail.size() - active_segments.size())

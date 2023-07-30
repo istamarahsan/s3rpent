@@ -185,7 +185,7 @@ theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
 [node name="UploadScore" type="PopupPanel" parent="."]
-title = "Upload Score"
+title = "Upload Score to Leaderboard"
 initial_position = 2
 size = Vector2i(800, 350)
 borderless = false
@@ -195,6 +195,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_fydqg")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 800.0
+offset_bottom = 350.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 0
