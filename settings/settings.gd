@@ -71,6 +71,6 @@ func _on_fetch_form_link_request_completed(result, response_code, headers, body)
 	
 	var data = JSON.parse_string(body)
 	
-	feedback_link_button.visible = true
+	$Buttons/VBoxContainer/Feedback.visible = true
 	feedback_link_button.disabled = false
 	feedback_link_button.uri = data["formUrl"]

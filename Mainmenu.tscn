@@ -61,7 +61,7 @@ _data = {
 
 [sub_resource type="Animation" id="Animation_68xg0"]
 resource_name = "color_rotate"
-length = 9.0
+length = 10.2
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -70,7 +70,7 @@ tracks/0/path = NodePath("Label/Label2:theme_override_colors/font_color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 2.6, 3, 5.6, 6, 8.6, 9),
+"times": PackedFloat32Array(0, 3, 3.4, 6.4, 6.8, 9.8, 10.2),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Color(0.4, 1, 0.4, 1), Color(0.4, 1, 0.4, 1), Color(1, 0.8, 0.4, 1), Color(1, 0.8, 0.4, 1), Color(1, 0.564706, 0.427451, 1), Color(1, 0.564706, 0.427451, 1), Color(0.4, 1, 0.4, 1)]
@@ -231,7 +231,7 @@ grow_horizontal = 2
 [node name="Label" type="Label" parent="Label"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0.717647, 0.0235294, 0.670588, 1)
+theme_override_colors/font_shadow_color = Color(0.984314, 0.552941, 0.929412, 1)
 theme_override_colors/font_outline_color = Color(0.85098, 0.0784314, 0.8, 1)
 theme_override_constants/shadow_outline_size = 15
 theme_override_font_sizes/font_size = 188
@@ -239,8 +239,8 @@ text = "S"
 
 [node name="Label2" type="Label" parent="Label"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.564706, 0.427451, 1)
-theme_override_colors/font_shadow_color = Color(0.717647, 0.0235294, 0.670588, 1)
+theme_override_colors/font_color = Color(1, 0.623529, 0.420588, 1)
+theme_override_colors/font_shadow_color = Color(0.984314, 0.552941, 0.929412, 1)
 theme_override_colors/font_outline_color = Color(0.85098, 0.0784314, 0.8, 1)
 theme_override_constants/shadow_outline_size = 15
 theme_override_font_sizes/font_size = 188
@@ -249,7 +249,7 @@ text = "3R"
 [node name="Label3" type="Label" parent="Label"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0.717647, 0.0235294, 0.670588, 1)
+theme_override_colors/font_shadow_color = Color(0.984314, 0.552941, 0.929412, 1)
 theme_override_colors/font_outline_color = Color(0.85098, 0.0784314, 0.8, 1)
 theme_override_constants/shadow_outline_size = 15
 theme_override_font_sizes/font_size = 188

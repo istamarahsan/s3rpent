@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cgmqcqv5lrowt"]
+[gd_scene load_steps=10 format=3 uid="uid://cgmqcqv5lrowt"]
 
 [ext_resource type="Texture2D" uid="uid://dt3x8cy8t1ebk" path="res://assets/buttons_and_setting_background/settings background.png" id="1_cebu8"]
 [ext_resource type="Script" path="res://settings/settings.gd" id="1_m8o6r"]
@@ -18,7 +18,19 @@ height = 32
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[node name="Settings" type="Control" node_paths=PackedStringArray("sfx_slider", "music_slider", "resolution_option_button", "enable_fullscreen_checkbox")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7oe47"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.231373, 0.2, 0.52549, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="Settings" type="Control" node_paths=PackedStringArray("sfx_slider", "music_slider", "resolution_option_button", "enable_fullscreen_checkbox", "feedback_link_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,6 +43,7 @@ sfx_slider = NodePath("Buttons/VBoxContainer/Control/GridContainer/SfxSlider")
 music_slider = NodePath("Buttons/VBoxContainer/Control/GridContainer/MusicSlider")
 resolution_option_button = NodePath("Buttons/VBoxContainer/Control/GridContainer/ResolutionOptions")
 enable_fullscreen_checkbox = NodePath("Buttons/VBoxContainer/Control/GridContainer/CheckBox")
+feedback_link_button = NodePath("Buttons/VBoxContainer/Feedback/MarginContainer/Feedback")
 
 [node name="Bg" type="TextureRect" parent="."]
 layout_mode = 1
@@ -200,8 +213,34 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 31
 text = "Send"
 
-[node name="Feedback" type="LinkButton" parent="Buttons/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="Buttons/VBoxContainer"]
 visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Feedback" type="Button" parent="Buttons/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(257.38, 67.72)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/disabled = SubResource("StyleBoxFlat_7oe47")
+disabled = true
+button_mask = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="Buttons/VBoxContainer/Feedback"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Feedback" type="LinkButton" parent="Buttons/VBoxContainer/Feedback/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -209,7 +248,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(0.858824, 0.0666667, 0.764706, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 71
+theme_override_font_sizes/font_size = 32
 disabled = true
 text = "Feedback"
 
