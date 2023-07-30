@@ -76,4 +76,5 @@ bus = &"Sfx Normalize"
 script = ExtResource("9_get8u")
 
 [connection signal="updated" from="DebugCanvas/StateHook" to="DebugCanvas" method="_on_state_hook_updated"]
+[connection signal="initialized" from="StateHook" to="." method="_on_state_hook_initialized"]
 [connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]

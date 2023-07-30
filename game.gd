@@ -86,6 +86,7 @@ func _recreate_game():
 	for hook in state_hooks:
 		hook.initialized.emit()
 		hook.updated.emit()
+	game_time_elapsed = 0
 	tick_timer.stop()
 	transition_timer.stop()
 	conversion_timer.stop()

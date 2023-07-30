@@ -27,6 +27,9 @@ func _process(_delta):
 		$Countdown.play()
 	prev_time_to_transition = t
 
+func _on_state_hook_initialized():
+	snake_head.rotation = _rotation_for_heading(state_hook.handle.snake_heading)
+
 func _on_state_hook_updated():
 	if active_segments.size() < state_hook.handle.snake_state.tail.size():
 		_add_missing_segments()

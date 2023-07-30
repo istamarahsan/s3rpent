@@ -46,41 +46,44 @@ paper_set = ExtResource("5_aud8h")
 sparks = [NodePath("Sparks1"), NodePath("Sparks2"), NodePath("Sparks3")]
 
 [node name="Sparks1" type="GPUParticles2D" parent="."]
-position = Vector2(959, 75)
+position = Vector2(959, 30)
 emitting = false
 amount = 100
 process_material = ExtResource("6_2kamr")
 texture = ExtResource("7_r7xiw")
 lifetime = 2.0
 one_shot = true
-explosiveness = 1.0
-randomness = 0.3
+speed_scale = 1.1
+explosiveness = 0.9
+randomness = 0.8
 trail_enabled = true
 trail_lifetime = 0.08
 
 [node name="Sparks2" type="GPUParticles2D" parent="."]
-position = Vector2(1819, 95)
+position = Vector2(186, 79)
 emitting = false
-amount = 100
+amount = 50
 process_material = ExtResource("6_2kamr")
 texture = ExtResource("7_r7xiw")
 lifetime = 2.0
 one_shot = true
-explosiveness = 1.0
-randomness = 0.3
+speed_scale = 1.1
+explosiveness = 0.9
+randomness = 0.8
 trail_enabled = true
 trail_lifetime = 0.08
 
 [node name="Sparks3" type="GPUParticles2D" parent="."]
-position = Vector2(167, 101)
+position = Vector2(1804, 94)
 emitting = false
-amount = 100
+amount = 50
 process_material = ExtResource("6_2kamr")
 texture = ExtResource("7_r7xiw")
 lifetime = 2.0
 one_shot = true
-explosiveness = 1.0
-randomness = 0.3
+speed_scale = 1.1
+explosiveness = 0.9
+randomness = 0.8
 trail_enabled = true
 trail_lifetime = 0.08
 

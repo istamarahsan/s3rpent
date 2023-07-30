@@ -46,10 +46,12 @@ script = ExtResource("6_pok0c")
 [node name="DebugControls" type="Node" parent="."]
 
 [node name="ScreenFxLayer" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="Glitch" parent="ScreenFxLayer" instance=ExtResource("8_nqxn2")]
 z_index = 4096
 z_as_relative = false
+mouse_filter = 1
 
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 
@@ -68,6 +70,7 @@ color = Color(0, 0, 0, 0.117647)
 [node name="PauseMenu" parent="PauseMenuLayer" instance=ExtResource("10_jyt2d")]
 
 [node name="GameoverLayer" type="CanvasLayer" parent="."]
+layer = 3
 
 [node name="ColorRect" type="ColorRect" parent="GameoverLayer"]
 anchors_preset = 15
