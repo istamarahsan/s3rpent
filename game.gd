@@ -50,6 +50,7 @@ func _ready():
 	_connect_hooks(inner_game)
 	transition_timer.timeout.connect(_on_transition_timer_timeout)
 	$GameoverLayer.visible = false
+	$PauseMenuLayer.visible = false
 	for hook in state_hooks:
 		hook.initialized.emit()
 		hook.updated.emit()
@@ -61,6 +62,23 @@ func _process(delta):
 			game_time_elapsed += delta
 			for hook in scheduler_hooks:
 				hook._time_elapsed = game_time_elapsed
+
+func _input(event):
+	match state:
+		State.Playing:
+			if event.is_action_pressed("ui_cancel"):
+				state = State.Paused
+				tick_timer.stop()
+				transition_timer.paused = true
+				conversion_timer.paused = true
+				$PauseMenuLayer.visible = true
+		State.Paused:
+			if event.is_action_pressed("ui_cancel"):
+				state = State.Playing
+				tick_timer.start()
+				transition_timer.paused = false
+				conversion_timer.paused = false
+				$PauseMenuLayer.visible = false
 
 func _recreate_game():
 	inner_game.reset()
@@ -150,11 +168,7 @@ func _on_hud_toggle_pause():
 			tick_timer.stop()
 			transition_timer.paused = true
 			conversion_timer.paused = true
-		State.Paused:
-			state = State.Playing
-			tick_timer.start()
-			transition_timer.paused = false
-			conversion_timer.paused = false
+			$PauseMenuLayer.visible = true
 
 func _on_conversion_timer_timeout():
 	inner_game.action_deactivate_conversion()
@@ -172,3 +186,24 @@ func _on_start_game_delay_timer_timeout():
 	tick_timer.start()
 	transition_timer.start()
 	state = State.Playing
+
+func _on_pause_menu_back_to_game():
+	match state:
+		State.Paused:
+			state = State.Playing
+			tick_timer.start()
+			transition_timer.paused = false
+			conversion_timer.paused = false
+			$PauseMenuLayer.visible = false
+
+func _on_pause_menu_main_menu():
+	match state:
+		State.Paused:
+			quit_to_main_menu.emit()
+
+func _on_pause_menu_retry():
+	match state:
+		State.Paused:
+			state = State.Playing
+			_recreate_game()
+			$PauseMenuLayer.visible = false
