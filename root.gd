@@ -19,6 +19,7 @@ var state: UpperState = UpperState.MainMenu
 
 func _ready():
 	await $FullscreenUiRoot/SplashScreen.do_splash()
+	await get_tree().create_timer(0.5).timeout
 	_create_main_menu()
 	$MainmenuMusic.play()
 
