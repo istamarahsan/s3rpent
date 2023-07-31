@@ -69,7 +69,7 @@ func _on_fetch_form_link_request_completed(result, response_code, headers, body)
 	if result != HTTPRequest.RESULT_SUCCESS or response_code != 200:
 		return
 	
-	var data = JSON.parse_string(body)
+	var data = JSON.parse_string(body.get_string_from_utf8())
 	
 	$Buttons/VBoxContainer/Feedback.visible = true
 	feedback_link_button.disabled = false
