@@ -18,6 +18,7 @@ const settings_scene: PackedScene = preload("res://settings/settings.tscn")
 var state: UpperState = UpperState.MainMenu
 
 func _ready():
+	await $FullscreenUiRoot/SplashScreen.do_splash()
 	_create_main_menu()
 	$MainmenuMusic.play()
 

@@ -17,8 +17,9 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SplashScreen" parent="FullscreenUiRoot" instance=ExtResource("4_lsg2w")]
-visible = false
 layout_mode = 1
+fade_in = 2.0
+fade_out = 2.0
 
 [node name="MainmenuMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_o1qwu")

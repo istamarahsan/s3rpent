@@ -1,6 +1,68 @@
-[gd_scene load_steps=2 format=3 uid="uid://d08rytbwpumya"]
+[gd_scene load_steps=6 format=3 uid="uid://d08rytbwpumya"]
 
 [ext_resource type="Script" path="res://splash/splash_screen.gd" id="1_denji"]
+[ext_resource type="Texture2D" uid="uid://bjxicri6q21iy" path="res://assets/splash.png" id="2_qilkv"]
+
+[sub_resource type="Animation" id="Animation_j3m32"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Splash:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Splash:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_f4f7e"]
+resource_name = "Splash"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath("Splash:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1.2, 1.2),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.02, 1.02)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Splash:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 2.5, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ptieo"]
+_data = {
+"RESET": SubResource("Animation_j3m32"),
+"Splash": SubResource("Animation_f4f7e")
+}
 
 [node name="SplashScreen" type="Control"]
 layout_mode = 3
@@ -30,3 +92,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(960, 540)
+texture = ExtResource("2_qilkv")
+
+[node name="SplashAnimate" type="AnimationPlayer" parent="."]
+playback_default_blend_time = 1.0
+libraries = {
+"": SubResource("AnimationLibrary_ptieo")
+}
