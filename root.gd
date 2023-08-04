@@ -59,6 +59,7 @@ func _on_main_menu_play(main_menu: MainMenu):
 	if state != UpperState.MainMenu:
 		return
 	state = UpperState.Playing
+	_fade_out_music($MainmenuMusic, 1.5)
 	_create_game()
 	main_menu.queue_free()
 
@@ -88,6 +89,9 @@ func _on_leaderboard_back(leaderboard: Leaderboard):
 		return
 	state = UpperState.MainMenu
 	
+	var tween = get_tree().create_tween().set_ease(Tween.EASE_IN)
+	tween.tween_property($MainmenuMusic, "volume_db", 0, 1.5)
+	
 	_create_main_menu()
 	leaderboard.queue_free()
 
@@ -105,3 +109,10 @@ func _on_game_quit_to_leaderboard(game: Game):
 	state = UpperState.Leaderboard
 	_create_leaderboard()
 	game.queue_free()
+
+func _fade_out_music(player: AudioStreamPlayer, seconds: float):
+	var tween = get_tree().create_tween().set_ease(Tween.EASE_OUT)
+	tween.tween_property(player, "volume_db", -80, seconds)
+	await tween.finished
+	player.stop()
+	player.volume_db = 0.0
