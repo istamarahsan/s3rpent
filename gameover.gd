@@ -45,11 +45,23 @@ func _on_to_leaderboard_button_up():
 var prev_text: String = ""
 var valid_chars: Array[String] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 func _on_line_edit_text_changed(new_text):
-	if new_text == "":
+	var will_be_empty: bool = new_text == ""
+	if will_be_empty:
 		prev_text = ""
+		submit_button.visible = false
 		return
-	for char in new_text.split():
-		if char not in valid_chars:
+		
+	var new_text_is_valid: bool = packed_str_all(new_text.split(), func(char): return char in valid_chars)
+	match new_text_is_valid:
+		true:
+			prev_text = new_text
+			submit_button.visible = true
+		false:
 			name_field.text = prev_text
-			return
-	prev_text = new_text
+			name_field.caret_column = prev_text.length()
+	
+func packed_str_all(arr: PackedStringArray, f: Callable):
+	for x in arr:
+		if not f.call(x):
+			return false
+	return true
