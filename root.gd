@@ -89,9 +89,6 @@ func _on_leaderboard_back(leaderboard: Leaderboard):
 		return
 	state = UpperState.MainMenu
 	
-	var tween = get_tree().create_tween().set_ease(Tween.EASE_IN)
-	tween.tween_property($MainmenuMusic, "volume_db", 0, 1.5)
-	
 	_create_main_menu()
 	leaderboard.queue_free()
 
