@@ -12,6 +12,7 @@ var snake_head: SnakeSegment
 
 var countdown_threshold: float = 3
 var prev_time_to_transition: float = 0
+var prev_time_to_conversion: float = 0
 
 func _ready():
 	snake_head = snake_segment_scene.instantiate() as SnakeSegment
@@ -21,10 +22,23 @@ func _ready():
 
 func _process(_delta):
 	$Camera2D.position = snake_head.position
+	_process_transition_countdown()
+	if state_hook.handle.is_conversion_active:
+		_process_conversion_countdown()
+	else:
+		prev_time_to_conversion = 0
+
+func _process_transition_countdown():
 	var t = scheduler_hook.time_to_next_transition()
 	if t < float(countdown_threshold + 1) and int(t) < int(prev_time_to_transition):
 		$Countdown.play()
 	prev_time_to_transition = t
+
+func _process_conversion_countdown():
+	var t = scheduler_hook.time_conversion_remaining()
+	if t < float(countdown_threshold + 1) and int(t) < int(prev_time_to_conversion):
+		$Countdown.play()
+	prev_time_to_conversion = t
 
 func _on_state_hook_initialized():
 	snake_head.rotation = _rotation_for_heading(state_hook.handle.snake_heading)
@@ -65,6 +79,9 @@ func _on_state_hook_updated():
 	
 	if "gameover" in state_hook.handle.flags:
 		$GameOver.play()
+		
+	if "conversion:end" in state_hook.handle.flags:
+		$Transition.play()
 
 func _add_missing_segments():
 	var num_missing_segments = max(0, state_hook.handle.snake_state.tail.size() - active_segments.size())
