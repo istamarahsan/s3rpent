@@ -24,6 +24,7 @@ boot_splash/minimum_display_time=500
 TreeExtensions="*res://ext/tree_extensions.gd"
 VecExtensions="*res://ext/vec_extensions.gd"
 AudioBus="*res://audio/audio_bus.gd"
+FeedbackForm="*res://feedback_form.gd"
 
 [display]
 

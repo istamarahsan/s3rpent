@@ -264,9 +264,6 @@ theme_override_font_sizes/font_size = 51
 text = "Back"
 flat = true
 
-[node name="FetchFormLink" type="HTTPRequest" parent="."]
-
 [connection signal="item_selected" from="Buttons/VBoxContainer/Control/GridContainer/ResolutionOptions" to="." method="_on_option_button_item_selected"]
 [connection signal="toggled" from="Buttons/VBoxContainer/Control/GridContainer/CheckBox" to="." method="_on_check_box_toggled"]
 [connection signal="button_up" from="Back" to="." method="_on_back_button_up"]
-[connection signal="request_completed" from="FetchFormLink" to="." method="_on_fetch_form_link_request_completed"]

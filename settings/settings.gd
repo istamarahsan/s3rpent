@@ -9,8 +9,6 @@ signal back
 @export var enable_fullscreen_checkbox: Button
 @export var feedback_link_button: LinkButton
 
-const form_url_endpoint = "https://cybersnakeapi.istamarsan.dev/feedback"
-
 var resolution_options: Dictionary = {
 	"1920x1080" : Vector2i(1920,1080),
 	"1600x900"  : Vector2i(1600,900),
@@ -36,10 +34,10 @@ func _ready():
 	sfx_slider.value_changed.connect(_on_sfx_slider_value_changed)
 	music_slider.value_changed.connect(_on_music_slider_value_changed)
 	
-	$FetchFormLink.request(
-		form_url_endpoint,
-		["authorization: Bearer there_is_no_authorization"]
-	)
+	if FeedbackForm.is_available():
+		_on_form_link_available()
+	else:
+		FeedbackForm.link_available.connect(_on_form_link_available)
 	
 func _on_scale_changed():
 	sfx_slider.value = AudioBus.sfx_scale
@@ -65,12 +63,7 @@ func _on_check_box_toggled(enable_fullscreen):
 func _on_back_button_up():
 	back.emit()
 
-func _on_fetch_form_link_request_completed(result, response_code, headers, body):
-	if result != HTTPRequest.RESULT_SUCCESS or response_code != 200:
-		return
-	
-	var data = JSON.parse_string(body.get_string_from_utf8())
-	
+func _on_form_link_available():
 	$Buttons/VBoxContainer/Feedback.visible = true
 	feedback_link_button.disabled = false
-	feedback_link_button.uri = data["formUrl"]
+	feedback_link_button.uri = FeedbackForm.get_feedback_form_link()
