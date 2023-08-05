@@ -23,6 +23,10 @@ func _on_state_hook_initialized():
 	$Worldgen.regenerate(state_hook.handle.world_span, randi()) 
 	_generate_map_from_worldgen(state_hook.handle.world_span)
 	
+	for conversion_tile in active_conversion_tiles:
+		conversion_tile.queue_free()
+	active_conversion_tiles.clear()
+	
 	for powerup in state_hook.handle.powerup_states:
 		if powerup.is_eaten:
 			continue
