@@ -59,7 +59,7 @@ func reset():
 	var availables = _position_space().filter(
 			func(pos): 
 				return pos not in food_states.map(
-					func(state): state.position
+					func(state): return state.position
 					) and pos != snake_state.head and pos not in snake_state.tail
 				)
 	for i in range(config.powerups_cap):
@@ -161,7 +161,7 @@ func process_timestep():
 		var availables = _position_space().filter(
 			func(pos): 
 				return pos not in food_states.map(
-					func(state): state.position
+					func(state): return state.position
 					) and pos != snake_state.head and pos not in snake_state.tail
 				)
 		for powerup_state in powerup_states:
