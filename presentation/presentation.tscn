@@ -1,9 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://0i6pfyt0gmrw"]
+[gd_scene load_steps=16 format=3 uid="uid://0i6pfyt0gmrw"]
 
 [ext_resource type="Script" path="res://presentation/presentation.gd" id="1_chn3l"]
-[ext_resource type="Script" path="res://presentation/components/board_canvas/board_canvas.gd" id="2_ckhpm"]
 [ext_resource type="PackedScene" uid="uid://lbn1i850k345" path="res://presentation/snake_segment_trans.tscn" id="2_oq5iq"]
-[ext_resource type="FontFile" uid="uid://bck4vn8cx20wc" path="res://assets/fonts/Sagu Exora.ttf" id="4_qfap0"]
 [ext_resource type="Script" path="res://hooks/state_hook.gd" id="4_xf8xl"]
 [ext_resource type="Script" path="res://hooks/scheduler_hook.gd" id="6_ehmij"]
 [ext_resource type="AudioStream" uid="uid://bfw5o0ty5oxyt" path="res://assets/sfx/Damaged.wav" id="7_e6k27"]
@@ -29,15 +27,6 @@ snake_segment_scene = ExtResource("2_oq5iq")
 position = Vector2(-64, -64)
 scatter_noise = SubResource("FastNoiseLite_4dgey")
 scatter_frequency = 0.3
-
-[node name="DebugCanvas" type="Node2D" parent="."]
-visible = false
-script = ExtResource("2_ckhpm")
-conversion_color = Color(0.427451, 0.352941, 0, 1)
-font = ExtResource("4_qfap0")
-
-[node name="StateHook" type="Node" parent="DebugCanvas"]
-script = ExtResource("4_xf8xl")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 ignore_rotation = false
@@ -91,6 +80,5 @@ bus = &"Music"
 script = ExtResource("9_get8u")
 channel = 1
 
-[connection signal="updated" from="DebugCanvas/StateHook" to="DebugCanvas" method="_on_state_hook_updated"]
 [connection signal="initialized" from="StateHook" to="." method="_on_state_hook_initialized"]
 [connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]

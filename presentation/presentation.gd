@@ -14,7 +14,6 @@ var countdown_threshold: float = 3
 var prev_time_to_transition: float = 0
 
 func _ready():
-	$DebugCanvas.configure(tile_size)
 	snake_head = snake_segment_scene.instantiate() as SnakeSegment
 	snake_head.setType(SnakeSegment.SegmentType.Head)
 	add_child(snake_head)

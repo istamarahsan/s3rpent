@@ -1,8 +1,5 @@
-[gd_resource type="TileSet" load_steps=17 format=3 uid="uid://ch2emyu4h73qt"]
+[gd_resource type="TileSet" load_steps=14 format=3 uid="uid://ch2emyu4h73qt"]
 
-[ext_resource type="Texture2D" uid="uid://cw7bo8itaj45e" path="res://assets/world/tileset.png" id="1_iwnfm"]
-[ext_resource type="Texture2D" uid="uid://d20pk481lsagf" path="res://assets/world/trash-tileset.png" id="2_22e6w"]
-[ext_resource type="Texture2D" uid="uid://caixnhc48cvog" path="res://assets/world/DirtyBG Tileset.png" id="3_j5w7g"]
 [ext_resource type="Texture2D" uid="uid://dnjlgcqhbvkhi" path="res://assets/world/world-tileset.png" id="4_pmwwd"]
 [ext_resource type="Texture2D" uid="uid://c3xh0f84dgmdg" path="res://assets/world/TrashyTileset.png" id="5_sol11"]
 [ext_resource type="Texture2D" uid="uid://dwwqv3nkr4hq1" path="res://assets/world/powerups-spritesheet.png" id="6_tajfk"]
@@ -16,42 +13,15 @@ tile_data = PackedInt32Array(0, 2, 0, 65536, 2, 1, 1, 65538, 0, 65537, 65538, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qgb4j"]
 resource_name = "grass"
-texture = ExtResource("1_iwnfm")
 texture_region_size = Vector2i(128, 128)
-0:0/0 = 0
-0:0/0/terrain_set = 0
-1:0/0 = 0
-1:0/0/terrain_set = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e3il8"]
 resource_name = "trash"
-texture = ExtResource("2_22e6w")
 texture_region_size = Vector2i(128, 128)
-0:0/0 = 0
-0:0/0/terrain_set = 0
-1:0/0 = 0
-1:0/0/terrain_set = 0
-2:0/0 = 0
-2:0/0/terrain_set = 0
-3:0/0 = 0
-3:0/0/terrain_set = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1do45"]
 resource_name = "ceramic"
-texture = ExtResource("3_j5w7g")
 texture_region_size = Vector2i(128, 128)
-0:0/0 = 0
-0:0/0/terrain_set = 0
-1:0/0 = 0
-1:0/0/terrain_set = 0
-2:0/0 = 0
-2:0/0/terrain_set = 0
-0:1/0 = 0
-0:1/0/terrain_set = 0
-1:1/0 = 0
-1:1/0/terrain_set = 0
-2:1/0 = 0
-2:1/0/terrain_set = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r8piu"]
 texture = ExtResource("4_pmwwd")

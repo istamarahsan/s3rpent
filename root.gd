@@ -10,7 +10,7 @@ enum UpperState {
 @onready var fullscreen_ui_root: Control = $FullscreenUiRoot
 @onready var splash_screen: SplashScreen = $FullscreenUiRoot/SplashScreen
 
-const main_menu_scene: PackedScene = preload("res://Mainmenu.tscn")
+const main_menu_scene: PackedScene = preload("res://main-menu/Mainmenu.tscn")
 const game_scene: PackedScene = preload("res://game.tscn")
 const leaderboard_scene: PackedScene = preload("res://leaderboard/leaderboard.tscn")
 const settings_scene: PackedScene = preload("res://settings/settings.tscn")
