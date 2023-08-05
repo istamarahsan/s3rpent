@@ -108,6 +108,7 @@ func process_timestep():
 	var would_collide_with_self: bool = snake_state.tail.any(func(segment_position): return segment_position == new_head_position)
 	if would_go_out_of_bounds or would_collide_with_self:
 		flags.append("hit:wall" if would_go_out_of_bounds else "hit") 
+		flags.append("multiplier")
 		active_point_multiplier = 1
 		lives_left -= 1
 	else:
@@ -132,6 +133,7 @@ func process_timestep():
 			lives_left -= 1
 			food_state.is_eaten = true
 			flags.append("hit")
+			flags.append("multiplier")
 			continue
 		
 		food_state.is_eaten = true
@@ -139,6 +141,7 @@ func process_timestep():
 		flags.append("ate")
 		if food_eaten_so_far % 10 == 0:
 			active_point_multiplier += 0.1
+			flags.append("multiplier")
 		points += 10 * active_point_multiplier
 		points = snappedf(points, 0.01)
 		var next_segment_position: Vector2i = (snake_heading * -1).clamp(Vector2i.ONE * -1, Vector2i.ONE) + snake_state.head if snake_state.tail.size() == 0 else (snake_state.tail[-1] - (snake_state.tail[-2] if snake_state.tail.size() > 1 else snake_state.head)).clamp(Vector2i.ONE * -1, Vector2i.ONE) + snake_state.tail[-1]

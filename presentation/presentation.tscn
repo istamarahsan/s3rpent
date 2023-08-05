@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://0i6pfyt0gmrw"]
+[gd_scene load_steps=17 format=3 uid="uid://0i6pfyt0gmrw"]
 
 [ext_resource type="Script" path="res://presentation/presentation.gd" id="1_chn3l"]
 [ext_resource type="PackedScene" uid="uid://lbn1i850k345" path="res://presentation/snake_segment_trans.tscn" id="2_oq5iq"]
+[ext_resource type="Script" path="res://presentation/camera.gd" id="4_gkfxt"]
 [ext_resource type="Script" path="res://hooks/state_hook.gd" id="4_xf8xl"]
 [ext_resource type="Script" path="res://hooks/scheduler_hook.gd" id="6_ehmij"]
 [ext_resource type="AudioStream" uid="uid://bfw5o0ty5oxyt" path="res://assets/sfx/Damaged.wav" id="7_e6k27"]
@@ -33,9 +34,13 @@ ignore_rotation = false
 zoom = Vector2(0.8, 0.8)
 position_smoothing_enabled = true
 rotation_smoothing_enabled = true
+script = ExtResource("4_gkfxt")
 
 [node name="AudioListener2D" type="AudioListener2D" parent="Camera2D"]
 current = true
+
+[node name="StateHook" type="Node" parent="Camera2D"]
+script = ExtResource("4_xf8xl")
 
 [node name="StateHook" type="Node" parent="."]
 script = ExtResource("4_xf8xl")
@@ -80,5 +85,7 @@ bus = &"Music"
 script = ExtResource("9_get8u")
 channel = 1
 
+[connection signal="initialized" from="Camera2D/StateHook" to="Camera2D" method="_on_state_hook_initialized"]
+[connection signal="updated" from="Camera2D/StateHook" to="Camera2D" method="_on_state_hook_updated"]
 [connection signal="initialized" from="StateHook" to="." method="_on_state_hook_initialized"]
 [connection signal="updated" from="StateHook" to="." method="_on_state_hook_updated"]
