@@ -27,7 +27,7 @@ func _on_upload_score_button_up():
 func _on_submit_button_up():
 	submit_button.visible = false
 	if state_hook.handle != null:
-		$ScorePOST.post(name_field.text, state_hook.handle.points)
+		$ScorePOST.post(name_field.text, floorf(state_hook.handle.points))
 
 func _validate_name(str: String) -> String:
 	return valid_name_str

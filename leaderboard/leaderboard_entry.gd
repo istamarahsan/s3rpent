@@ -16,4 +16,4 @@ class LeaderboardEntryData:
 func bind(rank: int, data: LeaderboardEntryData):
 	rank_label.text = str(rank)
 	name_label.text = data.name.substr(0, 10)
-	score_label.text = str(data.score).pad_zeros(4)
+	score_label.text = str(data.score).pad_zeros(7)

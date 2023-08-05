@@ -409,11 +409,11 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-theme_override_font_sizes/font_size = 64
-text = "100"
-horizontal_alignment = 1
+theme_override_font_sizes/font_size = 32
+text = "9999999999"
 vertical_alignment = 1
 autowrap_mode = 1
+clip_text = true
 
 [node name="StateHook" type="Node" parent="."]
 script = ExtResource("11_jukjf")

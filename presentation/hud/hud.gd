@@ -70,7 +70,7 @@ func _sync_ui():
 	organic_score_label.text = str(state_hook.handle.food_eaten_so_far_cat[CybersnakeGame.Polarity.Organic])
 	glass_score_label.text = str(state_hook.handle.food_eaten_so_far_cat[CybersnakeGame.Polarity.Paper])
 	plastic_score_label.text = str(state_hook.handle.food_eaten_so_far_cat[CybersnakeGame.Polarity.Plastic])
-	total_score_label.text = str(state_hook.handle.food_eaten_so_far)
+	total_score_label.text = str(floorf(state_hook.handle.points))
 
 func _match_polarity_str(value: CybersnakeGame.Polarity) -> String:
 	match value:

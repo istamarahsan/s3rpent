@@ -57,11 +57,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 50
-theme_override_constants/margin_right = 100
+theme_override_constants/margin_right = 50
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScorePanel/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 100
 alignment = 1
 
 [node name="Name" type="Label" parent="ScorePanel/MarginContainer/HBoxContainer"]
@@ -69,14 +68,18 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 0.254902, 0.564706, 1)
 theme_override_font_sizes/font_size = 80
-text = "CONTOH"
+text = "XXXXX"
 vertical_alignment = 1
+text_overrun_behavior = 1
 
 [node name="Score" type="Label" parent="ScorePanel/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.02
 theme_override_colors/font_color = Color(1, 0.254902, 0.564706, 1)
 theme_override_font_sizes/font_size = 80
-text = "0025"
+text = "00000000"
 horizontal_alignment = 2
 vertical_alignment = 1
+clip_text = true
+text_overrun_behavior = 3
