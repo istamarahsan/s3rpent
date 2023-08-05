@@ -27,5 +27,5 @@ func _on_request_completed(result, response_code, headers, body):
 	var success: bool = result == HTTPRequest.RESULT_SUCCESS and response_code == HTTPClient.RESPONSE_OK
 	completed.emit(
 		success,
-		"Score uploaded successfully" if success else body
+		"Score uploaded successfully" if success else body.get_string_from_utf8()
 		)

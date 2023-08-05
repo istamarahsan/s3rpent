@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://b0x764v7qrymq"]
+[gd_scene load_steps=16 format=3 uid="uid://b0x764v7qrymq"]
 
 [ext_resource type="Theme" uid="uid://cj754d21e4sd0" path="res://themes/s3rpent.tres" id="1_taknj"]
 [ext_resource type="Script" path="res://game-over/gameover.gd" id="2_j5kmi"]
 [ext_resource type="FontFile" uid="uid://bck4vn8cx20wc" path="res://assets/fonts/Sagu Exora.ttf" id="3_efu8j"]
 [ext_resource type="Texture2D" uid="uid://jkuqg5m053s3" path="res://assets/buttons_and_setting_background/button.png" id="4_xvrmi"]
 [ext_resource type="Texture2D" uid="uid://vom4wga2kxi8" path="res://assets/buttons_and_setting_background/button (highlight).png" id="5_pn7m3"]
+[ext_resource type="FontFile" uid="uid://bt6a2kq816tsy" path="res://assets/fonts/NotoSans-Regular.ttf" id="6_g64sr"]
 [ext_resource type="Script" path="res://game-over/score_http_post.gd" id="6_tinvj"]
 [ext_resource type="Script" path="res://hooks/state_hook.gd" id="7_eomug"]
 
@@ -250,7 +251,8 @@ middle_mouse_paste_enabled = false
 [node name="Error" type="Label" parent="UploadScore/MarginContainer/VBoxContainer/ColorRect/MarginContainer/Form/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_fonts/font = ExtResource("6_g64sr")
+theme_override_font_sizes/font_size = 24
 
 [node name="Submit" type="Button" parent="UploadScore/MarginContainer/VBoxContainer/ColorRect/MarginContainer/Form"]
 visible = false

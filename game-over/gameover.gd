@@ -33,11 +33,12 @@ func _validate_name(str: String) -> String:
 	return valid_name_str
 
 func _on_score_post_completed(success, message):
-	result_label.text = message
 	if success:
 		to_leaderboard_button.visible = true
+		result_label.text = message
 	else: 
 		submit_button.visible = true
+		result_label.text = "! " + message
 
 func _on_to_leaderboard_button_up():
 	quit_to_leaderboard.emit()
