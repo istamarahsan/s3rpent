@@ -67,4 +67,5 @@ ui_down={
 
 [rendering]
 
-renderer/rendering_method="mobile"
+rendering_device/driver="opengl3"
+renderer/rendering_method="gl_compatibility"
