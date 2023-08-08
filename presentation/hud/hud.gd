@@ -9,26 +9,27 @@ signal debug_toggle_camera
 @export var sparks: Array[GPUParticles2D] = []
 @export var hud_tint: Color = "5c8238"
 
-@onready var time_label: Label               = get_node("%TimeLabel") as Label
-@onready var category_bg: TextureRect        = get_node("%CategoryBg") as TextureRect
-@onready var category_label: Label           = get_node("%CategoryLabel") as Label
-@onready var counter_bg: TextureRect         = get_node("%CounterBg") as TextureRect
-@onready var counter_label: Label            = get_node("%CounterLabel") as Label
-@onready var pause_button: TextureButton     = get_node("%PauseButton") as TextureButton
-@onready var hearts_container: HBoxContainer = get_node("%HeartsContainer") as HBoxContainer
-@onready var multiplier_label: Label         = get_node("%MultiplierLabel") as Label
-@onready var direction_arrow: TextureRect    = get_node("%DirectionArrow") as TextureRect
-@onready var state_hook: StateHook           = $StateHook as StateHook
-@onready var scheduler_hook: SchedulerHook   = $SchedulerHook as SchedulerHook
-@onready var hearts: Array[Control]          = [
+@onready var time_label: Label                = get_node("%TimeLabel") as Label
+@onready var category_bg: TextureRect         = get_node("%CategoryBg") as TextureRect
+@onready var category_label: Label            = get_node("%CategoryLabel") as Label
+@onready var counter_bg: TextureRect          = get_node("%CounterBg") as TextureRect
+@onready var counter_label: Label             = get_node("%CounterLabel") as Label
+@onready var pause_button: TextureButton      = get_node("%PauseButton") as TextureButton
+@onready var hearts_container: HBoxContainer  = get_node("%HeartsContainer") as HBoxContainer
+@onready var multiplier_label: Label          = get_node("%MultiplierLabel") as Label
+@onready var direction_arrow: TextureRect     = get_node("%DirectionArrow") as TextureRect
+@onready var state_hook: StateHook            = $StateHook as StateHook
+@onready var scheduler_hook: SchedulerHook    = $SchedulerHook as SchedulerHook
+@onready var hearts: Array[Control]           = [
 	get_node("%Heart1") as Control,
 	get_node("%Heart2") as Control,
 	get_node("%Heart3") as Control
 ]
-@onready var organic_score_label: Label      = get_node("%OrganicScoreLabel") as Label
-@onready var glass_score_label: Label        = get_node("%GlassScoreLabel") as Label
-@onready var plastic_score_label: Label      = get_node("%PlasticScoreLabel") as Label
-@onready var total_score_label: Label        = get_node("%TotalScoreLabel") as Label
+@onready var organic_score_label: Label       = get_node("%OrganicScoreLabel") as Label
+@onready var glass_score_label: Label         = get_node("%GlassScoreLabel") as Label
+@onready var plastic_score_label: Label       = get_node("%PlasticScoreLabel") as Label
+@onready var total_score_label: Label         = get_node("%TotalScoreLabel") as Label
+@onready var sprint_progress_bar: ProgressBar = get_node("%SprintBar") as ProgressBar
 
 func _ready():
 	pause_button.button_up.connect(func(): toggle_pause.emit())
@@ -36,6 +37,7 @@ func _ready():
 func _process(delta):
 	time_label.text = _format_time(scheduler_hook.time_elapsed())
 	counter_label.text = str(ceilf(scheduler_hook.time_conversion_remaining() if (state_hook.handle != null and state_hook.handle.is_conversion_active) else scheduler_hook.time_to_next_transition()))
+	sprint_progress_bar.value = scheduler_hook.sprint_seconds_remaining()
 
 func _on_state_hook_initialized():
 	_to_set(_match_polarity(state_hook.handle.snake_mode))

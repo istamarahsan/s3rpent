@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cawdem5fi3mwr"]
+[gd_scene load_steps=24 format=3 uid="uid://cawdem5fi3mwr"]
 
 [ext_resource type="Script" path="res://presentation/hud/hud.gd" id="1_eel46"]
 [ext_resource type="Texture2D" uid="uid://7d1sjum8axs" path="res://assets/hud/direction.png" id="1_rup7t"]
@@ -18,6 +18,11 @@
 [ext_resource type="Script" path="res://hooks/scheduler_hook.gd" id="12_nqxuo"]
 [ext_resource type="PackedScene" uid="uid://m3pv7pcdoa1y" path="res://presentation/hud/heart.tscn" id="13_d2dr5"]
 [ext_resource type="Texture2D" uid="uid://c3xh0f84dgmdg" path="res://assets/world/TrashyTileset.png" id="14_cc7ou"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8keud"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6u1r7"]
+bg_color = Color(0.231373, 0.2, 0.52549, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yk25a"]
 atlas = ExtResource("14_cc7ou")
@@ -229,11 +234,20 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -161.0
+offset_top = -201.0
 grow_horizontal = 2
 grow_vertical = 0
-metadata/_edit_group_ = true
-metadata/_edit_lock_ = true
+
+[node name="SprintBar" type="ProgressBar" parent="Bottom"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_top = 40.0
+offset_right = 1920.0
+offset_bottom = 57.0
+theme_override_styles/background = SubResource("StyleBoxEmpty_8keud")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6u1r7")
+max_value = 3.0
+show_percentage = false
 
 [node name="HBoxContainer" type="VBoxContainer" parent="Bottom"]
 layout_mode = 1
@@ -273,7 +287,6 @@ layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("1_wdiwk")
 expand_mode = 2
-stretch_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Bottom/HBoxContainer/TextureRect"]
 layout_mode = 1

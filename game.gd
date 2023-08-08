@@ -35,6 +35,9 @@ var parallel_lookup = {
 signal quit_to_main_menu
 signal quit_to_leaderboard
 
+@export_range(0.1, 3, 0.1) var tick_time: float = 0.5
+@export_range(1, 3, 0.1) var sprint_timescale: float = 2.0
+
 @onready var presentation: Presentation = $Presentation as Presentation
 @onready var inner_game: CybersnakeGame = $CybersnakeGame as CybersnakeGame
 @onready var tick_timer: Timer = $TickTimer as Timer
@@ -44,12 +47,13 @@ signal quit_to_leaderboard
 var state_hooks: Array[StateHook] = []
 var scheduler_hooks: Array[SchedulerHook] = []
 var is_action_cooldown: bool = false
+var is_sprint_active: bool = false
 var game_time_elapsed: float = 0
+var sprint_seconds_remaining: float = 3
 var state: State
 
 func _ready():
 	_connect_hooks(inner_game)
-	transition_timer.timeout.connect(_on_transition_timer_timeout)
 	$GameoverLayer.visible = false
 	$PauseMenuLayer.visible = false
 	for hook in state_hooks:
@@ -61,8 +65,22 @@ func _process(delta):
 	match state:
 		State.Playing:
 			game_time_elapsed += delta
+			
+			var ran_out_of_sprint: bool = false
+			if is_sprint_active:
+				sprint_seconds_remaining = max(0.0, sprint_seconds_remaining - delta)
+				if sprint_seconds_remaining == 0.0:
+					is_sprint_active = false
+					ran_out_of_sprint = true
+					tick_timer.wait_time = _calc_tick_interval()
+			else:
+				sprint_seconds_remaining = min(3.0, sprint_seconds_remaining + delta)
+				
 			for hook in scheduler_hooks:
 				hook._time_elapsed = game_time_elapsed
+				hook._sprint_seconds_remaining = sprint_seconds_remaining
+				if ran_out_of_sprint:
+					hook.sprint_deactivated.emit()
 
 func _input(event):
 	match state:
@@ -81,12 +99,12 @@ func _input(event):
 				conversion_timer.paused = false
 				$PauseMenuLayer.visible = false
 
-func _recreate_game():
-	inner_game.reset()
-	for hook in state_hooks:
-		hook.initialized.emit()
-		hook.updated.emit()
+func _restart_scheduler():
+	is_action_cooldown = false
+	is_sprint_active = false
+	tick_timer.wait_time = _calc_tick_interval()
 	game_time_elapsed = 0
+	sprint_seconds_remaining = 3
 	tick_timer.stop()
 	transition_timer.stop()
 	conversion_timer.stop()
@@ -125,12 +143,6 @@ func _propagate_hook_signal():
 	for hook in state_hooks:
 		hook.updated.emit()
 
-func _on_turn_input_left_pressed():
-	_handle_direction_input(InputDirection.Left)
-	
-func _on_turn_input_right_pressed():
-	_handle_direction_input(InputDirection.Right)
-
 func _on_timer_timeout():
 	inner_game.process_timestep()
 	is_action_cooldown = false
@@ -140,13 +152,35 @@ func _on_transition_timer_timeout():
 	inner_game.action_transition()
 	_propagate_hook_signal()
 
+func _on_turn_input_left_pressed():
+	_handle_direction_input(InputDirection.Left)
+	
+func _on_turn_input_right_pressed():
+	_handle_direction_input(InputDirection.Right)
+
 func _on_turn_input_up_pressed():
 	_handle_direction_input(InputDirection.Up)
 
 func _on_turn_input_down_pressed():
 	_handle_direction_input(InputDirection.Down)
 
+func _on_sprint_input_sprint_pressed():
+	match is_sprint_active:
+#		true:
+#			is_sprint_active = false
+#			for hook in scheduler_hooks:
+#				hook.sprint_deactivated.emit()
+#			tick_timer.wait_time = _calc_tick_interval()
+		false:
+			if sprint_seconds_remaining < 1:
+				return
+			is_sprint_active = true
+			for hook in scheduler_hooks:
+				hook.sprint_activated.emit()
+			tick_timer.wait_time = _calc_tick_interval()
+
 func _on_state_hook_updated():
+	tick_timer.wait_time = _calc_tick_interval()
 	if $StateHook.handle.is_game_over:
 		tick_timer.paused = true
 		transition_timer.paused = true
@@ -154,8 +188,6 @@ func _on_state_hook_updated():
 		state = State.Stopped
 		$GameoverLayer.visible = true
 		return
-	if "moved" in $StateHook.handle.flags:
-		tick_timer.start()
 	if "powerup:conversion" in $StateHook.handle.flags:
 		transition_timer.paused = true
 		conversion_timer.stop()
@@ -180,13 +212,16 @@ func _on_gameover_quit_to_main_menu():
 	quit_to_main_menu.emit()
 
 func _on_gameover_replay():
-	_recreate_game()
+	inner_game.reset()
+	for hook in state_hooks:
+		hook.initialized.emit()
+		hook.updated.emit()
+	_restart_scheduler()
 	state = State.Playing
 	$GameoverLayer.visible = false
 
 func _on_start_game_delay_timer_timeout():
-	tick_timer.start()
-	transition_timer.start()
+	_restart_scheduler()
 	state = State.Playing
 
 func _on_pause_menu_back_to_game():
@@ -207,7 +242,11 @@ func _on_pause_menu_retry():
 	match state:
 		State.Paused:
 			state = State.Playing
-			_recreate_game()
+			inner_game.reset()
+			for hook in state_hooks:
+				hook.initialized.emit()
+				hook.updated.emit()
+			_restart_scheduler()
 			$PauseMenuLayer.visible = false
 
 var zoomed: bool = false
@@ -217,3 +256,11 @@ func _on_hud_debug_toggle_camera():
 
 func _on_gameover_quit_to_leaderboard():
 	quit_to_leaderboard.emit()
+
+const TIMER_MIN_TIME: float = 0.05
+func _calc_tick_interval() -> float:
+	var result: float 
+	result = tick_time / inner_game.active_point_multiplier
+	result = result / sprint_timescale if is_sprint_active else result
+	result = maxf(TIMER_MIN_TIME, result)
+	return result
