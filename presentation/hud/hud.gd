@@ -8,6 +8,8 @@ signal debug_toggle_camera
 @export var paper_set: HudSet
 @export var sparks: Array[GPUParticles2D] = []
 @export var hud_tint: Color = "5c8238"
+@export var sprint_sufficient_style: StyleBox
+@export var sprint_exhausted_style: StyleBox
 
 @onready var time_label: Label                = get_node("%TimeLabel") as Label
 @onready var category_bg: TextureRect         = get_node("%CategoryBg") as TextureRect
@@ -37,7 +39,8 @@ func _ready():
 func _process(delta):
 	time_label.text = _format_time(scheduler_hook.time_elapsed())
 	counter_label.text = str(ceilf(scheduler_hook.time_conversion_remaining() if (state_hook.handle != null and state_hook.handle.is_conversion_active) else scheduler_hook.time_to_next_transition()))
-	sprint_progress_bar.value = scheduler_hook.sprint_seconds_remaining()
+	sprint_progress_bar.value = scheduler_hook.sprint_seconds_fraction()
+	sprint_progress_bar.add_theme_stylebox_override("fill", sprint_sufficient_style if scheduler_hook.can_sprint() else sprint_exhausted_style)
 
 func _on_state_hook_initialized():
 	_to_set(_match_polarity(state_hook.handle.snake_mode))

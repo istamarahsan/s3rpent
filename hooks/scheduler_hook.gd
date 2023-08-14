@@ -4,8 +4,8 @@ class_name SchedulerHook
 var _game_timer: Timer
 var _transition_timer: Timer
 var _conversion_timer: Timer
-var _time_elapsed: float = 0
-var _sprint_seconds_remaining: float = 0
+
+var _scheduler: Game
 
 signal sprint_activated
 signal sprint_deactivated
@@ -17,10 +17,19 @@ func time_to_next_tick() -> float:
 	return _game_timer.time_left if _game_timer != null and not _game_timer.is_stopped() else 0.0
 
 func time_elapsed() -> float:
-	return _time_elapsed
+	return _scheduler.game_time_elapsed if _scheduler else 0
 
 func sprint_seconds_remaining() -> float:
-	return _sprint_seconds_remaining
+	return _scheduler.sprint_seconds_remaining if _scheduler else 0
+	
+func sprint_seconds_fraction() -> float:
+	return _scheduler.sprint_seconds_remaining / _scheduler.sprint_capacity_seconds if _scheduler else 0
+
+func can_sprint() -> float:
+	return _scheduler.can_sprint() if _scheduler else false
+
+func is_sprinting() -> bool:
+	return _scheduler.is_sprint_active if _scheduler else false
 
 func time_to_next_transition() -> float:
 	return 0.0 if _transition_timer == null else _transition_timer.wait_time if _transition_timer.is_stopped() else _transition_timer.time_left
