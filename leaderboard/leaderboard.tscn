@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://qun2d4nvihd2"]
+[gd_scene load_steps=18 format=3 uid="uid://qun2d4nvihd2"]
 
 [ext_resource type="Theme" uid="uid://cj754d21e4sd0" path="res://themes/s3rpent.tres" id="1_n6gwn"]
 [ext_resource type="Texture2D" uid="uid://2m1iowofuo0n" path="res://assets/leaderboard/leaderboard background.png" id="1_vcha3"]
@@ -8,6 +8,19 @@
 [ext_resource type="FontFile" uid="uid://bck4vn8cx20wc" path="res://assets/fonts/Sagu Exora.ttf" id="4_edgjh"]
 [ext_resource type="Script" path="res://leaderboard/fetch_scores.gd" id="7_1sisu"]
 [ext_resource type="Texture2D" uid="uid://cahrq0h3c45wo" path="res://assets/leaderboard/loading.png" id="8_7k2d5"]
+[ext_resource type="FontFile" uid="uid://dpogoydi7t2cl" path="res://assets/fonts/spyagency3_2.ttf" id="9_65ci4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6tiyc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7553s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_deccd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_152b6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k3cg3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qmxov"]
 
 [sub_resource type="Animation" id="Animation_1q2mx"]
 resource_name = "loading"
@@ -30,7 +43,7 @@ _data = {
 "loading": SubResource("Animation_1q2mx")
 }
 
-[node name="Leaderboard" type="Control"]
+[node name="Leaderboard" type="Control" node_paths=PackedStringArray("loading")]
 custom_minimum_size = Vector2(1920, 1080)
 layout_mode = 3
 anchors_preset = 15
@@ -40,6 +53,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_n6gwn")
 script = ExtResource("2_66qsd")
+loading = NodePath("Loading")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -50,7 +64,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_vcha3")
 
-[node name="MarginContainer" type="MarginContainer" parent="." node_paths=PackedStringArray("entries_container", "loading")]
+[node name="Entries" type="MarginContainer" parent="." node_paths=PackedStringArray("entries_container")]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -69,49 +83,48 @@ initial_position = Vector2(0, 979)
 final_size = Vector2(1920, 850)
 final_position = Vector2(0, 230)
 entries_container = NodePath("ScrollContainer/VBoxContainer")
-loading = NodePath("../Loading")
 metadata/_edit_lock_ = true
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Entries"]
 layout_mode = 2
 horizontal_scroll_mode = 0
 metadata/_edit_lock_ = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Entries/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 45
 metadata/_edit_lock_ = true
 
-[node name="Entry" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
+[node name="Entry" parent="Entries/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
 layout_mode = 2
 
-[node name="Entry2" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
+[node name="Entry2" parent="Entries/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
 layout_mode = 2
 
-[node name="Entry3" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
+[node name="Entry3" parent="Entries/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
 layout_mode = 2
 
-[node name="Entry4" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
+[node name="Entry4" parent="Entries/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
 layout_mode = 2
 
-[node name="Entry5" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
+[node name="Entry5" parent="Entries/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
 layout_mode = 2
 
-[node name="Entry6" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
+[node name="Entry6" parent="Entries/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
 layout_mode = 2
 
-[node name="Entry7" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
+[node name="Entry7" parent="Entries/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
 layout_mode = 2
 
-[node name="Entry8" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
+[node name="Entry8" parent="Entries/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
 layout_mode = 2
 
-[node name="Entry9" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
+[node name="Entry9" parent="Entries/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
 layout_mode = 2
 
-[node name="Entry10" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
+[node name="Entry10" parent="Entries/ScrollContainer/VBoxContainer" instance=ExtResource("2_f45wd")]
 layout_mode = 2
 
 [node name="Ranking" type="Label" parent="."]
@@ -137,7 +150,7 @@ vertical_alignment = 1
 [node name="FetchScores" type="HTTPRequest" parent="."]
 script = ExtResource("7_1sisu")
 
-[node name="Button" type="Button" parent="."]
+[node name="Back" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -146,6 +159,11 @@ offset_top = -165.0
 offset_right = 270.0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 51
+theme_override_styles/normal = SubResource("StyleBoxEmpty_6tiyc")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_7553s")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_deccd")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_152b6")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_k3cg3")
 text = "Back"
 flat = true
 
@@ -163,11 +181,55 @@ offset_right = 100.0
 offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
-rotation = 6.28319
 pivot_offset = Vector2(100, 100)
 texture = ExtResource("8_7k2d5")
 expand_mode = 2
 stretch_mode = 5
+
+[node name="Error" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -250.0
+offset_right = 300.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 6.28319
+pivot_offset = Vector2(100, 100)
+theme_override_styles/panel = SubResource("StyleBoxEmpty_qmxov")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Error"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Label" type="Label" parent="Error/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("9_65ci4")
+theme_override_font_sizes/font_size = 28
+text = "Error Loading Leaderboard"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="RetryLoad" type="Button" parent="Error/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("9_65ci4")
+theme_override_font_sizes/font_size = 32
+text = "Retry"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "loading"
@@ -175,5 +237,6 @@ libraries = {
 "": SubResource("AnimationLibrary_1trlo")
 }
 
-[connection signal="request_completed" from="FetchScores" to="MarginContainer" method="_on_fetch_scores_request_completed"]
-[connection signal="button_up" from="Button" to="." method="_on_button_button_up"]
+[connection signal="request_completed" from="FetchScores" to="." method="_on_fetch_scores_request_completed"]
+[connection signal="button_up" from="Back" to="." method="_on_back_button_up"]
+[connection signal="button_up" from="Error/VBoxContainer/RetryLoad" to="." method="_on_retry_load_button_up"]

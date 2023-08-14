@@ -37,6 +37,8 @@ signal quit_to_leaderboard
 
 @export_range(0.1, 3, 0.1) var tick_time: float = 0.5
 @export_range(1, 3, 0.1) var sprint_timescale: float = 2.0
+@export_range(0.1, 5, 0.1) var sprint_capacity_seconds: float = 3.0
+@export_range(0, 1, 0.01) var minimum_sprint: float = 0.3
 
 @onready var presentation: Presentation = $Presentation as Presentation
 @onready var inner_game: CybersnakeGame = $CybersnakeGame as CybersnakeGame
@@ -44,12 +46,12 @@ signal quit_to_leaderboard
 @onready var transition_timer: Timer = $TransitionTimer as Timer
 @onready var conversion_timer: Timer = $ConversionTimer as Timer
 
+@onready var sprint_seconds_remaining: float = sprint_capacity_seconds
 var state_hooks: Array[StateHook] = []
 var scheduler_hooks: Array[SchedulerHook] = []
 var is_action_cooldown: bool = false
 var is_sprint_active: bool = false
 var game_time_elapsed: float = 0
-var sprint_seconds_remaining: float = 3
 var state: State
 
 func _ready():
@@ -74,11 +76,9 @@ func _process(delta):
 					ran_out_of_sprint = true
 					tick_timer.wait_time = _calc_tick_interval()
 			else:
-				sprint_seconds_remaining = min(3.0, sprint_seconds_remaining + delta)
+				sprint_seconds_remaining = min(sprint_capacity_seconds, sprint_seconds_remaining + delta/2)
 				
 			for hook in scheduler_hooks:
-				hook._time_elapsed = game_time_elapsed
-				hook._sprint_seconds_remaining = sprint_seconds_remaining
 				if ran_out_of_sprint:
 					hook.sprint_deactivated.emit()
 
@@ -99,12 +99,15 @@ func _input(event):
 				conversion_timer.paused = false
 				$PauseMenuLayer.visible = false
 
+func can_sprint() -> bool:
+	return sprint_seconds_remaining >= sprint_capacity_seconds * minimum_sprint
+
 func _restart_scheduler():
 	is_action_cooldown = false
 	is_sprint_active = false
 	tick_timer.wait_time = _calc_tick_interval()
 	game_time_elapsed = 0
-	sprint_seconds_remaining = 3
+	sprint_seconds_remaining = sprint_capacity_seconds
 	tick_timer.stop()
 	transition_timer.stop()
 	conversion_timer.stop()
@@ -126,6 +129,7 @@ func _connect_hooks(game: CybersnakeGame):
 			hook._game_timer = tick_timer
 			hook._transition_timer = transition_timer
 			hook._conversion_timer = conversion_timer
+			hook._scheduler = self
 			scheduler_hooks.push_back(hook)
 
 func _handle_direction_input(dir: InputDirection):
@@ -172,7 +176,7 @@ func _on_sprint_input_sprint_pressed():
 #				hook.sprint_deactivated.emit()
 #			tick_timer.wait_time = _calc_tick_interval()
 		false:
-			if sprint_seconds_remaining < 1:
+			if not can_sprint():
 				return
 			is_sprint_active = true
 			for hook in scheduler_hooks:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cawdem5fi3mwr"]
+[gd_scene load_steps=25 format=3 uid="uid://cawdem5fi3mwr"]
 
 [ext_resource type="Script" path="res://presentation/hud/hud.gd" id="1_eel46"]
 [ext_resource type="Texture2D" uid="uid://7d1sjum8axs" path="res://assets/hud/direction.png" id="1_rup7t"]
@@ -12,17 +12,24 @@
 [ext_resource type="FontFile" uid="uid://bck4vn8cx20wc" path="res://assets/fonts/Sagu Exora.ttf" id="5_ejmph"]
 [ext_resource type="Texture2D" uid="uid://rwwhwnuasmjr" path="res://assets/hud/trash category/countdown plastic.png" id="5_xk41w"]
 [ext_resource type="Material" uid="uid://c0n0pkiu0gocb" path="res://presentation/hud/sparks.tres" id="6_2kamr"]
+[ext_resource type="StyleBox" uid="uid://bbxl1umoy2k7w" path="res://presentation/hud/sprint_exhausted.tres" id="7_duam8"]
 [ext_resource type="Texture2D" uid="uid://daruim7m32pfi" path="res://assets/hud/pause.png" id="7_dvgmn"]
 [ext_resource type="Texture2D" uid="uid://defv4clcv12ds" path="res://assets/hud/LIGHTTT.png" id="7_r7xiw"]
 [ext_resource type="Script" path="res://hooks/state_hook.gd" id="11_jukjf"]
 [ext_resource type="Script" path="res://hooks/scheduler_hook.gd" id="12_nqxuo"]
 [ext_resource type="PackedScene" uid="uid://m3pv7pcdoa1y" path="res://presentation/hud/heart.tscn" id="13_d2dr5"]
+[ext_resource type="StyleBox" uid="uid://c7yy5hski4vuu" path="res://presentation/hud/sprint_sufficient.tres" id="13_wt5t2"]
 [ext_resource type="Texture2D" uid="uid://c3xh0f84dgmdg" path="res://assets/world/TrashyTileset.png" id="14_cc7ou"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8keud"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6u1r7"]
-bg_color = Color(0.231373, 0.2, 0.52549, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2snbr"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.258824, 0.8, 0.8, 0)
+shadow_color = Color(0, 0, 0, 0.0823529)
+shadow_size = 2
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yk25a"]
 atlas = ExtResource("14_cc7ou")
@@ -49,6 +56,8 @@ plastic_set = ExtResource("3_d1v1e")
 organic_set = ExtResource("4_j7s7m")
 paper_set = ExtResource("5_aud8h")
 sparks = [NodePath("Sparks1"), NodePath("Sparks2"), NodePath("Sparks3")]
+sprint_sufficient_style = ExtResource("13_wt5t2")
+sprint_exhausted_style = ExtResource("7_duam8")
 
 [node name="Sparks1" type="GPUParticles2D" parent="."]
 position = Vector2(959, 30)
@@ -241,12 +250,14 @@ grow_vertical = 0
 [node name="SprintBar" type="ProgressBar" parent="Bottom"]
 unique_name_in_owner = true
 layout_mode = 2
-offset_top = 40.0
+offset_top = 39.0
 offset_right = 1920.0
-offset_bottom = 57.0
-theme_override_styles/background = SubResource("StyleBoxEmpty_8keud")
-theme_override_styles/fill = SubResource("StyleBoxFlat_6u1r7")
-max_value = 3.0
+offset_bottom = 56.0
+theme_override_styles/background = SubResource("StyleBoxFlat_2snbr")
+theme_override_styles/fill = ExtResource("13_wt5t2")
+max_value = 1.0
+step = 0.001
+value = 0.5
 show_percentage = false
 
 [node name="HBoxContainer" type="VBoxContainer" parent="Bottom"]
