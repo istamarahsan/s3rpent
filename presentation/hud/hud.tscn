@@ -256,6 +256,7 @@ offset_bottom = 56.0
 theme_override_styles/background = SubResource("StyleBoxFlat_2snbr")
 theme_override_styles/fill = ExtResource("13_wt5t2")
 max_value = 1.0
+step = 0.001
 value = 0.5
 show_percentage = false
 

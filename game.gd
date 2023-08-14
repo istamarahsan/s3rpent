@@ -76,7 +76,7 @@ func _process(delta):
 					ran_out_of_sprint = true
 					tick_timer.wait_time = _calc_tick_interval()
 			else:
-				sprint_seconds_remaining = min(sprint_capacity_seconds, sprint_seconds_remaining + delta)
+				sprint_seconds_remaining = min(sprint_capacity_seconds, sprint_seconds_remaining + delta/2)
 				
 			for hook in scheduler_hooks:
 				if ran_out_of_sprint:
