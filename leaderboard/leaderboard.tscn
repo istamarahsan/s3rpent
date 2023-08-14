@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://qun2d4nvihd2"]
+[gd_scene load_steps=18 format=3 uid="uid://qun2d4nvihd2"]
 
 [ext_resource type="Theme" uid="uid://cj754d21e4sd0" path="res://themes/s3rpent.tres" id="1_n6gwn"]
 [ext_resource type="Texture2D" uid="uid://2m1iowofuo0n" path="res://assets/leaderboard/leaderboard background.png" id="1_vcha3"]
@@ -9,6 +9,16 @@
 [ext_resource type="Script" path="res://leaderboard/fetch_scores.gd" id="7_1sisu"]
 [ext_resource type="Texture2D" uid="uid://cahrq0h3c45wo" path="res://assets/leaderboard/loading.png" id="8_7k2d5"]
 [ext_resource type="FontFile" uid="uid://dpogoydi7t2cl" path="res://assets/fonts/spyagency3_2.ttf" id="9_65ci4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6tiyc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7553s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_deccd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_152b6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k3cg3"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qmxov"]
 
@@ -149,6 +159,11 @@ offset_top = -165.0
 offset_right = 270.0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 51
+theme_override_styles/normal = SubResource("StyleBoxEmpty_6tiyc")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_7553s")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_deccd")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_152b6")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_k3cg3")
 text = "Back"
 flat = true
 
