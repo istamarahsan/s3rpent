@@ -59,7 +59,7 @@ func _on_main_menu_play(main_menu: MainMenu):
 	if state != UpperState.MainMenu:
 		return
 	state = UpperState.Playing
-	_fade_out_music($MainmenuMusic, 1.5)
+#	_fade_out_music($MainmenuMusic, 1.5)
 	_create_game()
 	main_menu.queue_free()
 
@@ -96,7 +96,7 @@ func _on_game_quit_to_main_menu(game: Game):
 	if state != UpperState.Playing:
 		return
 	state = UpperState.MainMenu
-	$MainmenuMusic.play()
+#	$MainmenuMusic.play()
 	_create_main_menu()
 	game.queue_free()
 

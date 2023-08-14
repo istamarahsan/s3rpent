@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cgmqcqv5lrowt"]
+[gd_scene load_steps=15 format=3 uid="uid://cgmqcqv5lrowt"]
 
 [ext_resource type="Texture2D" uid="uid://dt3x8cy8t1ebk" path="res://assets/buttons_and_setting_background/settings background.png" id="1_cebu8"]
 [ext_resource type="Script" path="res://settings/settings.gd" id="1_m8o6r"]
@@ -29,6 +29,16 @@ corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t2pb0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bhvf6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0mk06"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pjtcd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p8x41"]
 
 [node name="Settings" type="Control" node_paths=PackedStringArray("sfx_slider", "music_slider", "resolution_option_button", "enable_fullscreen_checkbox", "feedback_link_button")]
 layout_mode = 3
@@ -261,6 +271,11 @@ offset_top = -165.0
 offset_right = 270.0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 51
+theme_override_styles/normal = SubResource("StyleBoxEmpty_t2pb0")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_bhvf6")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_0mk06")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_pjtcd")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p8x41")
 text = "Back"
 flat = true
 
