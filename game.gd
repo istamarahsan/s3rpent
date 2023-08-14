@@ -36,7 +36,7 @@ signal quit_to_main_menu
 signal quit_to_leaderboard
 
 @export_range(0.1, 3, 0.1) var tick_time: float = 0.5
-@export_range(1, 3, 0.1) var sprint_timescale: float = 2.0
+@export_range(1, 3, 0.1) var sprint_timescale: float = 2.5
 @export_range(0.1, 5, 0.1) var sprint_capacity_seconds: float = 3.0
 @export_range(0, 1, 0.01) var minimum_sprint: float = 0.3
 
@@ -168,19 +168,22 @@ func _on_turn_input_up_pressed():
 func _on_turn_input_down_pressed():
 	_handle_direction_input(InputDirection.Down)
 
-func _on_sprint_input_sprint_pressed():
+func _on_sprint_input_start_sprint():
 	match is_sprint_active:
-#		true:
-#			is_sprint_active = false
-#			for hook in scheduler_hooks:
-#				hook.sprint_deactivated.emit()
-#			tick_timer.wait_time = _calc_tick_interval()
 		false:
 			if not can_sprint():
 				return
 			is_sprint_active = true
 			for hook in scheduler_hooks:
 				hook.sprint_activated.emit()
+			tick_timer.wait_time = _calc_tick_interval()
+
+func _on_sprint_input_stop_sprint():
+	match is_sprint_active:
+		true:
+			is_sprint_active = false
+			for hook in scheduler_hooks:
+				hook.sprint_deactivated.emit()
 			tick_timer.wait_time = _calc_tick_interval()
 
 func _on_state_hook_updated():
