@@ -17,6 +17,7 @@ var state: State = State.Loading
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
+		$FetchScores.cancel_request()
 		back.emit()
 
 func _ready():
@@ -31,6 +32,7 @@ func reload():
 		genericErrorPanel.visible = true
 
 func _on_back_button_up():
+	$FetchScores.cancel_request()
 	back.emit()
 
 func _on_fetch_scores_request_completed(result, response_code, headers, body):
